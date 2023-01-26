@@ -1,4 +1,4 @@
-# 11th snulion pre-seminar django
+# 11th snulion pre-seminar react
 
 ## Goal
 
