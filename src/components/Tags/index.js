@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import './Tags.css';
 function Tags() {
   const [text, setText] = useState("");
   const [tags, setTags] = useState([{ text: "고양이", id: 1 }]);
@@ -25,13 +25,13 @@ function Tags() {
   };
 
   return (
-    <>
-      <div> 태그목록 </div>
+    <div className="tags-wrapper">
+      <h2> 태그목록 </h2>
       <div>
         {tags.map((tag) => (
-          <div>
-            <p>{tag.text}</p>
-            <p onClick={() => onRemove(tag.id)}>태그 삭제</p>
+          <div className="tag">
+            <p className="tag-text">#{tag.text}</p>
+            <p className="tag-delete" onClick={() => onRemove(tag.id)}>태그 삭제</p>
           </div>
         ))}
       </div>
@@ -44,7 +44,7 @@ function Tags() {
         />
         <button onClick={onSubmit}>태그 만들기 버튼</button>
       </form>
-    </>
+    </div>
   );
 }
 
