@@ -43,20 +43,19 @@ const CreatePost = () => {
     e.preventDefault();
     setSubmitted(true);
     setPosts([...posts, { title, content }]);
-    // alert(`포스트가 생성되었습니다. 제목 : ${title}, 내용 : ${content}`);
   };
 
   if (submitted) {
     return (
-      <>
+      <div className="posts-wrapper">
         {posts.map((e) => (
           <div className="post-detail-wrapper">
-            <div style={{ width: "300px" }}>제목 : {e.title}</div>
-            <div style={{ width: "300px" }}>내용 : {e.content}</div>
+            <div className="post-detail-title">제목 : {e.title}</div>
+            <div className="post-detail-content">내용 : {e.content}</div>
           </div>
         ))}
         <Tags />
-      </>
+      </div>
     );
   } else
     return (
