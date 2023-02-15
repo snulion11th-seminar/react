@@ -6,7 +6,9 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
 import EditPost from "./routes/EditPost";
-import Signup from "./routes/Signup";
+import SignUp from "./routes/SignUp";
+import PostDetail from "./routes/PostDetail";
+import SignIn from "./routes/SignIn";
 
 // function App() {
 //   return (
@@ -27,11 +29,15 @@ function App() {
           {/* home */}
           <Route path="/" element={<Home />} />
           {/* craete post */}
-          <Route path="/post/create" element={<CreatePost />} />
+          <Route path="/create" element={<CreatePost />} />
+          {/* post detail */}
+          <Route path="/:postId" element={<PostDetail />} />
           {/* edit post */}
           <Route path="/:postId/edit" element={<EditPost />} />
           {/* sign up */}
-          <Route path="/signup" element={<Signup />} />/
+          <Route path="/signup" element={<SignUp />} />
+          {/* sign up */}
+          <Route path="/signin" element={<SignIn />} />
         </Routes>
         <Footer />
       </BrowserRouter>
