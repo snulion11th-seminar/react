@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { SmallPost } from "../components/Posts";
 
 const  posts = [
@@ -35,11 +36,16 @@ const Home = () => {
                 <h1 className="bg-red-300 text-center text-lg">SNULion's Blog</h1>
                 <p className="bg-yellow-100 text-center text-base">아기사자 파이팅</p>
             </div>
+
             <div className="flex flex-wrap mt-10 justify-center">
                 {posts.map((post) => (
                     <SmallPost key={post.id} post={post} />
                     )
                 )}
+            </div>
+
+            <div className="flex justify-center mt-20">
+                <Link to="/create" className="p-5 bg-orange-400 rounded-xl">글 작성하기</Link>
             </div>
         </div>
     )
