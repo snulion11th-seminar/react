@@ -1,7 +1,7 @@
 export const SignUpForm = () => {
     return (
         <div>
-            <form>
+            <form className="flex flex-col">
                 <label required for="email">
                     *email:
                 </label>
@@ -27,7 +27,7 @@ export const SignUpForm = () => {
 export const SignInForm = () => {
     return (
         <div>
-            <form>
+            <form className="flex flex-col">
                 <label required for="email">
                     *email:
                 </label>
