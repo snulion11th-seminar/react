@@ -1,5 +1,7 @@
+import { SignInForm } from "../components/form";
+
 const SignIn = () => {
-    return <SignIn />;
+    return <SignInForm />;
 };
 
 export default SignIn;
