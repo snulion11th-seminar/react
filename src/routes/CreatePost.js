@@ -1,6 +1,6 @@
 import React from "react";
 import "./CreatePost.css";
-import Tags from "./components/Tags";
+import Tags from "../components/Tags";
 
 const CreatePost = () => {
   const [title, setTitle] = React.useState("");
