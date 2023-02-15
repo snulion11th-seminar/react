@@ -47,7 +47,7 @@ const CreatePost = () => {
 
   if (submitted) {
     return (
-      <div className="posts-wrapper">
+      <div className="mt-40 bg-slate-500">
         {posts.map((e) => (
           <div className="post-detail-wrapper">
             <div className="post-detail-title">제목 : {e.title}</div>
@@ -59,7 +59,7 @@ const CreatePost = () => {
     );
   } else
     return (
-      <form id="create-post-wrapper" onSubmit={onSubmit}>
+      <form className="flex flex-col py-50 bg-slate-500" onSubmit={onSubmit}>
         <h3 id="create-post-header">new post</h3>
         <span id="title">title</span>
         <input

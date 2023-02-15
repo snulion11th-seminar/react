@@ -1,7 +1,8 @@
+import { SignInForm } from "../components/form";
 
 const SignIn = () => {
     return (
-        <div>SignIn</div>
+        <SignInForm />
     )
 };
 
