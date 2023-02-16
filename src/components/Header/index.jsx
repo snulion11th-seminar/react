@@ -10,8 +10,8 @@ const Header = () => {
             </div>
 
             <div className="flex">
-                <Link to="/signin" className="mr-20">Sign In</Link>
-                <Link to="/signup">Sign Up</Link>
+                <Link to="/signin" className="mr-10 button p-3">Sign In</Link>
+                <Link to="/signup" className="button p-3">Sign Up</Link>
             </div>
         </div>
     )

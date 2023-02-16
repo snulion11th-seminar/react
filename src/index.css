@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+.tag {
+  @apply text-white bg-black p-2 text-xs rounded-2xl group-hover:bg-white group-hover:text-sky-500;
+}
+.button {
+  @apply bg-sky-300 text-white font-medium hover:bg-sky-400 hover:font-extrabold rounded-xl;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

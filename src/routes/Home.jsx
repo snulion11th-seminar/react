@@ -45,7 +45,9 @@ const Home = () => {
             </div>
 
             <div className="flex justify-center mt-20">
-                <Link to="/create" className="p-5 bg-orange-400 rounded-xl">글 작성하기</Link>
+                <button className="button">
+                    <Link to="/create" className="block p-4">글 작성하기</Link> 
+                </button>
             </div>
         </div>
     )
