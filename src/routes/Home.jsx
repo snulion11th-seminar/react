@@ -32,9 +32,9 @@ const  posts = [
 const Home = () => {
     return (
         <div>
-            <div>
-                <h1 className="bg-red-300 text-center text-lg">SNULion's Blog</h1>
-                <p className="bg-yellow-100 text-center text-base">아기사자 파이팅</p>
+            <div className="flex flex-col justify-center items-center h-72 bg-slate-600 mb-5">
+                <h1 className="uppercase text-6xl mb-3">my blog</h1>
+                <input type="text" placeholder="TAG SEARCH" className="border-2 border-orange-400 outline-none rounded-2xl text-center py-2 px-20 text-orange-400" />
             </div>
 
             <div className="flex flex-wrap mt-10 justify-center">
