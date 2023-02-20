@@ -40,3 +40,21 @@ export const SignInForm = () => {
         </div>
     );
 };
+
+export const PostForm = () => {
+    return (
+        <form id="create-post-wrapper">
+            <h3 id="create-post-header">new post</h3>
+            <span id="title">title</span>
+            <input type="text" id="create-post-title-input" />
+            <span id="content">content</span>
+            <textarea
+                name="content"
+                cols="30"
+                rows="10"
+                id="create-post-content-input"
+            ></textarea>
+            <button id="create-post-btn">제출하기</button>
+        </form>
+    );
+};
