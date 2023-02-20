@@ -7,12 +7,9 @@ export const SmallPost = ({post}) => {
                 <h1 className="font-extrabold text-2xl">{post.title}</h1>
                 <p className="mt-2">{post.summary}</p>
                 <div className="flex mt-5">
-                    <span className="tag mr-2">#tag1</span>
-                    <br />
-                    <span className="tag mr-2">#tag2</span>
-                    <br />
-                    <span className="tag">#tag2</span>
-                    <br />
+                    {post.tags.map((tag) => (
+                        <span key={tag} className="tag mr-2">#{tag}</span>
+                    ))}
                 </div>
                 <div className="absolute bottom-0 right-0 bg-orange-400 px-5 py-2 rounded-lg translate-x-5 translate-y-5">
                     <span className="uppercase">detail</span>
@@ -24,16 +21,15 @@ export const SmallPost = ({post}) => {
 
 export const BigPost = ({post}) => {
     return (
-        <div>
-            <h1>{post.title}</h1>
-            <p>{post.description}</p>
-            <div>
-                <span>#tag1</span>
-                <br />
-                <span>#tag2</span>
-                <br />
-                <span>#tag2</span>
-                <br />
+        <div  className=" py-8 w-1/2 relative mr-16 bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
+            <div className="block py-10 px-8 h-60">
+                <h1 className="font-extrabold text-2xl">{post.title}</h1>
+                <p className="mt-2">{post.summary}</p>
+                <div className="flex mt-5">
+                    {post.tags.map((tag) => (
+                        <span key={tag} className="tag mr-2">#{tag}</span>
+                    ))}
+                </div>
             </div>
         </div>
     )

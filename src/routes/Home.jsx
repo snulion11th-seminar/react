@@ -1,32 +1,6 @@
 import { Link } from "react-router-dom";
 import { SmallPost } from "../components/Posts";
-
-const  posts = [
-    {
-        id: 1,
-        title: "#1 post",
-        description: "My Number one post description",
-        summary: "number one summary"
-    },
-    {
-        id: 2,
-        title: "#2 post",
-        description: "My Number two post description",
-        summary: "number two summary"
-    },
-    {
-        id: 3,
-        title: "#3 post",
-        description: "My Number three post description",
-        summary: "number three summary"
-    },
-    {
-        id: 4,
-        title: "#4 post",
-        description: "My Number four post description",
-        summary: "number four summary"
-    }, 
-]
+import posts from "../data/posts";
 
 
 const Home = () => {
