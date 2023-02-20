@@ -40,7 +40,7 @@ const Comments = ({props}) => {
     };
 
     return (
-        <>
+        <div className="mt-5">
             <h1>Comments</h1>
             <div>
                 <input type="text" value={newContent} onChange={(e) => setNewContent(e.target.value)}></input>
@@ -52,7 +52,7 @@ const Comments = ({props}) => {
                     <p>{comment.created_at}</p>
                 </div>
             ))}
-        </>
+        </div>
     )
 };
 

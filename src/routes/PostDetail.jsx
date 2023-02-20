@@ -1,23 +1,27 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Comments from "../components/Comments";
+import { BigPost } from "../components/Posts";
+import posts from "../data/posts";
 
-const PostDetail = ({ title, content, tags }) => {
-  //TODO : tags="고양이, 야옹야옹, 강아지, 멍멍" parsing
-  tags = ["고양이", "야옹야옹"];
-  return (
-    <div>
-      <div>Detail</div>
-      <div className="mt-40 bg-slate-500">
-        <div className="post-detail-wrapper">
-          <div className="post-detail-title">제목 : {title}</div>
-          <div className="post-detail-content">내용 : {content}</div>
-          {tags.map((tag) => (
-            <div className="post-detail-tag">태그 : {tag}</div>
-          ))}
-        </div>
+const PostDetail = () => {
+  const { postId } = useParams();
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    const post = posts.find((post) => post.id === parseInt(postId));
+    setPost(post)
+  }, [postId]);
+
+  return post && (
+    <div className="w-full p-8 flex flex-col items-center">
+
+        <BigPost post={post} />
+
         <Comments />
-      </div>
+        
     </div>
-  );
+  )
 };
 
 export default PostDetail;

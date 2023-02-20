@@ -43,25 +43,25 @@ export const SignInForm = () => {
 
 export const PostForm = ({
   onSubmit,
-  updateTitle,
-  updateContent,
-  updateTag,
+  handleChange,
+  formData,
 }) => {
   return (
-    <form className="flex flex-col py-50 bg-slate-500" onSubmit={onSubmit}>
+    <form className="flex flex-col py-50 bg-slate-500 text-black" onSubmit={onSubmit}>
       <h3 id="create-post-header">new post</h3>
       <span id="title">title</span>
-      <input type="text" id="create-post-title-input" onChange={updateTitle} />
+      <input type="text" name="title" value={formData.name} id="create-post-title-input" onChange={handleChange} />
       <span id="content">content</span>
       <textarea
         name="content"
+        value={formData.content}
         cols="30"
         rows="10"
         id="create-post-content-input"
-        onChange={updateContent}
+        onChange={handleChange}
       ></textarea>
-      <span id="content">tag</span>
-      <input type="text" id="create-post-tag-input" onChange={updateTag} />
+      <span id="tag">tag</span>
+      <input type="text" value={formData.tag} name="tag" id="create-post-tag-input" onChange={handleChange} />
       <button id="create-post-btn">제출하기</button>
     </form>
   );
