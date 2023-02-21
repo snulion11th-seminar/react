@@ -16,8 +16,8 @@ const CreatePost = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
       };
   return (
-   <div>
-        <div>CreatePost</div>
+   <div className="flex flex-col items-center">
+        <h3 className=" font-bold text-4xl">New Post</h3>
          <PostForm 
             onSubmit={onSubmit} 
             handleChange={handleChange}
