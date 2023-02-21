@@ -12,7 +12,7 @@ const Header = () => {
             <div className="flex">
                 <Link to="/signin" className="mr-10 p-3 uppercase">sign In</Link>
                 <Link to="/signup" className="mr-10 p-3 uppercase">sign up</Link>
-                <Link to="/signup" className="p-3 uppercase">profile</Link>
+                {/* <Link to="/signup" className="p-3 uppercase">profile</Link> */}
             </div>
         </div>
     )
