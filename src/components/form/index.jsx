@@ -1,43 +1,77 @@
 export const SignUpForm = () => {
   return (
-    <div>
-      <form className="flex flex-col">
-        <label required for="email">
+      <form className="form">
+        <label for="email" className="label">
           *email:
         </label>
-        <input type="text" name="email" />
-        <label required for="password">
-          *passoword:
+        <input 
+          required
+          type="text" 
+          name="email"
+          className="input" />
+
+        <label for="password" className="label">
+          *password:
         </label>
-        <input type="text" name="password" />
-        <label for="confirm_password">*passoword 확인: </label>
-        <input type="text" name="confirm_password" />
-        <label for="name">이름:</label>
-        <input type="text" name="username" />
-        <label for="college">대학: </label>
-        <input type="text" name="college" />
-        <label for="major">전공: </label>
-        <input type="text" id="major" />
+        <input 
+          required
+          type="text" 
+          name="password"
+          className="input"/>
+
+        <label for="confirm_password" className="label">*passoword 확인: </label>
+        <input 
+          required
+          type="text" 
+          name="confirm_password"
+          className="input" />
+
+        <label for="name" className="label">이름:</label>
+        <input 
+          required
+          type="text" 
+          name="username"
+          className="input" />
+
+        <label for="college" className="label">대학: </label>
+        <input
+          required 
+          type="text" 
+          name="college"
+          className="input" />
+
+        <label for="major" className="label">전공: </label>
+        <input 
+          type="text" 
+          name="major"
+          className="input" />
+
         <button type="submit" text="Sign up !" />
       </form>
-    </div>
   );
 };
 
 export const SignInForm = () => {
   return (
-    <div>
-      <form className="flex flex-col">
-        <label required for="email">
+      <form className="form">
+        <label for="email" className="label">
           *email:
         </label>
-        <input type="text" name="email" />
-        <label required for="password">
-          *passoword:
+        <input 
+        required
+        type="text" 
+        name="email"
+        className="input"
+         />
+        <label for="password" className="label">
+          *password:
         </label>
-        <input type="text" name="password" />
+        <input 
+        required
+        type="text" 
+        name="password"
+        className="input" />
       </form>
-    </div>
   );
 };
 
@@ -47,22 +81,41 @@ export const PostForm = ({
   formData,
 }) => {
   return (
-    <form className="flex flex-col py-50 bg-slate-500 text-black" onSubmit={onSubmit}>
-      <h3 id="create-post-header">new post</h3>
-      <span id="title">title</span>
-      <input type="text" name="title" value={formData.name} id="create-post-title-input" onChange={handleChange} />
-      <span id="content">content</span>
-      <textarea
-        name="content"
-        value={formData.content}
-        cols="30"
-        rows="10"
-        id="create-post-content-input"
-        onChange={handleChange}
-      ></textarea>
-      <span id="tag">tag</span>
-      <input type="text" value={formData.tag} name="tag" id="create-post-tag-input" onChange={handleChange} />
-      <button id="create-post-btn">제출하기</button>
-    </form>
+         <form className="form" onSubmit={onSubmit}>
+
+          <label for="title" className="label">title</label>
+          <input 
+            type="text" 
+            placeholder="제목을 입력해주세요"
+            value={formData.name} 
+            name="title" 
+            className="input" 
+            onChange={handleChange} />
+
+          <label for="content" className="label">content</label>
+          <textarea
+            placeholder="내용을 입력해주세요"
+            value={formData.content}
+            name="content"
+            cols="30"
+            rows="10"
+            className="input"
+            onChange={handleChange}
+          ></textarea>
+
+          <label for="tag" className="label">tag</label>
+          <input 
+            type="text"
+            placeholder="태그를 입력해주세요" 
+            className="input" 
+            value={formData.tag} 
+            name="tag" 
+            onChange={handleChange} />
+
+          <button 
+            className="button px-12 py-3 mt-7">
+              제출하기
+          </button>
+        </form>
   );
 };
