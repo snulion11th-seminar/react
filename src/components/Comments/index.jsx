@@ -22,6 +22,7 @@ const Comments = () => {
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
+
         const newComment = {
             id: 3,
             content: newContent,
@@ -31,13 +32,9 @@ const Comments = () => {
         };
         // add api call for creating new comment here
 
-        setCommentList([...commentList, newComment]);
         setNewContent('');
+        setCommentList([...commentList, newComment]);
     };
-
-    useEffect(() => {
-        console.log(new Date(commentList[0].created_at))
-    }, [commentList])
 
     return (
         <div className="w-full mt-5 self-start">
@@ -57,24 +54,20 @@ const Comments = () => {
                 )}
             )}
 
-            <div className="flex flex-col items-center">
+            <form className="flex flex-col items-center" onSubmit={handleCommentSubmit}>
                 <input 
                     type="text" 
                     value={newContent} 
                     placeholder="댓글을 입력해주세요"
                     className="input mt-10 mb-3"
                     onChange={(e) => setNewContent(e.target.value)}
-                    onKeyUp={(e) => {
-                        if (e.key === 'Enter') {
-                            handleCommentSubmit(e);
-                        }
-                    }} />
+                  />
                 <button
-                    className="button py-2 px-10" 
-                    onClick={handleCommentSubmit}>
+                    type="submit"
+                    className="button py-2 px-10">
                     submit
                 </button>
-            </div>
+            </form>
         </div>
     )
 };

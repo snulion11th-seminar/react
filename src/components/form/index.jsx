@@ -124,6 +124,7 @@ export const PostForm = ({
             onChange={handleTag} />
 
           <button 
+            type="submit"
             className="button px-12 py-3 mt-7">
               제출하기
           </button>
