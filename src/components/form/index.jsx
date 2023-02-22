@@ -78,6 +78,7 @@ export const SignInForm = () => {
 export const PostForm = ({
   onSubmit,
   handleChange,
+  handleTag,
   formData,
 }) => {
   return (
@@ -92,6 +93,16 @@ export const PostForm = ({
             className="input" 
             onChange={handleChange} />
 
+          <label for="summary" className="label">summary</label>
+          <input
+            type="text"
+            placeholder="한 줄 요약 입력해주세요"
+            value={formData.summary}
+            name="summary"
+            className="input"
+            onChange={handleChange}
+          />
+
           <label for="content" className="label">content</label>
           <textarea
             placeholder="내용을 입력해주세요"
@@ -103,14 +114,14 @@ export const PostForm = ({
             onChange={handleChange}
           ></textarea>
 
-          <label for="tag" className="label">tag</label>
+          <label for="tags" className="label">tags</label>
           <input 
             type="text"
             placeholder="태그를 입력해주세요" 
             className="input" 
-            value={formData.tag} 
-            name="tag" 
-            onChange={handleChange} />
+            value={formData.tags} 
+            name="tags" 
+            onChange={handleTag} />
 
           <button 
             className="button px-12 py-3 mt-7">
