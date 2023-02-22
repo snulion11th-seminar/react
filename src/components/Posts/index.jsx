@@ -24,7 +24,7 @@ export const BigPost = ({post}) => {
         <div  className=" py-8 w-full relative bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
             <div className="block py-10 px-8 h-60">
                 <h1 className="font-extrabold text-2xl">{post.title}</h1>
-                <p className="mt-2">{post.summary}</p>
+                <p className="mt-2">{post.content}</p>
                 <div className="flex mt-5">
                     {post.tags.map((tag) => (
                         <span key={tag} className="tag mr-2">#{tag}</span>
