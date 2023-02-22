@@ -14,12 +14,14 @@ const PostDetail = () => {
   }, [postId]);
 
   return post && (
-    <div className="w-full p-8 flex flex-col items-center">
+    <div className="w-full flex justify-center">
+      <div className=" w-1/2 p-8 flex flex-col items-center">
 
-        <BigPost post={post} />
+      <BigPost post={post} />
 
-        <Comments />
-        
+      <Comments />
+
+      </div>
     </div>
   )
 };
