@@ -29,10 +29,15 @@ const Home = () => {
 
     const handleTagFilter = (e) => {
         const { innerText } = e.target;
-        const activeTag = innerText.substring(1);
-        setSearchValue(activeTag);
-        const newPosts = posts.filter((post) => post.tags.includes(activeTag));
-        setPostList(newPosts);
+        if ( searchValue === innerText.substring(1)) {
+            setSearchValue('');
+            setPostList(posts);
+        }   else {
+            const activeTag = innerText.substring(1);
+            setSearchValue(activeTag);
+            const newPosts = posts.filter((post) => post.tags.includes(activeTag));
+            setPostList(newPosts);
+        }
     }
 
     return (
