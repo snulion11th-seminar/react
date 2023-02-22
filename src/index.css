@@ -4,7 +4,10 @@
 
 /* smallPost 안에 있는 tag */
 .tag {
-  @apply text-white bg-black p-2 text-xs rounded-2xl group-hover:bg-orange-200 group-hover:text-black;
+  @apply text-white bg-black p-2 text-xs rounded-2xl group-hover:bg-orange-200 group-hover:text-black hover:bg-orange-200 hover:text-black;
+}
+.tag.active {
+  @apply bg-white text-black;
 }
 /* 모든 버튼 일괄 적용 */
 .button {
