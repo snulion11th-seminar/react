@@ -21,7 +21,7 @@ export const SmallPost = ({post}) => {
 
 export const BigPost = ({post}) => {
     return (
-        <div  className=" py-8 w-1/2 relative mr-16 bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
+        <div  className=" py-8 w-full relative bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
             <div className="block py-10 px-8 h-60">
                 <h1 className="font-extrabold text-2xl">{post.title}</h1>
                 <p className="mt-2">{post.summary}</p>
