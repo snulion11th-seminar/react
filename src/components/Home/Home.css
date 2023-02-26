@@ -1,0 +1,16 @@
+.home-wrapper{
+    
+    display : flex;
+    flex-direction: column;
+    padding : 40px 80px;
+    gap : 30px;
+}
+.posts-outer-wrapper{
+    display : flex;
+    gap : 30px;    
+    flex-wrap: wrap;
+}
+
+#home-wrapper #title{
+    font-weight : bold;
+}
