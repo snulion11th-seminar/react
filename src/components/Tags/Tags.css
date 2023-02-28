@@ -1,0 +1,15 @@
+.tags-wrapper{
+    margin-top : 30px;
+    padding-bottom : 15vh;
+}
+.tag{
+    display : flex;
+    gap : 20px;
+}
+
+.tag-text{
+    font-weight : bold;
+}
+.tag-delete:hover{
+    cursor : pointer;
+}
