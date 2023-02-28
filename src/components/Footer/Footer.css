@@ -4,7 +4,7 @@ footer {
     width: 100%; 
 }
 footer .copyright-container {
-    height: 5vh;
+    height: 9vh;
     display: flex;
     justify-content: center;
     align-items: center;
