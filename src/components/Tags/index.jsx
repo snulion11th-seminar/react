@@ -2,7 +2,7 @@ import { useState } from "react";
 import './Tags.css';
 function Tags() {
   const [text, setText] = useState("");
-  const [tags, setTags] = useState([{ text: "고양이", id: 1 }]);
+  const [tags, setTags] = useState([{ id: 1, text: "고양이" }]);
   const [nextId, setNextId] = useState(2);
 
   const onCreate = (text) => {
@@ -29,7 +29,7 @@ function Tags() {
       <h2> 태그목록 </h2>
       <div>
         {tags.map((tag) => (
-          <div className="tag" key={tag.text}>
+          <div className="tag" key={tag.id}>
             <p className="tag-text">#{tag.text}</p>
             <p className="tag-delete" onClick={() => onRemove(tag.id)}>태그 삭제</p>
           </div>
