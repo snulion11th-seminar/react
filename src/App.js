@@ -1,24 +1,13 @@
-import logo from "./logo.svg";
-import CreatePost from "./routes/CreatePost";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
+import CreatePost from "./routes/CreatePost";
 import EditPost from "./routes/EditPost";
 import SignUp from "./routes/SignUp";
 import PostDetail from "./routes/PostDetail";
 import SignIn from "./routes/SignIn";
-
-// function App() {
-//   return (
-//     <div className="app">
-//       <Header />
-//       <CreatePost />
-//       <Footer />
-//     </div>
-//   );
-// }
 
 function App() {
   return (
