@@ -1,4 +1,9 @@
-.app{
-  overflow-x : hidden;
+.app {
+  overflow-x: hidden;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  align-items: center;
+  height: 100%;
 }

@@ -4,7 +4,7 @@ export const SmallPost = ({ post }) => {
   return (
     <div className="relative block group py-10 px-8 mr-5 my-5 ring-8 ring-transparent border-2 border-box border-white hover:bg-orange-400 hover:text-black hover:border-transparent hover:ring-orange-200 rounded-xl font-medium">
       <h1 className="font-extrabold text-2xl">{post.title}</h1>
-      <p className="mt-2">{post.summary}</p>
+      <p className="mt-2">{post.creator}</p>
       <div className="flex flex-wrap mt-5">
         {post.tags.map((tag) => (
           <span key={tag} className="tag m-1">

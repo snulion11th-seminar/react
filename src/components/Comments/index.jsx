@@ -64,11 +64,11 @@ const Comments = () => {
           type="text"
           value={newContent}
           placeholder="댓글을 입력해주세요"
-          className="input"
+          className="input h-14"
           onChange={(e) => setNewContent(e.target.value)}
         />
-        <button type="submit" className="button py-2 px-5">
-          submit
+        <button type="submit" className="button">
+          comment
         </button>
       </form>
     </div>

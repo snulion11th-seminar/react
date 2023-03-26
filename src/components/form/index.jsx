@@ -59,40 +59,37 @@ export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
       </label>
       <input
         type="text"
-        placeholder="제목을 입력해주세요"
-        value={formData.title}
+        placeholder="Type title.."
         name="title"
+        value={formData.title}
         className="input"
         onChange={handleChange}
       />
-
       <label for="content" className="label">
         content
       </label>
       <textarea
-        placeholder="내용을 입력해주세요"
-        value={formData.content}
+        placeholder="Type Content.."
         name="content"
+        value={formData.content}
         cols="30"
         rows="10"
         className="input"
         onChange={handleChange}
       ></textarea>
-
       <label for="tags" className="label">
         tags
       </label>
       <input
         type="text"
-        placeholder="태그를 입력해주세요"
-        className="input"
-        value={formData.tags}
+        placeholder="Add Tags.."
         name="tags"
+        value={formData.tags}
+        className="input"
         onChange={handleTag}
       />
-
-      <button type="submit" className="button px-12 py-3 mt-7">
-        제출하기
+      <button type="submit" className="button mt-7">
+        Submit
       </button>
     </form>
   );

@@ -11,11 +11,11 @@
 }
 /* 모든 버튼 일괄 적용 */
 .button {
-  @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl text-lg;
+  @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl text-lg p-3.5;
 }
 /* 모든 form 일괄 적용 */
 .form {
-  @apply w-1/2 flex flex-col items-center;
+  @apply w-full flex flex-col items-center;
 }
 .label {
   @apply self-start mt-5 mb-2 align-middle ml-3;

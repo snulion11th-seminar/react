@@ -26,29 +26,26 @@ const CreatePost = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value.split(",") });
   };
 
-  if (!isSubmit) {
-    return (
-      <div className="flex flex-col items-center">
-        <h3 className=" font-bold text-4xl">New Post</h3>
-        <PostForm
-          onSubmit={onSubmit}
-          handleChange={handleChange}
-          handleTag={handleTag}
-          formData
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div className="w-full flex justify-center">
-        <div className="w-3/5 p-8 flex flex-col items-center">
+  return (
+    <>
+      {isSubmit ? (
+        <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-
           <Comments />
         </div>
-      </div>
-    );
-  }
+      ) : (
+        <div className="flex flex-col items-center w-3/5">
+          <h3 className="font-bold text-4xl">New Post</h3>
+          <PostForm
+            onSubmit={onSubmit}
+            handleChange={handleChange}
+            handleTag={handleTag}
+            formData={formData}
+          />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default CreatePost;

@@ -13,8 +13,8 @@ const PostDetail = () => {
 
   useEffect(() => {
     const post = posts.find((post) => post.id === parseInt(postId));
-    setPost(post);
     setFormData(post);
+    setPost(post);
   }, [postId]);
 
   const onSubmit = (e) => {
@@ -32,27 +32,40 @@ const PostDetail = () => {
 
   return (
     post && (
-      <div className="w-full flex justify-center">
+      <>
         {edit ? (
-          <PostForm
-            formData={formData}
-            onSubmit={onSubmit}
-            handleChange={handleChange}
-            handleTag={handleTag}
-          />
+          <div className="flex flex-col w-3/5">
+            <button
+              className="button w-28"
+              onClick={() => {
+                setEdit(false);
+                setFormData(post);
+              }}
+            >
+              Back
+            </button>
+            <div className="flex flex-col items-center">
+              <PostForm
+                formData={formData}
+                onSubmit={onSubmit}
+                handleChange={handleChange}
+                handleTag={handleTag}
+              />
+            </div>
+          </div>
         ) : (
-          <div className="p-8 flex flex-col items-center">
+          <div className="flex flex-col items-center w-3/5 p-8">
             <BigPost post={post} />
             <Comments />
             <button
               onClick={() => setEdit(true)}
               className="button mt-10 py-2 px-10"
             >
-              edit
+              Edit
             </button>
           </div>
         )}
-      </div>
+      </>
     )
   );
 };
