@@ -31,7 +31,7 @@ export const SignUpForm = () => {
       </label>
       <input type="text" name="major" className="input" />
 
-      <button type="submit" className="button">
+      <button type="submit" className="button mt-7">
         Sign up !
       </button>
     </form>
@@ -49,7 +49,7 @@ export const SignInForm = () => {
         *password:
       </label>
       <input required type="text" name="password" className="input" />
-      <button type="submit" className="button">
+      <button type="submit" className="button mt-7">
         Sign in !
       </button>
     </form>
