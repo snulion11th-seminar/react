@@ -31,7 +31,9 @@ export const SignUpForm = () => {
       </label>
       <input type="text" name="major" className="input" />
 
-      <button type="submit" text="Sign up !" />
+      <button type="submit" className="button">
+        Sign up !
+      </button>
     </form>
   );
 };
@@ -47,6 +49,9 @@ export const SignInForm = () => {
         *password:
       </label>
       <input required type="text" name="password" className="input" />
+      <button type="submit" className="button">
+        Sign in !
+      </button>
     </form>
   );
 };
