@@ -3,21 +3,12 @@ footer {
   width: 100%;
 }
 footer .copyright-container {
-<<<<<<< HEAD
-    height: 5vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: black; 
-=======
   height: 9vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
   background-color: black;
->>>>>>> 75b2e87624084115b6b3f2bc7664f4720c19da1d
 }
 footer .copyright-container .logo {
   width: 30px;

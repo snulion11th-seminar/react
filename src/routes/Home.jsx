@@ -85,11 +85,9 @@ const Home = () => {
       </div>
 
       <div className="flex justify-center m-20">
-        <button className="button">
-          <Link to="/create" className="block p-4">
-            글 작성하기
-          </Link>
-        </button>
+        <Link className="button" to="/create">
+          Post
+        </Link>
       </div>
     </div>
   );
