@@ -7,10 +7,10 @@ import posts from "../data/posts";
 const CreatePost = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [formData, setFormData] = useState({
-    id: posts.length + 1,
+    id: posts.length,
     title: "",
     content: "",
-    creator: "아기사자",
+    author: { id: posts.length, username: "베이비" },
     tags: "",
   });
 
