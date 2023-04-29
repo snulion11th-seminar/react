@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
       for (let tag of post.tags) {
-        acc.add(tag);
+        acc.add(tag.content);
       }
       return acc;
     }, new Set());
@@ -34,7 +34,9 @@ const Home = () => {
     } else {
       const activeTag = innerText.substring(1);
       setSearchValue(activeTag);
-      const newPosts = posts.filter((post) => post.tags.includes(activeTag));
+      const newPosts = posts.filter((post) =>
+        post.tags.find((tag) => tag.content === activeTag)
+      );
       setPostList(newPosts);
     }
   };
@@ -42,7 +44,7 @@ const Home = () => {
   return (
     <div>
       <div className="flex flex-col justify-center items-center mb-5">
-        <div className="pb-5 flex items-end justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] w-full h-72 bg-center bg-cover">
+        <div className="w-full h-72 pb-5 flex justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] bg-center bg-cover">
           <h1 className="uppercase text-6xl text-white">my blog</h1>
         </div>
         <input
@@ -53,27 +55,15 @@ const Home = () => {
         />
         <div className="flex mt-5">
           {searchTags.map((tag) => {
-            if (tag === searchValue) {
-              return (
-                <button
-                  key={tag}
-                  className="tag active mr-2"
-                  onClick={handleTagFilter}
-                >
-                  #{tag}
-                </button>
-              );
-            } else {
-              return (
-                <button
-                  key={tag}
-                  className="tag mr-2"
-                  onClick={handleTagFilter}
-                >
-                  #{tag}
-                </button>
-              );
-            }
+            return (
+              <button
+                key={tag}
+                className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
+                onClick={handleTagFilter}
+              >
+                #{tag}
+              </button>
+            );
           })}
         </div>
       </div>
