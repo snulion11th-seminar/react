@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Comments from "../components/Comments";
 import { PostForm } from "../components/Form";
 import { BigPost } from "../components/Posts";
 import posts from "../data/posts";
@@ -31,7 +30,7 @@ const CreatePost = () => {
       {isSubmit ? (
         <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-          <Comments />
+          {/* <Comments /> */}
         </div>
       ) : (
         <div className="flex flex-col items-center w-3/5">
