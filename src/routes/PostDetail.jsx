@@ -39,7 +39,7 @@ const PostDetail = () => {
     e.preventDefault();
 
     const newComment = {
-      id: 3,
+      id: commentList.length,
       content: newContent,
       like_users: [],
       author: 1,
