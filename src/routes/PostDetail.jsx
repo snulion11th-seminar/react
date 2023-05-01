@@ -33,7 +33,6 @@ const PostDetail = () => {
   const handleTag = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value.split(",") });
   };
-
   
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -50,6 +49,10 @@ const PostDetail = () => {
     setNewContent("");
     setCommentList([...commentList, newComment]);
   };
+
+  const handleCommentDelete = (targetId) => {
+    setCommentList(commentList.filter((comment) => comment.id !== targetId));
+  }
 
   return (
     post && (
@@ -83,7 +86,11 @@ const PostDetail = () => {
               <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
               {commentList.map((comment) => {
                 return (
-                  <CommentElement comment={comment} key={comment.id} />
+                  <div className="w-full flex flex-row" key={comment.id} >
+                    <CommentElement comment={comment} />
+                    <button className="small-button" onClick={() => handleCommentDelete(comment.id)}>삭제</button>
+                  </div>
+                  
                 );
               })}
               {/* comment form component */}
