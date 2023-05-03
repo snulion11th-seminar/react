@@ -13,12 +13,12 @@ export const SignUpForm = () => {
       <label htmlFor="password" className="label">
         *password:
       </label>
-      <input required type="text" name="password" className="input" />
+      <input required type="password" name="password" className="input" />
 
       <label htmlFor="confirm_password" className="label">
         *passoword 확인:{" "}
       </label>
-      <input required type="text" name="confirm_password" className="input" />
+      <input required type="password" name="confirm_password" className="input" />
 
       <label required htmlFor="name" className="label">
         *이름:
@@ -56,7 +56,7 @@ export const SignInForm = () => {
       <label htmlFor="password" className="label">
         *password:
       </label>
-      <input required type="text" name="password" className="input" />
+      <input required type="password" name="password" className="input" />
       <button type="submit" className="button mt-7">
         Sign in !
       </button>
