@@ -1,32 +1,32 @@
 export const SignUpForm = () => {
   return (
     <form className="form">
-      <label for="email" className="label">
+      <label htmlFor="email" className="label">
         *email:
       </label>
       <input required type="text" name="email" className="input" />
 
-      <label for="password" className="label">
+      <label htmlFor="password" className="label">
         *password:
       </label>
       <input required type="text" name="password" className="input" />
 
-      <label for="confirm_password" className="label">
+      <label htmlFor="confirm_password" className="label">
         *passoword 확인:{" "}
       </label>
       <input required type="text" name="confirm_password" className="input" />
 
-      <label for="name" className="label">
-        이름:
+      <label required htmlFor="name" className="label">
+        *이름:
       </label>
       <input required type="text" name="username" className="input" />
 
-      <label for="college" className="label">
+      <label htmlFor="college" className="label">
         대학:{" "}
       </label>
       <input required type="text" name="college" className="input" />
 
-      <label for="major" className="label">
+      <label htmlFor="major" className="label">
         전공:{" "}
       </label>
       <input type="text" name="major" className="input" />
@@ -41,11 +41,11 @@ export const SignUpForm = () => {
 export const SignInForm = () => {
   return (
     <form className="form">
-      <label for="email" className="label">
+      <label htmlFor="email" className="label">
         *email:
       </label>
       <input required type="text" name="email" className="input" />
-      <label for="password" className="label">
+      <label htmlFor="password" className="label">
         *password:
       </label>
       <input required type="text" name="password" className="input" />
@@ -59,7 +59,7 @@ export const SignInForm = () => {
 export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
   return (
     <form className="form" onSubmit={onSubmit}>
-      <label for="title" className="label">
+      <label htmlFor="title" className="label">
         title
       </label>
       <input
@@ -70,7 +70,7 @@ export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
         className="input"
         onChange={handleChange}
       />
-      <label for="content" className="label">
+      <label htmlFor="content" className="label">
         content
       </label>
       <textarea
@@ -82,7 +82,7 @@ export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
         className="input"
         onChange={handleChange}
       ></textarea>
-      <label for="tags" className="label">
+      <label htmlFor="tags" className="label">
         tags
       </label>
       <input
