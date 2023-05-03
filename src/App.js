@@ -4,6 +4,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
 import CreatePost from "./routes/CreatePost";
+import EditPost from "./routes/EditPost";
 import SignUp from "./routes/SignUp";
 import PostDetail from "./routes/PostDetail";
 import SignIn from "./routes/SignIn";
@@ -18,6 +19,8 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* craete post */}
           <Route path="/create" element={<CreatePost />} />
+          {/* edit post */}
+          <Route path="/:postId/edit" element={<EditPost />} />
           {/* post detail */}
           <Route path="/:postId" element={<PostDetail />} />
           {/* sign up */}
