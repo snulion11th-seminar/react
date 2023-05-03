@@ -28,6 +28,11 @@ export const SmallPost = ({ post }) => {
 };
 
 export const BigPost = ({ post }) => {
+  const onClickLike = () => {
+    console.log("나도 좋아!");
+    // add api call for liking post here
+  };
+
   return (
     <div className="py-5 w-full bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
       <div className="px-8">
@@ -42,7 +47,7 @@ export const BigPost = ({ post }) => {
               </span>
             ))}
         </div>
-        <div className="flex mt-5">
+        <div className="flex mt-5" onClick={onClickLike}>
           {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
         </div>
       </div>
