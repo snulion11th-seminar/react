@@ -38,7 +38,7 @@ const PostDetail = () => {
     e.preventDefault();
 
     const newComment = {
-      id: commentList.length,
+      id: commentList.length + 1,
       content: newContent,
       like_users: [],
       author: 1,
@@ -87,8 +87,7 @@ const PostDetail = () => {
               {commentList.map((comment) => {
                 return (
                   <div className="w-full flex flex-row" key={comment.id} >
-                    <CommentElement comment={comment} />
-                    <button className="small-button" onClick={() => handleCommentDelete(comment.id)}>삭제</button>
+                    <CommentElement comment={comment} handleCommentDelete={handleCommentDelete}/>
                   </div>
                   
                 );
