@@ -1,6 +1,10 @@
 export const SignUpForm = () => {
+  const handleSignUpSubmit = () => {
+    alert("회원가입 완료!");
+  };
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSignUpSubmit}>
       <label htmlFor="email" className="label">
         *email:
       </label>
@@ -39,8 +43,12 @@ export const SignUpForm = () => {
 };
 
 export const SignInForm = () => {
+  const handleSignInSubmit = () => {
+    alert("로그인 완료!");
+  };
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSignInSubmit}>
       <label htmlFor="email" className="label">
         *email:
       </label>

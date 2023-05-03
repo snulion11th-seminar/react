@@ -18,6 +18,12 @@ const PostDetail = () => {
     setPost(post);
   }, [postId]);
 
+  const onClickDelete = () => {
+    console.log("delete");
+    // add api call for deleting post here
+    // add redirect to home page
+  };
+
   const handleCommentSubmit = (e) => {
     e.preventDefault();
 
@@ -48,7 +54,11 @@ const PostDetail = () => {
         <div className="w-full mt-5 self-start">
           <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
           {commentList.map((comment) => {
-            return <CommentElement comment={comment} key={comment.id} />;
+            return (
+              <div className="w-full flex flex-row" key={comment.id} >
+                <CommentElement comment={comment} handleCommentDelete={handleCommentDelete}/>
+              </div>
+            );
           })}
           {/* comment form component */}
           <form
@@ -67,9 +77,12 @@ const PostDetail = () => {
             </button>
           </form>
         </div>
-        <Link to={`/${post.id}/edit`}>
-          <button className="button mt-10 py-2 px-10">Edit</button>
-        </Link>
+        <div>
+          <Link to={`/${post.id}/edit`}>
+            <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
+          </Link>
+          <button className="button mt-10 mx-4 py-2 px-10" onClick={onClickDelete}>Delete</button>
+        </div>
       </div>
     )
   );
