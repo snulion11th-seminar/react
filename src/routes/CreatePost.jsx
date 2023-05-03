@@ -1,23 +1,28 @@
 import { useState } from "react";
-import Comments from "../components/Comments";
 import { PostForm } from "../components/Form";
 import { BigPost } from "../components/Posts";
 import posts from "../data/posts";
 
 const CreatePost = () => {
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    id: posts.length + 1,
+    id: posts.length,
     title: "",
     content: "",
-    creator: "아기사자",
+    author: { id: posts.length, username: "베이비" },
     tags: "",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setIsSubmit(true);
+    if (formData.tags.length > 0)
+      formData.tags = formData.tags.map((tag, idx) => {
+        return { id: idx, content: tag };
+      });
+    formData.like_users = [];
+    setIsSubmitted(true);
   };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -28,10 +33,10 @@ const CreatePost = () => {
 
   return (
     <>
-      {isSubmit ? (
+      {isSubmitted ? (
         <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-          <Comments />
+          {/* <Comments /> */}
         </div>
       ) : (
         <div className="flex flex-col items-center w-3/5">
