@@ -41,9 +41,10 @@ const PostDetail = () => {
       id: commentList.length + 1,
       content: newContent,
       like_users: [],
-      author: 1,
+      author: { id: 1, username: "멋사" }, // 추후 로그인 기능 구현 후 author 수정
       created_at: Date.now(),
     };
+    
     // add api call for creating new comment here
 
     setNewContent("");
