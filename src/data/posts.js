@@ -7,7 +7,7 @@ const posts = [
     tags: [
       { id: 1, content: "멋사" },
       { id: 2, content: "개발자" },
-      { id: 3, content: "서울대" },
+      { id: 3, content: "서울다" },
     ],
     like_users: [1, 2],
     created_at: "2023-02-04T07:42:50.658501Z",

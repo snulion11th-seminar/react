@@ -47,8 +47,10 @@ export const SignUpForm = () => {
   );
 };
 
-export const handleSignInSubmit = () => {
-  alert("로그인 완료!");
+export const SignInForm = () => {
+  const handleSignInSubmit = () => {
+    alert("로그인 완료!");
+  };
 
   return (
     <form className="form" onSubmit={handleSignInSubmit}>
@@ -67,7 +69,17 @@ export const handleSignInSubmit = () => {
   );
 };
 
-export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
+export const PostForm = ({
+  onSubmit,
+  handleChange,
+  tagInputValue,
+  handleTag,
+  addTag,
+  deleteTag,
+  formData,
+  autoCompletes,
+  handleAutoCompletes,
+}) => {
   return (
     <form className="form" onSubmit={onSubmit}>
       <label htmlFor="title" className="label">
@@ -96,14 +108,56 @@ export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
       <label htmlFor="tags" className="label">
         tags
       </label>
-      <input
-        type="text"
-        placeholder="Add Tags.."
-        name="tags"
-        value={formData.tags}
-        className="input"
-        onChange={handleTag}
-      />
+      <div className="flex w-full flex-col">
+        <div className="flex  w-full gap-x-5">
+          <input
+            type="text"
+            placeholder="Add Tags.."
+            name="tags"
+            value={tagInputValue}
+            className="input grow"
+            onChange={handleTag}
+          />
+          <button onClick={addTag} className="small-button w-16">
+            추가
+          </button>
+        </div>
+        <div className="flex bg-white border-gray-500 rounded-2xl w-full flex-col">
+          {autoCompletes
+            ? autoCompletes.map((autoComplete) => (
+                <button
+                  className="w-full rounded-2xl text-start border-gray-500 py-3 px-3 text-black focus:bg-gray"
+                  key={autoComplete.id}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleAutoCompletes(autoComplete);
+                  }}
+                >
+                  #{autoComplete.content}
+                </button>
+              ))
+            : null}
+        </div>
+      </div>
+      {formData.tags ? (
+        <div className="flex w-full mt-3 gap-x-1 flew-nowrap">
+          {formData.tags.map((tag) => (
+            <div key={tag.id} className="flex">
+              <span className="tag active m-1 flex flex-row items-center gap-x-2">
+                <p>#{tag.content}</p>
+              </span>
+              {/* 삭제버튼 */}
+              <button
+                className="after:content-['\00d7'] text-xl"
+                onClick={(e) => {
+                  e.preventDefault();
+                  deleteTag(tag);
+                }}
+              ></button>
+            </div>
+          ))}
+        </div>
+      ) : null}
       <button type="submit" className="button mt-7">
         Submit
       </button>
