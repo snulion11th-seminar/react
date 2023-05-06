@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
@@ -12,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
       for (let tag of post.tags) {
-        acc.add(tag);
+        acc.add(tag.content);
       }
       return acc;
     }, new Set());
@@ -26,23 +25,12 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {
-    const { innerText } = e.target;
-    if (searchValue === innerText.substring(1)) {
-      setSearchValue("");
-      setPostList(posts);
-    } else {
-      const activeTag = innerText.substring(1);
-      setSearchValue(activeTag);
-      const newPosts = posts.filter((post) => post.tags.includes(activeTag));
-      setPostList(newPosts);
-    }
-  };
+  const handleTagFilter = (e) => {};
 
   return (
     <div>
       <div className="flex flex-col justify-center items-center mb-5">
-        <div className="pb-5 flex items-end justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] w-full h-72 bg-center bg-cover">
+        <div className="w-full h-72 pb-5 flex justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] bg-center bg-cover">
           <h1 className="uppercase text-6xl text-white">my blog</h1>
         </div>
         <input
@@ -53,27 +41,15 @@ const Home = () => {
         />
         <div className="flex mt-5">
           {searchTags.map((tag) => {
-            if (tag === searchValue) {
-              return (
-                <button
-                  key={tag}
-                  className="tag active mr-2"
-                  onClick={handleTagFilter}
-                >
-                  #{tag}
-                </button>
-              );
-            } else {
-              return (
-                <button
-                  key={tag}
-                  className="tag mr-2"
-                  onClick={handleTagFilter}
-                >
-                  #{tag}
-                </button>
-              );
-            }
+            return (
+              <button
+                key={tag}
+                className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
+                onClick={handleTagFilter}
+              >
+                #{tag}
+              </button>
+            );
           })}
         </div>
       </div>
@@ -82,12 +58,6 @@ const Home = () => {
         {postList.map((post) => (
           <SmallPost key={post.id} post={post} />
         ))}
-      </div>
-
-      <div className="flex justify-center m-20">
-        <Link className="button" to="/create">
-          Post
-        </Link>
       </div>
     </div>
   );
