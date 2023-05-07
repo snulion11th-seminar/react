@@ -83,7 +83,7 @@ export const PostForm = ({
   return (
     <form className="form" onSubmit={onSubmit}>
       <label htmlFor="title" className="label">
-        title
+        Title
       </label>
       <input
         type="text"
@@ -92,9 +92,10 @@ export const PostForm = ({
         value={formData.title}
         className="input"
         onChange={handleChange}
+        required
       />
       <label htmlFor="content" className="label">
-        content
+        Content
       </label>
       <textarea
         placeholder="Type Content.."
@@ -104,9 +105,10 @@ export const PostForm = ({
         rows="10"
         className="input"
         onChange={handleChange}
+        required
       ></textarea>
       <label htmlFor="tags" className="label">
-        tags
+        Tags
       </label>
       <div className="flex w-full flex-col">
         <div className="flex  w-full gap-x-5">
@@ -122,11 +124,11 @@ export const PostForm = ({
             추가
           </button>
         </div>
-        <div className="flex bg-white border-gray-500 rounded-2xl w-full flex-col">
+        <div className="flex mt-2 bg-black border-gray-500 rounded-2xl w-full">
           {autoCompletes
             ? autoCompletes.map((autoComplete) => (
                 <button
-                  className="w-full rounded-2xl text-start border-gray-500 py-3 px-3 text-black focus:bg-gray"
+                  className="tag rounded-2xl text-start border-gray-500 py-2 px-3 text-white focus:bg-gray"
                   key={autoComplete.id}
                   onClick={(e) => {
                     e.preventDefault();
