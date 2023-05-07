@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
 const Home = () => {
-  const [postList, setPostList] = useState(posts);
-
-  // 추가 👇🏻
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [postList, setPostList] = useState(posts);
+
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
       for (let tag of post.tags) {
@@ -19,7 +18,6 @@ const Home = () => {
     setTags([...tagList]);
     setSearchTags([...tagList]);
   }, []);
-  // 추가 🖕🏻
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -32,7 +30,7 @@ const Home = () => {
   return (
     <div>
       <div className="flex flex-col justify-center items-center mb-5">
-        <div className="pb-5 flex items-end justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] w-full h-72 bg-center bg-cover">
+        <div className="w-full h-72 pb-5 flex justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] bg-center bg-cover">
           <h1 className="uppercase text-6xl text-white">my blog</h1>
         </div>
         <input
@@ -55,6 +53,7 @@ const Home = () => {
           })}
         </div>
       </div>
+
       <div className="grid grid-cols-4 px-10 mt-10">
         {postList.map((post) => (
           <SmallPost key={post.id} post={post} />
