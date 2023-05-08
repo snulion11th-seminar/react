@@ -25,7 +25,18 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (tag) => {
+    if (searchValue.includes(tag)) {
+      setSearchValue(searchValue.filter((t) => t !== tag));
+      setPostList(posts);
+    } else {
+      setSearchValue([...searchValue, tag]);
+      const newPosts = posts.filter((post) =>
+        post.tags.some((t) => t.content === tag)
+      );
+      setPostList(newPosts);
+    }
+  };
 
   return (
     <div>
@@ -45,7 +56,7 @@ const Home = () => {
               <button
                 key={tag}
                 className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
-                onClick={handleTagFilter}
+                onClick={() => handleTagFilter(tag)}
               >
                 #{tag}
               </button>
