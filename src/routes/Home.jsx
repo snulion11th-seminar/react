@@ -38,6 +38,10 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(searchValue);
+  }, [searchValue]);
+
   return (
     <div>
       <div className="flex flex-col justify-center items-center mb-5">
@@ -55,7 +59,9 @@ const Home = () => {
             return (
               <button
                 key={tag}
-                className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
+                className={
+                  searchValue.includes(tag) ? "tag active mr-2" : "tag mr-2"
+                }
                 onClick={() => handleTagFilter(tag)}
               >
                 #{tag}
