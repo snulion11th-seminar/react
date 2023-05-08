@@ -20,12 +20,26 @@ const Home = () => {
   }, []);
 
   const handleChange = (e) => {
+    // console.log(e.target, e)
     const { value } = e.target;
     const newTags = tags.filter((tag) => tag.includes(value));
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    const selectedTag = e.target.textContent.replace("#", "");
+    console.log(selectedTag);
+    if (searchValue != selectedTag) {
+      setSearchValue(selectedTag);
+      const newPostList = posts.filter((post) =>
+        post.tags.some((tag) => tag.content === selectedTag)
+      );
+      setPostList(newPostList);
+    } else {
+      setSearchValue("");
+      setPostList(posts);
+    }
+  };
 
   return (
     <div>
