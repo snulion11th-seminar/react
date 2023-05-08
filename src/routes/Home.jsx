@@ -25,31 +25,8 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {
-    const { innerText } = e.target;
-    let tag=innerText.slice(1);
-    if(tag == searchValue) {
-      setSearchValue("");
-      setSearchTags(tags);
-      setPostList(posts);
-    }
-    else {
-      setSearchValue(tag);
-      const newTags = tags.filter((postTag) => postTag.includes(tag));
-      setSearchTags(newTags);
-    
-    let filteredPosts = posts.filter((post) => {
-      for (let postTag of post.tags) {
-        if (postTag.content === tag) {
-          return true;
-        }
-      }
-      return false;
+  const handleTagFilter = (e) => {};
 
-    });
-    setPostList(filteredPosts);
-  }
-  };
   return (
     <div>
       <div className="flex flex-col justify-center items-center mb-5">
