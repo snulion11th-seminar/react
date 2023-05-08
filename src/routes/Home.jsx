@@ -25,7 +25,25 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    let filteredPosts = [];
+    let clickedTag = e.target.innerText.slice(1);
+
+    if (searchValue === clickedTag) {
+      setSearchValue("");
+      setPostList(posts);
+    } else {
+      setSearchValue(clickedTag);
+      for (let post of posts) {
+        for (let tag of post.tags) {
+          if (tag.content === clickedTag) {
+            filteredPosts.push(post);
+          }
+        }
+      }
+      setPostList(filteredPosts);
+    }
+  };
 
   return (
     <div>
