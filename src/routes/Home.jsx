@@ -3,6 +3,7 @@ import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
 const Home = () => {
+  // hi my name is eojin
   const [postList, setPostList] = useState(posts);
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
