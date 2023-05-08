@@ -1,4 +1,6 @@
-export const SmallPost = ({ post }) => {
+import { useEffect } from "react";
+
+export const SmallPost = ({ post, setSearchTagId }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
@@ -10,9 +12,15 @@ export const SmallPost = ({ post }) => {
       <p className="mt-2">{post.author.username}</p>
       <div className="flex flex-wrap mt-5">
         {post.tags.map((tag) => (
-          <span key={tag.id} className="tag m-1">
+          <button
+            key={tag.id}
+            className="tag m-1"
+            onClick={() => {
+              setSearchTagId(tag.id);
+            }}
+          >
             #{tag.content}
-          </span>
+          </button>
         ))}
       </div>
       <div onClick={onClickLike}>

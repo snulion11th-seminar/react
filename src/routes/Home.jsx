@@ -1,31 +1,61 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
 const Home = () => {
-  const [tags, setTags] = useState([]);
-  const [searchTags, setSearchTags] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
   const [postList, setPostList] = useState(posts);
+  const [tags, setTags] = useState(new Map());
+  const [searchTags, setSearchTags] = useState([]);
+  const [searchTagId, setSearchTagId] = useState("");
 
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
       for (let tag of post.tags) {
-        acc.add(tag.content);
+        if (!acc.has(tag.id)) {
+          acc.set(tag.id, tag.content);
+        } else {
+          continue;
+        }
       }
       return acc;
-    }, new Set());
-    setTags([...tagList]);
-    setSearchTags([...tagList]);
+    }, new Map());
+    setTags(tagList);
+    setSearchTags(Array.from(tagList.keys()));
   }, []);
 
   const handleChange = (e) => {
     const { value } = e.target;
-    const newTags = tags.filter((tag) => tag.includes(value));
+    // [key, value]
+    const newTags = tags.entries().filter((tag) => {
+      return tag[1].includes(value);
+    });
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (id) => {
+    setSearchTagId(id);
+    console.log(id);
+  };
+
+  useEffect(() => {
+    if (searchTagId === "") {
+      setPostList(posts);
+    } else {
+      const newPostList = posts.filter((post) => {
+        return post.tags.some((tag) => tag.id === searchTagId);
+      });
+      setPostList(newPostList);
+    }
+  }, [searchTagId]);
+
+  // const handleTagFilter = (e) => {
+  //   const { innerText } = e.target;
+  //   setSearchValue(innerText.slice(1));
+  //   const newPostList = posts.filter((post) => {
+  //     return post.tags.some((tag) => tag.content === innerText.slice(1));
+  //   });
+  //   setPostList(newPostList);
+  // };
 
   return (
     <div>
@@ -40,23 +70,27 @@ const Home = () => {
           className="border border-orange-400 outline-none rounded-2xl text-center py-2 px-20 text-orange-400 bg-transparent"
         />
         <div className="flex mt-5">
-          {searchTags.map((tag) => {
+          {searchTags.map((id) => {
             return (
               <button
-                key={tag}
-                className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
-                onClick={handleTagFilter}
+                key={id}
+                className={id === searchTagId ? "tag active mr-2" : "tag mr-2"}
+                onClick={() => handleTagFilter(id)}
               >
-                #{tag}
+                #{tags.get(id)}
               </button>
             );
           })}
         </div>
       </div>
-
+      {/* 포스트 맵돌기 */}
       <div className="grid grid-cols-4 px-10 mt-10">
         {postList.map((post) => (
-          <SmallPost key={post.id} post={post} />
+          <SmallPost
+            key={post.id}
+            post={post}
+            setSearchTagId={setSearchTagId}
+          />
         ))}
       </div>
     </div>
