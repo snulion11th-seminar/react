@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
-import posts from "../data/posts";
+import postsData from "../data/posts";
 
 const Home = () => {
-  const [postList, setPostList] = useState(posts);
+  const [postList, setPostList] = useState(postsData);
   const [tags, setTags] = useState(new Map());
   const [searchTags, setSearchTags] = useState([]);
   const [searchTagIdList, setSearchTagIdList] = useState([]);
 
   useEffect(() => {
-    const tagList = posts.reduce((acc, post) => {
+    const tagList = postsData.reduce((acc, post) => {
       for (let tag of post.tags) {
         if (!acc.has(tag.id)) {
           acc.set(tag.id, tag.content);
@@ -33,10 +33,14 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (searchTagIdList === "") {
-      setPostList(posts);
+    if (searchTagIdList.length == 0) {
+      console.log(
+        "🚀 ~ file: Home.jsx:37 ~ useEffect ~ searchTagIdList:",
+        searchTagIdList
+      );
+      setPostList(postsData);
     } else {
-      const newPostList = posts.filter((post) => {
+      const newPostList = postsData.filter((post) => {
         return post.tags.some((tag) => searchTagIdList.includes(tag.id));
       });
       setPostList(newPostList);
@@ -99,6 +103,7 @@ const Home = () => {
           <SmallPost
             key={post.id}
             post={post}
+            searchTagIdList={searchTagIdList}
             toggleSearchTagId={toggleSearchTagId}
           />
         ))}

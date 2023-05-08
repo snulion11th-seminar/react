@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const SmallPost = ({ post, toggleSearchTagId }) => {
+export const SmallPost = ({ post, toggleSearchTagId, searchTagIdList }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
@@ -11,17 +11,20 @@ export const SmallPost = ({ post, toggleSearchTagId }) => {
       <h1 className="font-extrabold text-2xl truncate">{post.title}</h1>
       <p className="mt-2">{post.author.username}</p>
       <div className="flex flex-wrap mt-5">
-        {post.tags.map((tag) => (
-          <button
-            key={tag.id}
-            className="tag m-1"
-            onClick={() => {
-              toggleSearchTagId(tag.id);
-            }}
-          >
-            #{tag.content}
-          </button>
-        ))}
+        {post.tags.map((tag) => {
+          const tagClassname = searchTagIdList.includes(tag.id) ? "active" : "";
+          return (
+            <button
+              key={tag.id}
+              className={"tag m-1 " + tagClassname}
+              onClick={() => {
+                toggleSearchTagId(tag.id);
+              }}
+            >
+              #{tag.content}
+            </button>
+          );
+        })}
       </div>
       <div onClick={onClickLike}>
         {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
