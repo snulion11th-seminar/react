@@ -27,7 +27,7 @@ const Home = () => {
 
   const handleTagFilter = (e) => {
     const et = e.target.innerText.slice(1);
-    if (et != searchValue) {
+    if (et !== searchValue) {
       setSearchValue(et);
       const acc = [];
       for (let p of posts) {
