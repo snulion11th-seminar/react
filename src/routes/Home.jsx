@@ -25,7 +25,27 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    const clickedTag = e.target.innerText.slice(1);
+    // 이미 선택된 태그를 클릭한 경우: 모든 포스트를 보여줘야 함
+    if (searchValue === clickedTag) {
+      setSearchValue("");
+      setPostList(posts);
+    }
+    // 새로운 태그를 클릭한 경우: 해당 태그가 포함된 포스트만 보여줘야 함
+    else {
+      const filteredPosts = posts.filter((post) => {
+        for (let i = 0; i < post.tags.length; i++) {
+          if (post.tags[i].content === clickedTag) {
+            return true;
+          }
+        }
+        return false;
+      });
+      setSearchValue(clickedTag);
+      setPostList(filteredPosts);
+    }
+  };
 
   return (
     <div>
