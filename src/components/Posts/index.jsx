@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const SmallPost = ({ post, setSearchTagId }) => {
+export const SmallPost = ({ post, toggleSearchTagId }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
@@ -16,7 +16,7 @@ export const SmallPost = ({ post, setSearchTagId }) => {
             key={tag.id}
             className="tag m-1"
             onClick={() => {
-              setSearchTagId(tag.id);
+              toggleSearchTagId(tag.id);
             }}
           >
             #{tag.content}

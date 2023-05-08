@@ -6,7 +6,7 @@ const Home = () => {
   const [postList, setPostList] = useState(posts);
   const [tags, setTags] = useState(new Map());
   const [searchTags, setSearchTags] = useState([]);
-  const [searchTagId, setSearchTagId] = useState("");
+  const [searchTagIdList, setSearchTagIdList] = useState([]);
 
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
@@ -32,21 +32,28 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (id) => {
-    setSearchTagId(id);
-    console.log(id);
-  };
-
   useEffect(() => {
-    if (searchTagId === "") {
+    if (searchTagIdList === "") {
       setPostList(posts);
     } else {
       const newPostList = posts.filter((post) => {
-        return post.tags.some((tag) => tag.id === searchTagId);
+        return post.tags.some((tag) => searchTagIdList.includes(tag.id));
       });
       setPostList(newPostList);
     }
-  }, [searchTagId]);
+  }, [searchTagIdList]);
+
+  const toggleSearchTagId = (id) => {
+    if (searchTagIdList.includes(id)) {
+      const newSearchTagIdList = searchTagIdList.filter((tagId) => {
+        return tagId !== id;
+      });
+
+      setSearchTagIdList(newSearchTagIdList);
+    } else {
+      setSearchTagIdList([...searchTagIdList, id]);
+    }
+  };
 
   // const handleTagFilter = (e) => {
   //   const { innerText } = e.target;
@@ -71,11 +78,14 @@ const Home = () => {
         />
         <div className="flex mt-5">
           {searchTags.map((id) => {
+            const searchTagClassname = searchTagIdList.includes(id)
+              ? "tag active mr-2"
+              : "tag mr-2";
             return (
               <button
                 key={id}
-                className={id === searchTagId ? "tag active mr-2" : "tag mr-2"}
-                onClick={() => handleTagFilter(id)}
+                className={searchTagClassname}
+                onClick={() => toggleSearchTagId(id)}
               >
                 #{tags.get(id)}
               </button>
@@ -89,7 +99,7 @@ const Home = () => {
           <SmallPost
             key={post.id}
             post={post}
-            setSearchTagId={setSearchTagId}
+            toggleSearchTagId={toggleSearchTagId}
           />
         ))}
       </div>
