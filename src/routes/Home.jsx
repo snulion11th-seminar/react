@@ -25,7 +25,31 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    const tagText = e.target.innerText;
+    console.log(tagText);
+    const filteredTagText = tagText.replace("#", "");
+    console.log(filteredTagText);
+    setSearchValue(filteredTagText);
+
+    if (filteredTagText === searchValue) {
+      console.log("다시");
+      setSearchValue("");
+      setPostList(posts);
+      return;
+    }
+
+    console.log("postList", postList);
+    console.log("posts", posts);
+    const filteredPosts = posts.filter((post) =>
+      post.tags.some((tag) => tag.content === filteredTagText)
+    );
+    setPostList(filteredPosts);
+  };
+
+  // {postList.map((post) => (
+  //   <SmallPost key={post.id} post={post} />
+  // ))}
 
   return (
     <div>
