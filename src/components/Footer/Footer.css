@@ -1,0 +1,21 @@
+footer {
+  bottom: 0;
+  width: 100%;
+}
+footer .copyright-container {
+  height: 9vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: black;
+}
+footer .copyright-container .logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+footer .copyright-container .copyright {
+  font-size: 16px;
+  font-weight: bold;
+}
