@@ -25,7 +25,25 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  //I have to implement
+  const handleTagFilter = (e) => {
+
+    const value = e.target.innerText.slice(1);
+    if (searchValue == value) {setPostList(posts); setSearchValue("");}
+    else {
+    setSearchValue(value);
+    console.log(tags);
+    const newPosts = posts.filter(
+      (post) => {
+        let include = false;
+        post.tags.map((tag) => {
+          if(tag.content.includes(value))
+            include = true;
+        });
+        return include;
+    });
+    setPostList(newPosts);}
+  };
 
   return (
     <div>
