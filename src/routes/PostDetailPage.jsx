@@ -6,12 +6,14 @@ import { Link } from "react-router-dom";
 import posts from "../data/posts";
 import comments from "../data/comments";
 
-const PostDetail = () => {
+const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
 
+  // 과제 //
   const [commentList, setCommentList] = useState(comments); // state for comments
   const [newContent, setNewContent] = useState(""); // state for new comment
+  /////////
 
   useEffect(() => {
     const post = posts.find((post) => post.id === parseInt(postId));
@@ -24,6 +26,7 @@ const PostDetail = () => {
     // add redirect to home page
   };
 
+  // 과제 //
   const handleCommentSubmit = (e) => {
     e.preventDefault();
 
@@ -34,7 +37,7 @@ const PostDetail = () => {
       author: { id: 1, username: "멋사" }, // 추후 로그인 기능 구현 후 author 수정
       created_at: Date.now(),
     };
-    
+
     // add api call for creating new comment here
 
     setNewContent("");
@@ -43,7 +46,8 @@ const PostDetail = () => {
 
   const handleCommentDelete = (targetId) => {
     setCommentList(commentList.filter((comment) => comment.id !== targetId));
-  }
+  };
+  ///////
 
   return (
     post && (
@@ -55,8 +59,11 @@ const PostDetail = () => {
           <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
           {commentList.map((comment) => {
             return (
-              <div className="w-full flex flex-row" key={comment.id} >
-                <CommentElement comment={comment} handleCommentDelete={handleCommentDelete}/>
+              <div className="w-full flex flex-row" key={comment.id}>
+                <CommentElement
+                  comment={comment}
+                  handleCommentDelete={handleCommentDelete}
+                />
               </div>
             );
           })}
@@ -81,11 +88,16 @@ const PostDetail = () => {
           <Link to={`/${post.id}/edit`}>
             <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
           </Link>
-          <button className="button mt-10 mx-4 py-2 px-10" onClick={onClickDelete}>Delete</button>
+          <button
+            className="button mt-10 mx-4 py-2 px-10"
+            onClick={onClickDelete}
+          >
+            Delete
+          </button>
         </div>
       </div>
     )
   );
 };
 
-export default PostDetail;
+export default PostDetailPage;

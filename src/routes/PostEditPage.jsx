@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { PostForm } from "../components/Form";
-import { BigPost } from "../components/Posts";
 import posts from "../data/posts";
+import { Link } from "react-router-dom";
+import { BigPost } from "../components/Posts";
 
-const CreatePost = () => {
+const PostEditPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    id: posts.length,
-    title: "",
-    content: "",
-    author: { id: posts.length, username: "베이비" },
-    tags: [],
-  });
+  const { postId } = useParams();
+  const [formData, setFormData] = useState({});
 
-  // 기존 태그 불러오기
-  // TODO : api call(get all tags)
+  // 기존 post 불러오기
+  useEffect(() => {
+    const post = posts.find((post) => post.id === parseInt(postId));
+    const postFormData = { ...post, tags: post.tags.map((tag) => tag.content) };
+    setFormData(postFormData);
+  }, [postId]);
+
+  //기존 태그 불러오기
   const [tags, setTags] = useState([]);
   useEffect(() => {
     const duplicatedTagList = posts.reduce((acc, post) => {
@@ -39,22 +42,6 @@ const CreatePost = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const onSubmit = (e) => {
-    //TODO : api connect
-    e.preventDefault();
-
-    const createdPost = {
-      ...formData,
-      like_users: [],
-      tags: formData.tags.map((tag, idx) => {
-        return { id: idx + 1, content: tag };
-      }),
-    };
-    setFormData(createdPost);
-    setIsSubmitted(true);
-  };
-
-  //태그 인풋 값 바뀌면 그에 따라서 자동 완성값들도 변경
   const handleTag = (e) => {
     setTagInputValue(e.target.value);
     if (e.target.value) {
@@ -62,11 +49,9 @@ const CreatePost = () => {
         tag.includes(e.target.value)
       );
       setAutoCompletes(autoCompleteData);
-      return;
     }
   };
 
-  // 추가 버튼 혹인 엔터 누르면 태그 생성
   const addTag = (e) => {
     e.preventDefault();
 
@@ -82,7 +67,6 @@ const CreatePost = () => {
     setAutoCompletes([]);
   };
 
-  // X버튼 눌렀을때 태그 삭제
   const deleteTag = (tag) => {
     setFormData({
       ...formData,
@@ -90,7 +74,6 @@ const CreatePost = () => {
     });
   };
 
-  // 자동완성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
   const handleAutoCompletes = (autoComplete) => {
     const selectedTag = tags.find((tag) => tag === autoComplete);
 
@@ -104,16 +87,33 @@ const CreatePost = () => {
     setAutoCompletes([]);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const createdPost = {
+      ...formData,
+      like_users: [],
+      tags: formData.tags.map((tag, idx) => {
+        return { id: idx + 1, content: tag };
+      }),
+    };
+    setFormData(createdPost);
+    setIsSubmitted(true);
+  };
+
   return (
     <>
       {isSubmitted ? (
         <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-          {/* <Comments /> */}
         </div>
       ) : (
         <div className="flex flex-col items-center w-3/5">
-          <h3 className="font-bold text-4xl">New Post</h3>
+          <div className="flex w-full items-center">
+            <Link to={`/${postId}`}>
+              <button className="w-20">{`< Back`}</button>
+            </Link>
+            <h3 className="flex-1 font-bold text-4xl">Edit Post</h3>
+          </div>
           <PostForm
             onSubmit={onSubmit}
             handleChange={handleChange}
@@ -131,4 +131,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default PostEditPage;
