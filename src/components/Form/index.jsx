@@ -130,10 +130,7 @@ export const PostForm = ({
                 <button
                   className="tag rounded-2xl text-start border-gray-500 py-2 px-3 text-white focus:bg-gray"
                   key={autoComplete}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAutoCompletes(autoComplete);
-                  }}
+                  onClick={() => handleAutoCompletes(autoComplete)}
                 >
                   #{autoComplete}
                 </button>
@@ -151,10 +148,7 @@ export const PostForm = ({
               {/* 삭제버튼 */}
               <button
                 className="after:content-['\00d7'] text-xl"
-                onClick={(e) => {
-                  e.preventDefault();
-                  deleteTag(tag);
-                }}
+                onClick={() => deleteTag(tag)}
               />
             </div>
           ))}

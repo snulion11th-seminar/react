@@ -105,7 +105,6 @@ const EditPost = () => {
       {isSubmitted ? (
         <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-          {/* <Comments /> */}
         </div>
       ) : (
         <div className="flex flex-col items-center w-3/5">

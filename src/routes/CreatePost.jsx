@@ -61,7 +61,6 @@ const CreatePost = () => {
       const autoCompleteData = tags.filter((tag) =>
         tag.includes(e.target.value)
       );
-      console.log("hihihi", autoCompleteData);
       setAutoCompletes(autoCompleteData);
       return;
     }
