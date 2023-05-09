@@ -121,7 +121,7 @@ export const PostForm = ({
             onChange={handleTag}
           />
           <button onClick={addTag} className="small-button w-16">
-            추가
+            add
           </button>
         </div>
         <div className="flex mt-2 bg-black border-gray-500 rounded-2xl w-full">
@@ -129,13 +129,13 @@ export const PostForm = ({
             ? autoCompletes.map((autoComplete) => (
                 <button
                   className="tag rounded-2xl text-start border-gray-500 py-2 px-3 text-white focus:bg-gray"
-                  key={autoComplete.id}
+                  key={autoComplete}
                   onClick={(e) => {
                     e.preventDefault();
                     handleAutoCompletes(autoComplete);
                   }}
                 >
-                  #{autoComplete.content}
+                  #{autoComplete}
                 </button>
               ))
             : null}
@@ -144,9 +144,9 @@ export const PostForm = ({
       {formData.tags ? (
         <div className="flex w-full mt-3 gap-x-1 flew-nowrap">
           {formData.tags.map((tag) => (
-            <div key={tag.id} className="flex">
+            <div key={tag} className="flex">
               <span className="tag active m-1 flex flex-row items-center gap-x-2">
-                <p>#{tag.content}</p>
+                <p>#{tag}</p>
               </span>
               {/* 삭제버튼 */}
               <button

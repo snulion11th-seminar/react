@@ -25,9 +25,7 @@ const CreatePost = () => {
       return acc;
     }, new Set());
 
-    const tagList = [...duplicatedTagList].map((tag, idx) => {
-      return { id: idx + 1, content: tag };
-    });
+    const tagList = [...duplicatedTagList];
 
     setTags([...tagList]);
   }, []);
@@ -45,7 +43,14 @@ const CreatePost = () => {
     //TODO : api connect
     e.preventDefault();
 
-    formData.like_users = [];
+    const createdPost = {
+      ...formData,
+      like_users: [],
+      tags: formData.tags.map((tag, idx) => {
+        return { id: idx + 1, content: tag };
+      }),
+    };
+    setFormData(createdPost);
     setIsSubmitted(true);
   };
 
@@ -54,9 +59,11 @@ const CreatePost = () => {
     setTagInputValue(e.target.value);
     if (e.target.value) {
       const autoCompleteData = tags.filter((tag) =>
-        tag.content.includes(e.target.value)
+        tag.includes(e.target.value)
       );
+      console.log("hihihi", autoCompleteData);
       setAutoCompletes(autoCompleteData);
+      return;
     }
   };
 
@@ -65,18 +72,11 @@ const CreatePost = () => {
     e.preventDefault();
 
     // 입력한 내용이 이미 등록된 태그면 그냥 등록 안됨
-    if (formData.tags.find((tag) => tag.content === tagInputValue)) return;
-
-    // 입력한 내용이 기존에 있던 태그라면 등록
-    // 아닐경우 새로운 태그 생성
-    const selectedTag = tags.find((tag) => tag.content === tagInputValue) ?? {
-      id: tags.length,
-      content: tagInputValue,
-    };
+    if (formData.tags.find((tag) => tag === tagInputValue)) return;
 
     setFormData({
       ...formData,
-      tags: [...formData.tags, selectedTag],
+      tags: [...formData.tags, tagInputValue],
     });
 
     setTagInputValue("");
@@ -87,15 +87,13 @@ const CreatePost = () => {
   const deleteTag = (tag) => {
     setFormData({
       ...formData,
-      tags: formData.tags.filter((tag) => tag.content !== tag),
+      tags: formData.tags.filter((t) => t !== tag),
     });
   };
 
   // 자동완성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
   const handleAutoCompletes = (autoComplete) => {
-    const selectedTag = tags.find(
-      (tag) => tag.content === autoComplete.content
-    );
+    const selectedTag = tags.find((tag) => tag === autoComplete);
 
     if (formData.tags.includes(selectedTag)) return;
 
