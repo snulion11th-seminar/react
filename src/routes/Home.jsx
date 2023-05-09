@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
+import { useState, useEffect } from "react";
 
 const Home = () => {
+  const [postList, setPostList] = useState(posts);
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
-
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
       for (let tag of post.tags) {
@@ -20,12 +19,27 @@ const Home = () => {
   }, []);
 
   const handleChange = (e) => {
+    console.log(e.target);
     const { value } = e.target;
-    const newTags = tags.filter((tag) => tag.includes(value));
-    setSearchTags(newTags);
-  };
 
-  const handleTagFilter = (e) => {};
+    setSearchValue(e.target.value);
+    const searchedTag = tags.filter((tag) => tag.includes(e.target.value));
+    setSearchTags(searchedTag);
+  };
+  const handleTagFilter = (e) => {
+    const selected_tag = e.target.innerText.slice(1);
+    if (searchValue === selected_tag) {
+      setPostList(posts);
+      setSearchValue("");
+    } else {
+      const newPostList = posts.filter((post) =>
+        post.tags.find((t) => t.content === selected_tag)
+      );
+      console.log(newPostList);
+      setPostList(newPostList);
+      setSearchValue(selected_tag);
+    }
+  };
 
   return (
     <div>
@@ -53,7 +67,6 @@ const Home = () => {
           })}
         </div>
       </div>
-
       <div className="grid grid-cols-4 px-10 mt-10">
         {postList.map((post) => (
           <SmallPost key={post.id} post={post} />
