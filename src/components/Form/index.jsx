@@ -155,7 +155,7 @@ export const PostForm = ({
                   e.preventDefault();
                   deleteTag(tag);
                 }}
-              ></button>
+              />
             </div>
           ))}
         </div>

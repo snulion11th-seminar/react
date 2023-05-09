@@ -17,7 +17,9 @@ export const SmallPost = ({ post }) => {
           </span>
         ))}
       </div>
-      <div onClick={onClickLike}>{post.like_users.length > 0 && `❤️ ${post.like_users.length}`}</div>
+      <div onClick={onClickLike}>
+        {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
+      </div>
       <Link to={`/${post.id}`}>
         <div className="absolute bottom-0 right-0 bg-orange-400 px-5 py-2 rounded-lg translate-x-5 translate-y-5">
           <span className="uppercase">detail</span>
