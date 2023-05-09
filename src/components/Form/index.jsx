@@ -88,7 +88,7 @@ export const PostForm = ({
       <input
         type="text"
         placeholder="Type title.."
-        name="title"
+        id="title"
         value={formData.title}
         className="input"
         onChange={handleChange}
@@ -99,7 +99,7 @@ export const PostForm = ({
       </label>
       <textarea
         placeholder="Type Content.."
-        name="content"
+        id="content"
         value={formData.content}
         cols="30"
         rows="10"
@@ -115,7 +115,7 @@ export const PostForm = ({
           <input
             type="text"
             placeholder="Add Tags.."
-            name="tags"
+            id="tags"
             value={tagInputValue}
             className="input grow"
             onChange={handleTag}
@@ -125,20 +125,19 @@ export const PostForm = ({
           </button>
         </div>
         <div className="flex mt-2 bg-black border-gray-500 rounded-2xl w-full">
-          {autoCompletes
-            ? autoCompletes.map((autoComplete) => (
-                <button
-                  className="tag rounded-2xl text-start border-gray-500 py-2 px-3 text-white focus:bg-gray"
-                  key={autoComplete}
-                  onClick={() => handleAutoCompletes(autoComplete)}
-                >
-                  #{autoComplete}
-                </button>
-              ))
-            : null}
+          {autoCompletes &&
+            autoCompletes.map((autoComplete) => (
+              <button
+                className="tag rounded-2xl text-start border-gray-500 py-2 px-3 text-white focus:bg-gray"
+                key={autoComplete}
+                onClick={() => handleAutoCompletes(autoComplete)}
+              >
+                #{autoComplete}
+              </button>
+            ))}
         </div>
       </div>
-      {formData.tags ? (
+      {formData.tags && (
         <div className="flex w-full mt-3 gap-x-1 flew-nowrap">
           {formData.tags.map((tag) => (
             <div key={tag} className="flex">
@@ -153,7 +152,7 @@ export const PostForm = ({
             </div>
           ))}
         </div>
-      ) : null}
+      )}
       <button type="submit" className="button mt-7">
         Submit
       </button>
