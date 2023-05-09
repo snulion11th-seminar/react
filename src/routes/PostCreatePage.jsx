@@ -14,7 +14,7 @@ const PostCreatePage = () => {
   });
 
   // 기존 태그 불러오기
-  // TODO : api call(get all tags)
+  // TODO : api connect(get all tags)
   const [tags, setTags] = useState([]);
   useEffect(() => {
     const duplicatedTagList = posts.reduce((acc, post) => {
@@ -40,7 +40,7 @@ const PostCreatePage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const onSubmit = (e) => {
-    //TODO : api connect
+    //TODO : api connect(put post)
     e.preventDefault();
 
     const createdPost = {
@@ -62,8 +62,21 @@ const PostCreatePage = () => {
         tag.includes(e.target.value)
       );
       setAutoCompletes(autoCompleteData);
-      return;
     }
+  };
+
+  // 자동완성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
+  const handleAutoCompletes = (autoComplete) => {
+    const selectedTag = tags.find((tag) => tag === autoComplete);
+
+    if (formData.tags.includes(selectedTag)) return;
+
+    setFormData({
+      ...formData,
+      tags: [...formData.tags, selectedTag],
+    });
+    setTagInputValue("");
+    setAutoCompletes([]);
   };
 
   // 추가 버튼 혹인 엔터 누르면 태그 생성
@@ -90,26 +103,11 @@ const PostCreatePage = () => {
     });
   };
 
-  // 자동완성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
-  const handleAutoCompletes = (autoComplete) => {
-    const selectedTag = tags.find((tag) => tag === autoComplete);
-
-    if (formData.tags.includes(selectedTag)) return;
-
-    setFormData({
-      ...formData,
-      tags: [...formData.tags, selectedTag],
-    });
-    setTagInputValue("");
-    setAutoCompletes([]);
-  };
-
   return (
     <>
       {isSubmitted ? (
         <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-          {/* <Comments /> */}
         </div>
       ) : (
         <div className="flex flex-col items-center w-3/5">

@@ -17,7 +17,8 @@ const PostEditPage = () => {
     setFormData(postFormData);
   }, [postId]);
 
-  //기존 태그 불러오기
+  // 기존 태그 불러오기
+  // TODO : api connect(get all tags)
   const [tags, setTags] = useState([]);
   useEffect(() => {
     const duplicatedTagList = posts.reduce((acc, post) => {
@@ -42,6 +43,22 @@ const PostEditPage = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const onSubmit = (e) => {
+    // TODO : api connect(post post)
+    e.preventDefault();
+
+    const createdPost = {
+      ...formData,
+      like_users: [],
+      tags: formData.tags.map((tag, idx) => {
+        return { id: idx + 1, content: tag };
+      }),
+    };
+    setFormData(createdPost);
+    setIsSubmitted(true);
+  };
+
+  //태그 인풋 값 바뀌면 그에 따라서 자동 완성값들도 변경
   const handleTag = (e) => {
     setTagInputValue(e.target.value);
     if (e.target.value) {
@@ -52,6 +69,21 @@ const PostEditPage = () => {
     }
   };
 
+  // 자동완성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
+  const handleAutoCompletes = (autoComplete) => {
+    const selectedTag = tags.find((tag) => tag === autoComplete);
+
+    if (formData.tags.includes(selectedTag)) return;
+
+    setFormData({
+      ...formData,
+      tags: [...formData.tags, selectedTag],
+    });
+    setTagInputValue("");
+    setAutoCompletes([]);
+  };
+
+  // 추가 버튼 혹인 엔터 누르면 태그 생성
   const addTag = (e) => {
     e.preventDefault();
 
@@ -67,37 +99,12 @@ const PostEditPage = () => {
     setAutoCompletes([]);
   };
 
+  // X버튼 눌렀을때 태그 삭제
   const deleteTag = (tag) => {
     setFormData({
       ...formData,
       tags: formData.tags.filter((t) => t !== tag),
     });
-  };
-
-  const handleAutoCompletes = (autoComplete) => {
-    const selectedTag = tags.find((tag) => tag === autoComplete);
-
-    if (formData.tags.includes(selectedTag)) return;
-
-    setFormData({
-      ...formData,
-      tags: [...formData.tags, selectedTag],
-    });
-    setTagInputValue("");
-    setAutoCompletes([]);
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const createdPost = {
-      ...formData,
-      like_users: [],
-      tags: formData.tags.map((tag, idx) => {
-        return { id: idx + 1, content: tag };
-      }),
-    };
-    setFormData(createdPost);
-    setIsSubmitted(true);
   };
 
   return (
