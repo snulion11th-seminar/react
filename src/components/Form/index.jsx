@@ -8,32 +8,32 @@ export const SignUpForm = () => {
       <label htmlFor="email" className="label">
         *email:
       </label>
-      <input required type="text" name="email" className="input" />
+      <input required type="text" id="email" className="input" />
 
       <label htmlFor="password" className="label">
         *password:
       </label>
-      <input required type="password" name="password" className="input" />
+      <input required type="password" id="password" className="input" />
 
       <label htmlFor="confirm_password" className="label">
         *passoword 확인:{" "}
       </label>
-      <input required type="password" name="confirm_password" className="input" />
+      <input required type="password" id="confirm_password" className="input" />
 
       <label required htmlFor="name" className="label">
         *이름:
       </label>
-      <input required type="text" name="username" className="input" />
+      <input required type="text" id="username" className="input" />
 
       <label htmlFor="college" className="label">
         대학:{" "}
       </label>
-      <input required type="text" name="college" className="input" />
+      <input required type="text" id="college" className="input" />
 
       <label htmlFor="major" className="label">
         전공:{" "}
       </label>
-      <input type="text" name="major" className="input" />
+      <input type="text" id="major" className="input" />
 
       <button type="submit" className="button mt-7">
         Sign up !
@@ -52,11 +52,11 @@ export const SignInForm = () => {
       <label htmlFor="email" className="label">
         *email:
       </label>
-      <input required type="text" name="email" className="input" />
+      <input required type="text" id="email" className="input" />
       <label htmlFor="password" className="label">
         *password:
       </label>
-      <input required type="password" name="password" className="input" />
+      <input required type="password" id="password" className="input" />
       <button type="submit" className="button mt-7">
         Sign in !
       </button>
@@ -73,7 +73,7 @@ export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
       <input
         type="text"
         placeholder="Type title.."
-        name="title"
+        id="title"
         value={formData.title}
         className="input"
         onChange={handleChange}
@@ -83,7 +83,7 @@ export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
       </label>
       <textarea
         placeholder="Type Content.."
-        name="content"
+        id="content"
         value={formData.content}
         cols="30"
         rows="10"
@@ -96,7 +96,7 @@ export const PostForm = ({ onSubmit, handleChange, handleTag, formData }) => {
       <input
         type="text"
         placeholder="Add Tags.."
-        name="tags"
+        id="tags"
         value={formData.tags}
         className="input"
         onChange={handleTag}
