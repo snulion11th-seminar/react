@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const SignUpForm = () => {
   const handleSignUpSubmit = () => {
     alert("회원가입 완료!");
@@ -69,17 +71,66 @@ export const SignInForm = () => {
   );
 };
 
-export const PostForm = ({
-  onSubmit,
-  handleChange,
-  tagInputValue,
-  handleTag,
-  addTag,
-  deleteTag,
-  formData,
-  autoCompletes,
-  handleAutoCompletes,
-}) => {
+export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
+  //태그 Input 안에 값
+  const [tagInputValue, setTagInputValue] = useState("");
+
+  //자동완성 태그들
+  const [autoCompletes, setAutoCompletes] = useState([]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  //태그 인풋 값 바뀌면 그에 따라서 자동 완성값들도 변경
+  const handleTag = (e) => {
+    setTagInputValue(e.target.value);
+    if (e.target.value) {
+      const autoCompleteData = tags.filter((tag) =>
+        tag.includes(e.target.value)
+      );
+      setAutoCompletes(autoCompleteData);
+    }
+  };
+
+  // 자동완성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
+  const handleAutoCompletes = (autoComplete) => {
+    const selectedTag = tags.find((tag) => tag === autoComplete);
+
+    if (formData.tags.includes(selectedTag)) return;
+
+    setFormData({
+      ...formData,
+      tags: [...formData.tags, selectedTag],
+    });
+    setTagInputValue("");
+    setAutoCompletes([]);
+  };
+
+  // 추가 버튼 혹인 엔터 누르면 태그 생성
+  const addTag = (e) => {
+    e.preventDefault();
+
+    // 입력한 내용이 이미 등록된 태그면 그냥 등록 안됨
+    if (formData.tags.find((tag) => tag === tagInputValue)) return;
+
+    setFormData({
+      ...formData,
+      tags: [...formData.tags, tagInputValue],
+    });
+
+    setTagInputValue("");
+    setAutoCompletes([]);
+  };
+
+  // X버튼 눌렀을때 태그 삭제
+  const deleteTag = (tag) => {
+    setFormData({
+      ...formData,
+      tags: formData.tags.filter((t) => t !== tag),
+    });
+  };
+
   return (
     <form className="form" onSubmit={onSubmit}>
       <label htmlFor="title" className="label">
