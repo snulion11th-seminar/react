@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
-const Home = () => {
+const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -83,4 +83,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
