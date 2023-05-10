@@ -1,36 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PostForm } from "../components/Form";
 import posts from "../data/posts";
 import { Link } from "react-router-dom";
 import { BigPost } from "../components/Posts";
 
-const EditPost = () => {
+const PostEditPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { postId } = useParams();
-  const [formData, setFormData] = useState(() => {
-    const post = posts.find((post) => post.id === parseInt(postId));
-    return {
-      ...post,
-      tags: post.tags.map((tag) => tag.content),
-    };
-  });
+  const [formData, setFormData] = useState({});
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const handleTag = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value.split(",") });
-  };
+  // 기존 post 불러오기
+  useEffect(() => {
+    const post = posts.find((post) => post.id === parseInt(postId));
+    const postFormData = { ...post, tags: post.tags.map((tag) => tag.content) };
+    setFormData(postFormData);
+  }, [postId]);
+
+  // 기존 태그 불러오기
+  // TODO : api connect(get all tags)
+  const [tags, setTags] = useState([]);
+  useEffect(() => {
+    const duplicatedTagList = posts.reduce((acc, post) => {
+      for (let tag of post.tags) {
+        acc.add(tag.content);
+      }
+
+      return acc;
+    }, new Set());
+
+    const tagList = [...duplicatedTagList];
+
+    setTags(tagList);
+  }, []);
 
   const onSubmit = (e) => {
+    // TODO : api connect(post put)
     e.preventDefault();
-    formData.tags = formData.tags.join()
-      ? formData.tags.map((tag, idx) => {
-          return { id: idx, content: tag };
-        })
-      : null;
-    formData.like_users = [];
+
+    const createdPost = {
+      ...formData,
+      like_users: [],
+      tags: formData.tags.map((tag, idx) => {
+        return { id: idx + 1, content: tag };
+      }),
+    };
+    setFormData(createdPost);
     setIsSubmitted(true);
   };
 
@@ -39,7 +54,6 @@ const EditPost = () => {
       {isSubmitted ? (
         <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-          {/* <Comments /> */}
         </div>
       ) : (
         <div className="flex flex-col items-center w-3/5">
@@ -50,10 +64,10 @@ const EditPost = () => {
             <h3 className="flex-1 font-bold text-4xl">Edit Post</h3>
           </div>
           <PostForm
-            onSubmit={(e) => onSubmit(e)}
-            handleChange={handleChange}
-            handleTag={handleTag}
+            onSubmit={onSubmit}
+            tags={tags}
             formData={formData}
+            setFormData={setFormData}
           />
         </div>
       )}
@@ -61,4 +75,4 @@ const EditPost = () => {
   );
 };
 
-export default EditPost;
+export default PostEditPage;

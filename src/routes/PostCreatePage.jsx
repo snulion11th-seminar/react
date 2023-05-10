@@ -1,34 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PostForm } from "../components/Form";
 import { BigPost } from "../components/Posts";
 import posts from "../data/posts";
 
-const CreatePost = () => {
+const PostCreatePage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     id: posts.length,
     title: "",
     content: "",
     author: { id: posts.length, username: "베이비" },
-    tags: "",
+    tags: [],
   });
 
+  // 기존 태그 불러오기
+  // TODO : api connect(get all tags)
+  const [tags, setTags] = useState([]);
+  useEffect(() => {
+    const duplicatedTagList = posts.reduce((acc, post) => {
+      for (let tag of post.tags) {
+        acc.add(tag.content);
+      }
+
+      return acc;
+    }, new Set());
+
+    const tagList = [...duplicatedTagList];
+
+    setTags(tagList);
+  }, []);
+
   const onSubmit = (e) => {
+    //TODO : api connect(put post)
     e.preventDefault();
-    if (formData.tags.length > 0)
-      formData.tags = formData.tags.map((tag, idx) => {
-        return { id: idx, content: tag };
-      });
-    formData.like_users = [];
+
+    const createdPost = {
+      ...formData,
+      like_users: [],
+      tags: formData.tags.map((tag, idx) => {
+        return { id: idx + 1, content: tag };
+      }),
+    };
+    setFormData(createdPost);
     setIsSubmitted(true);
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleTag = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value.split(",") });
   };
 
   return (
@@ -36,16 +50,15 @@ const CreatePost = () => {
       {isSubmitted ? (
         <div className="flex flex-col items-center w-3/5 p-8">
           <BigPost post={formData} />
-          {/* <Comments /> */}
         </div>
       ) : (
         <div className="flex flex-col items-center w-3/5">
           <h3 className="font-bold text-4xl">New Post</h3>
           <PostForm
             onSubmit={onSubmit}
-            handleChange={handleChange}
-            handleTag={handleTag}
+            tags={tags}
             formData={formData}
+            setFormData={setFormData}
           />
         </div>
       )}
@@ -53,4 +66,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default PostCreatePage;
