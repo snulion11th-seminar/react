@@ -5,7 +5,7 @@ import posts from "../data/posts";
 const Home = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
-  const [searchValue, setSearchValue] = useState("d");
+  const [searchValue, setSearchValue] = useState("");
   const [postList, setPostList] = useState(posts);
 
   useEffect(() => {
