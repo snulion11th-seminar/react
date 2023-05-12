@@ -5,8 +5,9 @@ import posts from "../data/posts";
 const Home = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValues, setSearchValues] = useState([]);
   const [postList, setPostList] = useState(posts);
+  const [activatedTags, setActivatedTags] = useState([]);
 
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
@@ -25,7 +26,49 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    let newValue = e.target.textContent.slice(1);
+    let newSearchValues = searchValues;
+    ///const { value } = e.target;
+    let newactivatedTags = activatedTags;
+    let newPostList = [];
+    if(newactivatedTags.includes(newValue)){
+      newSearchValues = newSearchValues.filter((searchValue) => searchValue !== newValue)
+      setSearchValues(newSearchValues);
+      newactivatedTags = newactivatedTags.filter((tag) => tag !== newValue);
+      if(newactivatedTags.length === 0){
+        posts.map((post) => {
+          newPostList.push(post);
+        })
+      }else{
+        posts.map((post) => {
+          newactivatedTags.map((activatedTag) => {
+            if(post.tags.find(tag => tag.content === activatedTag) && !newPostList.includes(post)){
+              newPostList.push(post);
+          }})
+          }
+        )
+      }
+      
+    }else{
+      newSearchValues.push(newValue)
+      setSearchValues(newSearchValues);
+
+      newactivatedTags.push(newValue);
+      posts.map((post) => {
+        newactivatedTags.map((activatedTag) => {
+          if(post.tags.find(tag => tag.content === activatedTag) && !newPostList.includes(post)){
+            newPostList.push(post);
+        }})
+        }
+      )
+    }
+    for(let activatedTag of newactivatedTags){
+      console.log(activatedTag);
+    }
+    setActivatedTags(newactivatedTags);
+    setPostList(newPostList);
+  };
 
   return (
     <div>
@@ -44,7 +87,7 @@ const Home = () => {
             return (
               <button
                 key={tag}
-                className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
+                className={searchValues.includes(tag) ? "tag active mr-2" : "tag mr-2"}
                 onClick={handleTagFilter}
               >
                 #{tag}
