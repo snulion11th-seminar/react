@@ -5,7 +5,7 @@ import posts from "../data/posts";
 const Home = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState("d");
   const [postList, setPostList] = useState(posts);
 
   useEffect(() => {
@@ -25,7 +25,37 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    const tagText = e.target.innerText;
+    const tagTextContent = tagText.slice(1);
+    console.log(searchValue);
+    console.log(tagTextContent);
+    if (searchValue === tagTextContent) {
+      setSearchValue("");
+      setPostList(posts);
+    } else {
+      setSearchValue(tagTextContent);
+      console.log(tagTextContent);
+      console.log(searchValue);
+      const newPostLists = posts.filter(
+        (post) => {
+          for (let tag of post.tags) {
+            if (tag.content === tagTextContent) {
+              return true;
+            }
+          }
+        }
+
+        //console.log(post.tags.Object.content);
+        //return post.tags.content === searchValue;
+        // postList.tags.content.some((tagVal) => searchValue === tagVal)
+      );
+      console.log(searchValue);
+      console.log(newPostLists);
+
+      setPostList(newPostLists);
+    }
+  };
 
   return (
     <div>
