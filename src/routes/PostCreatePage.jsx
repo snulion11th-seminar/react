@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { PostForm } from "../components/Form";
-import { BigPost } from "../components/Posts";
-import posts from "../data/posts";
 import { useNavigate } from "react-router-dom";
 import { createPost, getTags } from "../apis/api";
 

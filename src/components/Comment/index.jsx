@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
-import { getComments } from "../../apis/api";
+import { createComment, getComments } from "../../apis/api";
 
 const Comment = ({ postId }) => {
   const [commentList, setCommentList] = useState([]); // state for comments
@@ -16,19 +16,8 @@ const Comment = ({ postId }) => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-
-    const newComment = {
-      id: commentList.length + 1,
-      content: newContent,
-      like_users: [],
-      author: { id: 1, username: "멋사" }, // 추후 로그인 기능 구현 후 author 수정
-      created_at: Date.now(),
-    };
-
-    // add api call for creating new comment here
-
     setNewContent("");
-    setCommentList([...commentList, newComment]);
+    createComment({ post: postId, content: newContent });
   };
 
   const handleCommentDelete = (targetId) => {
