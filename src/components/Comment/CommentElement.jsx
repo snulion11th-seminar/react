@@ -12,16 +12,6 @@ const CommentElement = (props) => {
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
-  const onClickEdit = () => {
-    setIsEdit(!isEdit);
-    // add api call for editing comment here
-  };
-
-  const onClickDelete = () => {
-    handleCommentDelete(comment.id);
-    // add api call for deleting comment here
-  };
-
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
       <div className="w-3/4">
@@ -39,8 +29,10 @@ const CommentElement = (props) => {
         </span>
       </div>
       <div className="w-1/4 flex flex-row-reverse items-center">
-        {!isEdit && <button onClick={() => onClickDelete()}>Del</button>}
-        <button className="mr-3" onClick={() => onClickEdit()}>
+        {!isEdit && (
+          <button onClick={() => handleCommentDelete(comment.id)}>Del</button>
+        )}
+        <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
           {isEdit ? "Done" : "Edit"}
         </button>
       </div>
