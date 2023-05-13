@@ -31,7 +31,7 @@ const PostCreatePage = () => {
   }, []);
 
   const onSubmit = (e) => {
-    //TODO : api connect(put post)
+    //TODO : api connect(post post)
     e.preventDefault();
 
     const createdPost = {
