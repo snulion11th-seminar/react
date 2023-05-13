@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import posts from "../data/posts";
+import { getPost } from "../apis/api";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
 
   useEffect(() => {
-    const post = posts.find((post) => post.id === parseInt(postId));
-    setPost(post);
+    const getPostAPI = async () => {
+      const post = await getPost(postId);
+      setPost(post);
+    };
+    getPostAPI();
   }, [postId]);
 
   const onClickDelete = () => {
