@@ -25,31 +25,7 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {
-    let tag = e.target.innerText.slice(1);
-    if (searchValue === tag) {
-      const clickedtag = tags.filter((t) => {
-        t !== tag;
-      });
-      setSearchValue(clickedtag);
-      setPostList(posts);
-    } else {
-      // let tmp = searchValue.push(tag);
-      setSearchValue(tag);
-      let clickedpost = posts.filter((post) => {
-        let include = false;
-        post.tags.map((t) => {
-          if (t.content === tag) include = true;
-          // console.log(t.content);
-          // console.log(tag);
-        });
-        return include;
-        // console.log(post.tags);
-      });
-      // console.log(clickedpost);
-      setPostList(clickedpost);
-    }
-  };
+  const handleTagFilter = (e) => {};
 
   return (
     <div>
