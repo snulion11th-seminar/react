@@ -1,125 +1,125 @@
 import { useState } from "react";
 
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
-    const handleFormData = (e) => {
-      const { id, value } = e.target;
-      setFormData({ ...formData, [id]: value });
-    };
-
-    return (
-      <form className="form" onSubmit={handleSignUpSubmit}>
-        <label htmlFor="email" className="label">
-          *email:
-        </label>
-        <input 
-          required 
-          type="email" 
-          id="email" 
-          className="input"
-          onChange={handleFormData}
-          value={formData.email}
-        />
-
-        <label htmlFor="password" className="label">
-          *password:
-        </label>
-        <input 
-          required 
-          type="password" 
-          id="password" 
-          className="input" 
-          onChange={handleFormData}
-          value={formData.password}
-        />
-
-        <label htmlFor="confirm_password" className="label">
-          *passoword 확인:{" "}
-        </label>
-        <input
-          required
-          type="password"
-          id="confirm_password"
-          className="input"
-          onChange={handleFormData}
-          value={formData.confirm_password}
-        />
-
-        <label required htmlFor="name" className="label">
-          *이름:
-        </label>
-        <input 
-          required 
-          type="text" 
-          id="username" 
-          className="input" 
-          onChange={handleFormData}
-          value={formData.username}
-        />
-
-        <label htmlFor="college" className="label">
-          대학:{" "}
-        </label>
-        <input 
-          type="text" 
-          id="college"
-          className="input"
-          onChange={handleFormData}
-          value={formData.college}
-        />
-
-        <label htmlFor="major" className="label">
-          전공:{" "}
-        </label>
-        <input 
-          type="text" 
-          id="major" 
-          className="input" 
-          onChange={handleFormData}
-          value={formData.major}
-        />
-        <button type="submit" className="button mt-7">
-          Sign up !
-        </button>
-        </form>
-    );
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
   };
-  
-  export const SignInForm = ({ formData, setFormData, handleSignInSubmit }) => {
-    const handleFormData = (e) => {
-      const { id, value } = e.target;
-      setFormData({ ...formData, [id]: value });
-    };
 
-    return (
-      <form className="form" onSubmit={handleSignInSubmit}>
-        <label htmlFor="username" className="label">
-          *username:
-        </label>
-        <input 
-          required 
-          type="text" 
-          id="username" 
-          className="input" 
-          onChange={handleFormData}
-          value={formData.username}
-        />
-        <label htmlFor="password" className="label">
-          *password:
-        </label>
-        <input 
-          required 
-          type="password" 
-          id="password" 
-          className="input" 
-          onChange={handleFormData}
-          value={formData.password}
-        />
-        <button type="submit" className="button mt-7">
-          Sign in !
-        </button>
-      </form>
-    ); 
+  return (
+    <form className="form" onSubmit={handleSignUpSubmit}>
+      <label htmlFor="email" className="label">
+        *email:
+      </label>
+      <input
+        required
+        type="email"
+        id="email"
+        className="input"
+        onChange={handleFormData}
+        value={formData.email}
+      />
+
+      <label htmlFor="password" className="label">
+        *password:
+      </label>
+      <input
+        required
+        type="password"
+        id="password"
+        className="input"
+        onChange={handleFormData}
+        value={formData.password}
+      />
+
+      <label htmlFor="confirm_password" className="label">
+        *passoword 확인:{" "}
+      </label>
+      <input
+        required
+        type="password"
+        id="confirm_password"
+        className="input"
+        onChange={handleFormData}
+        value={formData.confirm_password}
+      />
+
+      <label required htmlFor="name" className="label">
+        *이름:
+      </label>
+      <input
+        required
+        type="text"
+        id="username"
+        className="input"
+        onChange={handleFormData}
+        value={formData.username}
+      />
+
+      <label htmlFor="college" className="label">
+        대학:{" "}
+      </label>
+      <input
+        type="text"
+        id="college"
+        className="input"
+        onChange={handleFormData}
+        value={formData.college}
+      />
+
+      <label htmlFor="major" className="label">
+        전공:{" "}
+      </label>
+      <input
+        type="text"
+        id="major"
+        className="input"
+        onChange={handleFormData}
+        value={formData.major}
+      />
+      <button type="submit" className="button mt-7">
+        Sign up !
+      </button>
+    </form>
+  );
+};
+
+export const SignInForm = ({ formData, setFormData, handleSignInSubmit }) => {
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
   };
+
+  return (
+    <form className="form" onSubmit={handleSignInSubmit}>
+      <label htmlFor="username" className="label">
+        *username:
+      </label>
+      <input
+        required
+        type="text"
+        id="username"
+        className="input"
+        onChange={handleFormData}
+        value={formData.username}
+      />
+      <label htmlFor="password" className="label">
+        *password:
+      </label>
+      <input
+        required
+        type="password"
+        id="password"
+        className="input"
+        onChange={handleFormData}
+        value={formData.password}
+      />
+      <button type="submit" className="button mt-7">
+        Sign in !
+      </button>
+    </form>
+  );
+};
 
 export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   //태그 Input 안에 값

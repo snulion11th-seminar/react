@@ -82,11 +82,14 @@ const HomePage = () => {
           ))}
       </div>
 
-      <div className="flex justify-center m-20">
-        <Link className="button" to="/create">
-          Post
-        </Link>
-      </div>
+      {/* 로그인해야지만 Post 버튼 보이도록 설정 */}
+      {localStorage.getItem("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };
