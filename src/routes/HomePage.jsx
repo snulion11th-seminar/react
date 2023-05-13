@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
 import postsData from "../data/posts";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const HomePage = () => {
   const [postList, setPostList] = useState(postsData);
   const [tags, setTags] = useState(new Map());
   const [searchTags, setSearchTags] = useState([]);
@@ -74,6 +75,8 @@ const Home = () => {
         <div className="w-full h-72 pb-5 flex justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] bg-center bg-cover">
           <h1 className="uppercase text-6xl text-white">my blog</h1>
         </div>
+
+        {/* 태그 서치 */}
         <input
           type="text"
           placeholder="Tag Search"
@@ -108,8 +111,13 @@ const Home = () => {
           />
         ))}
       </div>
+      <div className="flex justify-center m-20">
+        <Link className="button" to="/create">
+          Post
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default Home;
+export default HomePage;

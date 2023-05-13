@@ -22,7 +22,7 @@
 }
 /* 모든 input 일괄 적용 */
 .input {
-  @apply border-2 border-white w-full px-6 py-3 rounded-2xl text-white bg-transparent placeholder-opacity-50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent;
+  @apply border-[1px] border-white w-full px-6 py-3 rounded-md text-white bg-transparent placeholder-opacity-50 focus:outline-none focus:ring-[1px] focus:ring-orange-400 focus:border-transparent;
 }
 
 body {
