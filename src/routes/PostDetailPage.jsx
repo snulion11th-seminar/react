@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost, getUser } from "../apis/api";
+import { deletePost, getPost, getUser } from "../apis/api";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPostAPI = async () => {
@@ -30,9 +32,9 @@ const PostDetailPage = () => {
   }, []);
 
   const onClickDelete = () => {
-    console.log("delete");
-    // add api call for deleting post here
-    // add redirect to home page
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      deletePost(postId, navigate);
+    }
   };
 
   return (
