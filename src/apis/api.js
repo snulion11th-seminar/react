@@ -101,9 +101,10 @@ export const createComment = async (data) => {
 };
 
 export const updateComment = async (id, data) => {
-  const response = await instanceWithToken.put(`/comment/${id}/`, data);
+  const response = await instanceWithToken.patch(`/comment/${id}/`, data);
   if (response.status === 200) {
     console.log("COMMENT UPDATE SUCCESS");
+    window.location.reload();
   } else {
     console.log("[ERROR] error while updating comment");
   }
