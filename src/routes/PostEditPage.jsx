@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostForm } from "../components/Form";
-import posts from "../data/posts";
 import { Link } from "react-router-dom";
-import { BigPost } from "../components/Posts";
 import { getPost, getTags, updatePost } from "../apis/api";
 
 const PostEditPage = () => {

@@ -27,7 +27,6 @@ export const getPosts = async () => {
 
 export const getPost = async (id) => {
   const response = await instance.get(`/post/${id}/`);
-  console.log(response);
   return response.data;
 };
 
@@ -35,7 +34,6 @@ export const createPost = async (data, navigate) => {
   const response = await instanceWithToken.post("/post/", data);
   if (response.status === 201) {
     console.log("POST SUCCESS");
-    console.log(response);
     navigate("/");
   } else {
     console.log("[ERROR] error while creating post");
@@ -56,8 +54,17 @@ export const deletePost = async (id, navigate) => {
   const response = await instanceWithToken.delete(`/post/${id}/`);
   if (response.status === 204) {
     console.log("POST DELETE SUCCESS");
-    console.log(response);
     navigate("/");
+  } else {
+    console.log("[ERROR] error while deleting post");
+  }
+};
+
+export const likePost = async (postId) => {
+  const response = await instanceWithToken.post(`/post/${postId}/like/`);
+  if (response.status === 200) {
+    console.log("POST Like SUCCESS");
+    window.location.reload();
   } else {
     console.log("[ERROR] error while deleting post");
   }

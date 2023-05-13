@@ -3,7 +3,6 @@ import { getUser, updateComment } from "../../apis/api";
 
 const CommentElement = (props) => {
   const { comment, handleCommentDelete } = props;
-  const [content, setContent] = useState(comment.content);
   const [editContent, setEditContent] = useState(comment.content);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -41,7 +40,7 @@ const CommentElement = (props) => {
             onChange={(e) => setEditContent(e.target.value)}
           />
         ) : (
-          <p className="text-lg mr-4">{content}</p>
+          <p className="text-lg mr-4">{comment.content}</p>
         )}
         <span className="text-base mr-1 text-gray-300">
           {year}.{month}.{day}
@@ -61,7 +60,7 @@ const CommentElement = (props) => {
                 className="mr-3"
                 onClick={() => {
                   setIsEdit(!isEdit);
-                  setEditContent(content);
+                  setEditContent(comment.content);
                 }}
               >
                 Back
