@@ -25,7 +25,22 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (tag) => {
+    if (searchValue.includes(tag)) {
+      setSearchValue(searchValue.filter((t) => t !== tag));
+      setPostList(posts);
+    } else {
+      setSearchValue([...searchValue, tag]);
+      const newPosts = posts.filter((post) =>
+        post.tags.some((t) => t.content === tag)
+      );
+      setPostList(newPosts);
+    }
+  };
+
+  useEffect(() => {
+    console.log(searchValue);
+  }, [searchValue]);
 
   return (
     <div>
@@ -44,8 +59,10 @@ const Home = () => {
             return (
               <button
                 key={tag}
-                className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
-                onClick={handleTagFilter}
+                className={
+                  searchValue.includes(tag) ? "tag active mr-2" : "tag mr-2"
+                }
+                onClick={() => handleTagFilter(tag)}
               >
                 #{tag}
               </button>
