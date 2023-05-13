@@ -120,7 +120,7 @@ export const deleteComment = async (id) => {
 };
 
 // GetUser API
-
+// 요기를 signIn, signUp 끝나고 추가하는거임!!
 export const getUser = async () => {
   const response = await instanceWithToken.get("/account/info/");
   if (response.status === 200) {

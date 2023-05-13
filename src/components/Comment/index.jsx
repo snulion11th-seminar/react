@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import comments from "../../data/comments";
 import CommentElement from "./CommentElement";
 import { getComments } from "../../apis/api";
 

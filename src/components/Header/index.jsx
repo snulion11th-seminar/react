@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
 import lion from "../../assets/images/lion.jpeg";
 import { Link } from "react-router-dom";
 const Header = () => {
+  const [isUser, setIsUser] = useState("");
+
+  useEffect(() => {
+    const user = localStorage.getItem("access_token") ? true : false;
+    setIsUser(user);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    window.location.href = "/"; // 새로고침 - 로그아웃 되었다는 것을 인지시켜주기 위해
+  };
   return (
     <div
       id="header-wrapper"
@@ -14,12 +26,23 @@ const Header = () => {
       </div>
 
       <div className="flex">
-        <Link to="/signin" className="mr-10 p-3 uppercase">
-          sign In
-        </Link>
-        <Link to="/signup" className="mr-10 p-3 uppercase">
-          sign up
-        </Link>
+        {!isUser ? (
+          <>
+            <Link to="/signin" className="mr-10 p-3 uppercase">
+              sign In
+            </Link>
+            <Link to="/signup" className="mr-10 p-3 uppercase">
+              sign up
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
+              log out
+            </Link>
+          </>
+        )}
+
         {/* <Link to="/signup" className="p-3 uppercase">profile</Link> */}
       </div>
     </div>
