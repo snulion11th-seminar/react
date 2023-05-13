@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
-import { getPosts } from "../apis/api";
+import { getPosts, getTags } from "../apis/api";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
@@ -11,22 +11,21 @@ const HomePage = () => {
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const postAPI = async () => {
+    const getPostsAPI = async () => {
       const posts = await getPosts();
       setPostList(posts);
     };
-    postAPI();
-  });
+    getPostsAPI();
 
-  useEffect(() => {
-    const tagList = posts.reduce((acc, post) => {
-      for (let tag of post.tags) {
-        acc.add(tag.content);
-      }
-      return acc;
-    }, new Set());
-    setTags([...tagList]);
-    setSearchTags([...tagList]);
+    const getTagsAPI = async () => {
+      const tags = await getTags();
+      const tagContents = tags.map((tag) => {
+        return tag.content;
+      });
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    getTagsAPI();
   }, []);
 
   const handleChange = (e) => {
