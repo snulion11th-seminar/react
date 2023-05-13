@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost } from "../apis/api";
+import { getPost, getUser } from "../apis/api";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const getPostAPI = async () => {
@@ -16,6 +17,17 @@ const PostDetailPage = () => {
     };
     getPostAPI();
   }, [postId]);
+
+  useEffect(() => {
+    // access_token이 있으면 유저 정보 가져옴
+    if (localStorage.getItem("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
 
   const onClickDelete = () => {
     console.log("delete");
@@ -33,15 +45,19 @@ const PostDetailPage = () => {
         <Comment postId={postId} />
 
         <div>
-          <Link to={`/${post.id}/edit`}>
-            <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
-          </Link>
-          <button
-            className="button mt-10 mx-4 py-2 px-10"
-            onClick={onClickDelete}
-          >
-            Delete
-          </button>
+          {user?.id === post?.author.id ? (
+            <>
+              <Link to={`/${post.id}/edit`}>
+                <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
+              </Link>
+              <button
+                className="button mt-10 mx-4 py-2 px-10"
+                onClick={onClickDelete}
+              >
+                Delete
+              </button>
+            </>
+          ) : null}
         </div>
       </div>
     )

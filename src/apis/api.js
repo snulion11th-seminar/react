@@ -120,7 +120,7 @@ export const deleteComment = async (id) => {
 };
 
 // GetUser API
-// 요기를 signIn, signUp 끝나고 추가하는거임!!
+// 여기는 Edit, Delete 얘기 시작할때부터 필요하게 되는거임!!
 export const getUser = async () => {
   const response = await instanceWithToken.get("/account/info/");
   if (response.status === 200) {
