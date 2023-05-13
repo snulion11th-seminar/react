@@ -42,11 +42,11 @@ export const createPost = async (data, navigate) => {
   }
 };
 
-export const updatePost = async (id, data) => {
+export const updatePost = async (id, data, navigate) => {
   const response = await instanceWithToken.patch(`/post/${id}/`, data);
   if (response.status === 200) {
     console.log("POST UPDATE SUCCESS");
-    window.location.reload();
+    navigate("/");
   } else {
     console.log("[ERROR] error while updating post");
   }
