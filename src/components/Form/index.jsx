@@ -10,7 +10,7 @@ export const SignUpForm = () => {
       <label htmlFor="email" className="label">
         *email:
       </label>
-      <input required type="text" id="email" className="input" />
+      <input required type="email" id="email" className="input" />
 
       <label htmlFor="password" className="label">
         *password:
@@ -22,18 +22,18 @@ export const SignUpForm = () => {
       </label>
       <input required type="password" id="confirm_password" className="input" />
 
-      <label required htmlFor="name" className="label">
+      <label required htmlFor="username" className="label">
         *이름:
       </label>
       <input required type="text" id="username" className="input" />
 
       <label htmlFor="college" className="label">
-        대학:{" "}
+        대학:
       </label>
-      <input required type="text" id="college" className="input" />
+      <input type="text" id="college" className="input" />
 
       <label htmlFor="major" className="label">
-        전공:{" "}
+        전공:
       </label>
       <input type="text" id="major" className="input" />
 
@@ -51,10 +51,10 @@ export const SignInForm = () => {
 
   return (
     <form className="form" onSubmit={handleSignInSubmit}>
-      <label htmlFor="email" className="label">
-        *email:
+      <label htmlFor="username" className="label">
+        *username:
       </label>
-      <input required type="text" id="email" className="input" />
+      <input required type="text" id="username" className="input" />
       <label htmlFor="password" className="label">
         *password:
       </label>
@@ -74,6 +74,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   const [autoCompletes, setAutoCompletes] = useState([]);
 
   const handleChange = (e) => {
+    console.log(e.target.id);
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
