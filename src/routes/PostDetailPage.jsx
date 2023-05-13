@@ -30,7 +30,7 @@ const PostDetailPage = () => {
         <BigPost post={post} />
 
         {/* comments component */}
-        <Comment />
+        <Comment postId={postId} />
 
         <div>
           <Link to={`/${post.id}/edit`}>

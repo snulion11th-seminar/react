@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import comments from "../../data/comments";
 import CommentElement from "./CommentElement";
+import { getComments } from "../../apis/api";
 
-const Comment = () => {
-  const [commentList, setCommentList] = useState(comments); // state for comments
+const Comment = ({ postId }) => {
+  const [commentList, setCommentList] = useState([]); // state for comments
   const [newContent, setNewContent] = useState(""); // state for new comment
+
+  useEffect(() => {
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentList(comments);
+    };
+    getCommentsAPI();
+  }, [postId]);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
