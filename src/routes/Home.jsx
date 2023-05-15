@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
 const Home = () => {
+  const [postList, setPostList] = useState(posts);
+
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
 
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
@@ -25,7 +26,28 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    const { innerText } = e.target;
+
+    if (searchValue == innerText.slice(1)) {
+      setSearchValue("");
+      setPostList(posts);
+      return;
+    }
+
+    setSearchValue(innerText.slice(1));
+
+    const newPosts = posts.filter((post) => {
+      for (let tag of post.tags) {
+        if (tag.content === innerText.slice(1)) {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    setPostList(newPosts);
+  };
 
   return (
     <div>
@@ -39,6 +61,7 @@ const Home = () => {
           onChange={handleChange}
           className="border border-orange-400 outline-none rounded-2xl text-center py-2 px-20 text-orange-400 bg-transparent"
         />
+
         <div className="flex mt-5">
           {searchTags.map((tag) => {
             return (
