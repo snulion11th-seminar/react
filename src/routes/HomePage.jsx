@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -47,10 +48,6 @@ const Home = () => {
     setPostList(filteredPosts);
   };
 
-  // {postList.map((post) => (
-  //   <SmallPost key={post.id} post={post} />
-  // ))}
-
   return (
     <div>
       <div className="flex flex-col justify-center items-center mb-5">
@@ -83,8 +80,13 @@ const Home = () => {
           <SmallPost key={post.id} post={post} />
         ))}
       </div>
+      <div className="flex justify-center m-20">
+        <Link className="button" to="/create">
+          Post
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
