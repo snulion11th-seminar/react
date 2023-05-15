@@ -1,26 +1,21 @@
 import axios from "axios";
+import { getCookie } from "../utils/cookie";
+
+axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.withCredentials = true;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
 
 // 누구나 접근 가능한 API들
-export const instance = axios.create({
-  baseURL: "http://localhost:8000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+export const instance = axios.create();
 
 // Token 있어야 접근 가능한 API들
-export const instanceWithToken = axios.create({
-  baseURL: "http://localhost:8000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+export const instanceWithToken = axios.create();
 
 instanceWithToken.interceptors.request.use(
   (config) => {
     // 요청을 보내기전 수행할 일
-    const accessToken = localStorage.getItem("access_token");
-    console.log("Access Token:", accessToken);
+    const accessToken = getCookie('access_token');
 
     if (!accessToken) {
       // token 없으면 리턴
@@ -33,7 +28,7 @@ instanceWithToken.interceptors.request.use(
   },
   (error) => {
     // 오류 요청을 보내기전 수행할 일
-    console.log("Requset Error!!");
+    console.log("Request Error!!");
     return Promise.reject(error);
   }
 );

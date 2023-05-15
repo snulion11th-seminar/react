@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUser, updateComment } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
 const CommentElement = (props) => {
   const { comment, handleCommentDelete } = props;
@@ -21,7 +22,7 @@ const CommentElement = (props) => {
 
   useEffect(() => {
     // access_token이 있으면 유저 정보 가져옴
-    if (localStorage.getItem("access_token")) {
+    if (getCookie("access_token")) {
       const getUserAPI = async () => {
         const user = await getUser();
         setUser(user);

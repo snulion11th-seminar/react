@@ -4,6 +4,7 @@ import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
 import { deletePost, getPost, getUser } from "../apis/api";
+import { getCookie } from "../utils/cookie";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
@@ -22,7 +23,7 @@ const PostDetailPage = () => {
 
   useEffect(() => {
     // access_token이 있으면 유저 정보 가져옴
-    if (localStorage.getItem("access_token")) {
+    if (getCookie("access_token")) {
       const getUserAPI = async () => {
         const user = await getUser();
         setUser(user);

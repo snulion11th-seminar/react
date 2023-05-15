@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SmallPost } from "../components/Posts";
 import { getPosts, getTags } from "../apis/api";
+import { getCookie } from "../utils/cookie";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
@@ -83,7 +84,7 @@ const HomePage = () => {
       </div>
 
       {/* 로그인해야지만 Post 버튼 보이도록 설정 */}
-      {localStorage.getItem("access_token") ? (
+      {getCookie("access_token") ? (
         <div className="flex justify-center m-20">
           <Link className="button" to="/create">
             Post
