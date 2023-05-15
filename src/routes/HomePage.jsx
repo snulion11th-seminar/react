@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValues, setSearchValues] = useState([]);
@@ -32,38 +33,45 @@ const Home = () => {
     ///const { value } = e.target;
     let newactivatedTags = activatedTags;
     let newPostList = [];
-    if(newactivatedTags.includes(newValue)){
-      newSearchValues = newSearchValues.filter((searchValue) => searchValue !== newValue)
+    if (newactivatedTags.includes(newValue)) {
+      newSearchValues = newSearchValues.filter(
+        (searchValue) => searchValue !== newValue
+      );
       setSearchValues(newSearchValues);
       newactivatedTags = newactivatedTags.filter((tag) => tag !== newValue);
-      if(newactivatedTags.length === 0){
+      if (newactivatedTags.length === 0) {
         posts.map((post) => {
           newPostList.push(post);
-        })
-      }else{
+        });
+      } else {
         posts.map((post) => {
           newactivatedTags.map((activatedTag) => {
-            if(post.tags.find(tag => tag.content === activatedTag) && !newPostList.includes(post)){
+            if (
+              post.tags.find((tag) => tag.content === activatedTag) &&
+              !newPostList.includes(post)
+            ) {
               newPostList.push(post);
-          }})
-          }
-        )
+            }
+          });
+        });
       }
-      
-    }else{
-      newSearchValues.push(newValue)
+    } else {
+      newSearchValues.push(newValue);
       setSearchValues(newSearchValues);
 
       newactivatedTags.push(newValue);
       posts.map((post) => {
         newactivatedTags.map((activatedTag) => {
-          if(post.tags.find(tag => tag.content === activatedTag) && !newPostList.includes(post)){
+          if (
+            post.tags.find((tag) => tag.content === activatedTag) &&
+            !newPostList.includes(post)
+          ) {
             newPostList.push(post);
-        }})
-        }
-      )
+          }
+        });
+      });
     }
-    for(let activatedTag of newactivatedTags){
+    for (let activatedTag of newactivatedTags) {
       console.log(activatedTag);
     }
     setActivatedTags(newactivatedTags);
@@ -87,7 +95,9 @@ const Home = () => {
             return (
               <button
                 key={tag}
-                className={searchValues.includes(tag) ? "tag active mr-2" : "tag mr-2"}
+                className={
+                  searchValues.includes(tag) ? "tag active mr-2" : "tag mr-2"
+                }
                 onClick={handleTagFilter}
               >
                 #{tag}
@@ -102,8 +112,13 @@ const Home = () => {
           <SmallPost key={post.id} post={post} />
         ))}
       </div>
+      <div className="flex justify-center m-20">
+        <Link className="button" to="/create">
+          Post
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
