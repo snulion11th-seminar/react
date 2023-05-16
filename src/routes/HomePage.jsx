@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const HomePage = () => {
+  const [postList, setPostList] = useState(posts);
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
-
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
       for (let tag of post.tags) {
@@ -18,14 +18,30 @@ const Home = () => {
     setTags([...tagList]);
     setSearchTags([...tagList]);
   }, []);
-
   const handleChange = (e) => {
     const { value } = e.target;
     const newTags = tags.filter((tag) => tag.includes(value));
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    const value = e.target.innerText.slice(1);
+    if (searchValue === value) {
+      setSearchValue("");
+      setPostList(posts);
+      return;
+    }
+
+    setSearchValue(value);
+    const newPosts = posts.filter((post) => {
+      for (let tag of post.tags) {
+        if (tag.content.includes(value)) {
+          return true;
+        }
+      }
+    });
+    setPostList(newPosts);
+  };
 
   return (
     <div>
@@ -59,8 +75,13 @@ const Home = () => {
           <SmallPost key={post.id} post={post} />
         ))}
       </div>
+      <div className="flex justify-center m-20">
+        <Link className="button" to="/create">
+          Post
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
