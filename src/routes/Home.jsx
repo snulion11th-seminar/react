@@ -25,7 +25,18 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    const value = e.target.innerText.substr(1);
+    const newPosts = posts.filter((post) => { //우와 이거 그냥 posts에서 필터하면되는거였음
+      let isContaining = false;
+      for (const tag of post.tags) {
+        isContaining = isContaining || tag.content === value;
+      }
+      return isContaining; //중괄호 안이 참인 post만 filter
+    });
+    setPostList(newPosts);
+  };
+
 
   return (
     <div>
