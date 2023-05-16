@@ -1,15 +1,15 @@
 const posts = [
   {
     id: 1,
-    title: "#1 post",
-    content: "My Number one post content",
+    title: "오늘 한강 갈 사람?😘",
+    content: "오늘 날씨도 좋은데 한강 가서 치맥하실분? 선착순 30명 받는다.",
     author: { id: 1, username: "지현" },
     tags: [
-      { id: 1, content: "멋사" },
-      { id: 2, content: "개발자" },
-      { id: 3, content: "서울대" },
+      { id: 1, content: "한강" },
+      { id: 2, content: "맥주" },
+      { id: 3, content: "뽀로로" },
     ],
-    like_users: [1, 2],
+    like_users: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
     created_at: "2023-02-04T07:42:50.658501Z",
   },
   {

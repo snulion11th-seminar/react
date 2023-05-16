@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
 export const SmallPost = ({ post, toggleSearchTagId, searchTagIdList }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
@@ -47,11 +46,17 @@ export const BigPost = ({ post }) => {
   };
 
   return (
-    <div className="py-5 w-full bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
+    <div className="py-5 w-full bg-gray-100 text-black border-0 rounded-md font-medium">
       <div className="px-8">
-        <h1 className="font-extrabold text-2xl">{post.title}</h1>
-        <span className="mt-2 text-white ">{post.author.username}</span>
-        <div className="mt-2 h-28">{post.content}</div>
+        <h1 className="font-extrabold text-2xl flex justify-center ">
+          {post.title}
+        </h1>
+        <span className="font-md text-slate-600 flex justify-end">
+          작성자 : {post.author.username}
+        </span>
+        <div className="mt-2 h-fill text-xl flex justify-center align-middle">
+          {post.content}
+        </div>
         <div className="flex mt-5">
           {post.tags &&
             post.tags.map((tag) => (
@@ -61,7 +66,7 @@ export const BigPost = ({ post }) => {
             ))}
         </div>
         <div className="flex mt-5" onClick={onClickLike}>
-          {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
+          {post.like_users.length > 0 && ` 🦁 ${post.like_users.length}`}
         </div>
       </div>
     </div>

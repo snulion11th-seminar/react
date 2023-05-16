@@ -11,7 +11,7 @@
 }
 /* 모든 버튼 일괄 적용 */
 .button {
-  @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl text-lg p-3.5;
+  @apply bg-transparent text-white font-medium hover:text-black rounded-md text-lg p-3.5;
 }
 /* 모든 form 일괄 적용 */
 .form {
@@ -22,7 +22,7 @@
 }
 /* 모든 input 일괄 적용 */
 .input {
-  @apply border-[1px] border-white w-full px-6 py-3 rounded-md text-white bg-transparent placeholder-opacity-50 focus:outline-none focus:ring-[1px] focus:ring-orange-400 focus:border-transparent;
+  @apply border-[1px] border-white w-full px-6 py-3 rounded-md text-white bg-transparent placeholder-opacity-50 focus:outline-none focus:ring-[1px] focus:ring-lime-400 focus:border-transparent;
 }
 
 body {
