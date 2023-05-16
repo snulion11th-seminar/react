@@ -17,6 +17,40 @@ const PostEditPage = () => {
     setFormData(postFormData);
   }, [postId]);
 
+  // 기존 태그 불러오기
+  // TODO : api call(get all tags)
+  const [tags, setTags] = useState([]);
+  useEffect(() => {
+    const duplicatedTagList = posts.reduce((acc, post) => {
+      for (let tag of post.tags) {
+        acc.add(tag.content);
+      }
+
+      return acc;
+    }, new Set());
+
+    const tagList = [...duplicatedTagList];
+
+    setTags([...tagList]);
+  }, []);
+
+  const onSubmit = (e) => {
+    //TODO : api connect
+    e.preventDefault();
+    console.log(formData);
+
+    // 지워질코드
+    const createdPost = {
+      ...formData,
+      like_users: [],
+      tags: formData.tags.map((tag, idx) => {
+        return { id: idx + 1, content: tag };
+      }),
+    };
+    setFormData(createdPost);
+    setIsSubmitted(true);
+  };
+
   return (
     <>
       {isSubmitted ? (
