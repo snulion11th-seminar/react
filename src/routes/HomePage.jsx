@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
+import { Dotting } from "dotting";
 
-const Home = () => {
+const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -30,13 +31,13 @@ const Home = () => {
     let tag=innerText.slice(1);
     if(tag == searchValue) {
       setSearchValue("");
-      setSearchTags(tags);
+      // setSearchTags(tags);
       setPostList(posts);
     }
     else {
       setSearchValue(tag);
       const newTags = tags.filter((postTag) => postTag.includes(tag));
-      setSearchTags(newTags);
+      // setSearchTags(newTags);
     
     let filteredPosts = posts.filter((post) => {
       for (let postTag of post.tags) {
@@ -52,6 +53,7 @@ const Home = () => {
   };
   return (
     <div>
+      {/* <Dotting width={600} height={300}/> */}
       <div className="flex flex-col justify-center items-center mb-5">
         <div className="w-full h-72 pb-5 flex justify-center bg-[url('https://www.codelion.net/codelion_thumb.jpg')] bg-center bg-cover">
           <h1 className="uppercase text-6xl text-white">my blog</h1>
@@ -86,4 +88,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
