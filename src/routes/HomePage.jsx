@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [postList, setPostList] = useState(posts);
@@ -82,6 +83,11 @@ const Home = () => {
         {postList.map((post) => (
           <SmallPost key={post.id} post={post} />
         ))}
+      </div>
+      <div className="flex justify-center m-20">
+        <Link className="button" to="/create">
+          Post
+        </Link>
       </div>
     </div>
   );
