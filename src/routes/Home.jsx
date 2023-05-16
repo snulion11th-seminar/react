@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
 const Home = () => {
+  const [postList, setPostList] = useState(posts);
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
@@ -25,7 +26,30 @@ const Home = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {};
+  const handleTagFilter = (e) => {
+    e.target.classList.toggle("active");
+    const selectedTag = e.target.innerText;
+
+    setSelectedTags((prevSelectedTags) => {
+      if (prevSelectedTags.includes(selectedTag)) {
+        return prevSelectedTags.filter((tag) => tag !== selectedTag);
+      } else {
+        return [...prevSelectedTags, selectedTag];
+      }
+    });
+  };
+  console.log(selectedTags);
+  useEffect(() => {
+    if (selectedTags.length === 0) {
+      setPostList(posts);
+    } else {
+      const filteredPosts = posts.filter((post) =>
+        post.tags.some((tag) => selectedTags.includes("#" + tag.content))
+      );
+      console.log(filteredPosts);
+      setPostList(filteredPosts);
+    }
+  }, [selectedTags]);
 
   return (
     <div>
