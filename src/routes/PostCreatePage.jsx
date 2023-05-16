@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { PostForm } from "../components/Form";
 import { BigPost } from "../components/Posts";
+import { PostForm } from "../components/Form";
 import posts from "../data/posts";
 
 const PostCreatePage = () => {
@@ -34,6 +34,9 @@ const PostCreatePage = () => {
   const onSubmit = (e) => {
     //TODO : api connect
     e.preventDefault();
+    console.log(formData);
+
+    // 지워질코드
     const createdPost = {
       ...formData,
       like_users: [],
@@ -43,7 +46,6 @@ const PostCreatePage = () => {
     };
     setFormData(createdPost);
     setIsSubmitted(true);
-    //console.log(formData);
   };
 
   return (

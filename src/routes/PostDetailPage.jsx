@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
 import posts from "../data/posts";
+import Comment from "../components/Comment";
 
 const PostDetailPage = () => {
   // parameter로 받은 id에 해당하는 post를 찾아서 넣자
@@ -10,8 +11,7 @@ const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
   useEffect(() => {
-    const post = posts.find((post) => post.id === parseInt(postId)); //postId가 문자로 들어오니까 parseInt
-    // find는 조건을 만족하는 첫 번째 값을 반환 (없으면 undefined)
+    const post = posts.find((post) => post.id === parseInt(postId));
     setPost(post);
   }, [postId]);
 
@@ -26,6 +26,7 @@ const PostDetailPage = () => {
       <div className="flex flex-col items-center w-3/5 p-8">
         {/* post detail component */}
         <BigPost post={post} />
+        <Comment comments={post.comments} />
 
         <div>
           <Link to={`/${post.id}/edit`}>

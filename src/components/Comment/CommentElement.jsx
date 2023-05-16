@@ -1,29 +1,73 @@
-const CommentElement = (props) => {
-  // TODO : props 받기
-  // TODO : 수정하는 input 내용 관리
+import { useState } from "react";
 
-  // comment created_at 전처리
-  const date = new Date(comment.created_at);
-  const year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  month = month < 10 ? `0${month}` : month;
-  let day = date.getDate();
-  day = day < 10 ? `0${day}` : day;
+const CommentElement = ({ comment, onDelete }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState(comment.content);
 
-  <div className="w-full flex justify-between gap-1 mb-2">
-    <div className="w-3/4">
-      // 수정중일때와 아닐때를 다르게 보여줘야겠지
-      {수정중 ? <input /> : <p>{내용}</p>}
-      // 날짜
-      <span className="text-base mr-1 text-gray-300">
-        {year}.{month}.{day}
-      </span>
-      // 수정, 삭제버튼
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    comment.content = editedContent;
+    setIsEditing(false);
+    setEditedContent("");
+  };
+
+  const handleDeleteClick = () => {
+    onDelete(comment.id);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    month = month < 10 ? `0${month}` : month;
+    let day = date.getDate();
+    day = day < 10 ? `0${day}` : day;
+
+    return `${year}.${month}.${day}`;
+  };
+
+  return (
+    <div className="w-full flex justify-between gap-1 mb-2">
+      <div className="w-3/4">
+        {isEditing ? (
+          <input
+            className="input"
+            type="text"
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
+          />
+        ) : (
+          <p>{comment.content}</p>
+        )}
+
+        <span className="text-base mr-1 text-gray-300">
+          {formatDate(comment.created_at)}
+        </span>
+      </div>
+
       <div className="w-1/4 flex flex-row-reverse items-center">
-        // delete 버튼은 수정이 아닐때만 보이게 해줘
+        {isEditing ? (
+          <>
+            <button className="btn-primary" onClick={handleSave}>
+              Done
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="btn-danger" onClick={handleDeleteClick}>
+              Del
+            </button>
+            <button className="btn-secondary mr-3" onClick={handleEdit}>
+              Edit
+            </button>
+          </>
+        )}
       </div>
     </div>
-  </div>;
+  );
 };
 
 export default CommentElement;

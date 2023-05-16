@@ -8,14 +8,11 @@ const SignInPage = () => {
   });
 
   const handleSignInSubmit = () => {
-    console.log(formData);
-    alert("로그인 완료");
+    alert("로그인 완 료!");
     // add api call for sign in here
   };
-
   return (
-    <div className="flex flex-col items-center w-1/2">
-      <h3 className=" font-bold text-4xl">Sign In</h3>
+    <div>
       <SignInForm
         formData={formData}
         setFormData={setFormData}
