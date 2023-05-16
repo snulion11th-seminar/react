@@ -30,6 +30,23 @@ const PostCreatePage = () => {
     setTags([...tagList]);
   }, []);
 
+  const onSubmit = (e) => {
+    //TODO : api connect
+    e.preventDefault();
+    console.log(formData);
+
+    // 지워질코드
+    const createdPost = {
+      ...formData,
+      like_users: [],
+      tags: formData.tags.map((tag, idx) => {
+        return { id: idx + 1, content: tag };
+      }),
+    };
+    setFormData(createdPost);
+    setIsSubmitted(true);
+  };
+
   return (
     <>
       {isSubmitted ? (
