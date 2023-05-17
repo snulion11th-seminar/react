@@ -3,18 +3,54 @@ import comments from "../../data/comments";
 import CommentElement from "./CommentElement";
 
 const Comment = () => {
-  // TODO 1: 가짜 comments 불러와서 관리해야겟즤
+  const [commentList, setCommentList] = useState(comments);
+  const [newContent, setNewContent] = useState("");
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    const newComment = {
+      id: commentList.length + 1,
+      content: newContent,
+      liked_users: [],
+      created_at: Date.now(),
+      author: {
+        id: 1,
+        username: "username",
+      },
+    };
+    setCommentList([...commentList, newComment]);
+    setNewContent("");
+  };
+  const handleCommentDelete = (targetId) => {
+    setCommentList(commentList.filter((comment) => comment.id !== targetId));
+  };
 
-  // TODO 2: comment추가하는 input 관리해줘야겟지
-
-  // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
-
-  // TODO 4: commet Delete 하는 함수 만들어죠
   return (
     <div className="w-full mt-5 self-start">
       <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
-      // commentElement // <CommentElement /> 가 comment마다 반복시켜야즤
-      <form>// TODO 2-3 : comment 추가하는 comment form 만들어주기</form>
+      {commentList.map((comment) => (
+        <CommentElement
+          comment={comment}
+          handleCommentDelete={handleCommentDelete}
+        />
+      ))}
+
+      <form
+        className="flex flex-row items-center justify-center "
+        onSubmit={handleCommentSubmit}
+      >
+        <input
+          required
+          type="text"
+          placeholder="Type Content.."
+          id="content"
+          value={newContent}
+          className="input"
+          onChange={(e) => setNewContent(e.target.value)}
+        />
+        <button className="button  mx-4 py-2 px-10 item-center justify-center">
+          Comment
+        </button>
+      </form>
     </div>
   );
 };
