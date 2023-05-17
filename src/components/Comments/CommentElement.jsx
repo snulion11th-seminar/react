@@ -1,25 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const CommentElement = ({ comment, commentList, setCommentList }) => {
+const CommentElement = ({ comment, deleteComment }) => {
   // TODO : props 받기
   // TODO : 수정하는 input 내용 관리
   const [isEditting, setIsEditting] = useState(false);
-  const [commentData, setCommentData] = useState(comment.content);
-  // comment created_at 전처리
-  const date = new Date();
+  const [commentData, setCommentData] = useState(() => comment.content);
+  // comment created_at 전처리\
+  const date = new Date(comment.created_at);
   const year = date.getFullYear();
   let month = date.getMonth() + 1;
   month = month < 10 ? `0${month}` : month;
-  let day = date.getDate();
+  let day = date.getDate() - 1;
   day = day < 10 ? `0${day}` : day;
   const handleEditComment = (e) => {
     setCommentData(e.target.value);
   };
-  const deleteComment = (id) => {
-    console.log(id);
-    setCommentList(commentList.filter((comment) => comment.id !== id));
-  };
-
+  useEffect(() => {
+    setCommentData(comment.content);
+  }, [
+    comment,
+  ]); /* useEffect로 리렌더링 해야 commentData가 comment.content로 초기화됨 */
+  console.log(commentData);
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
       <div className="w-3/4">

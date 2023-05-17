@@ -1,8 +1,8 @@
 const comments = [
   {
     id: 1,
-    content: "comment1",
-    created_at: "2023-03-18T15:09:43Z",
+    content: "감기 조심하세요",
+    created_at: "2023-03-16T15:09:43Z",
     post: 1,
     author: {
       id: 2,
@@ -11,8 +11,8 @@ const comments = [
   },
   {
     id: 2,
-    content: "comment2",
-    created_at: "2023-04-18T15:09:43Z",
+    content: "많이 아프더라구요",
+    created_at: "2023-04-16T15:09:43Z",
     post: 1,
     author: {
       id: 1,
@@ -21,8 +21,8 @@ const comments = [
   },
   {
     id: 3,
-    content: "comment3",
-    created_at: "2023-05-18T15:09:43Z",
+    content: "내일 예비군훈련인데 어떡하죠",
+    created_at: "2023-05-16T15:09:43Z",
     post: 1,
     author: {
       id: 3,

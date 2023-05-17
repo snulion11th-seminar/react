@@ -9,6 +9,7 @@ const Comment = () => {
   const [formData, setFormData] = useState({
     content: "",
   });
+
   const handleFormData = (e) => {
     const value = e.target.value;
     setFormData({ ...formData, content: value });
@@ -16,32 +17,48 @@ const Comment = () => {
   // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
   const handleCommentSubmit = (e) => {
     e.preventDefault();
+    const date = new Date();
+    const y = date.getFullYear();
+    const m =
+      date.getMonth() + 1 < 10
+        ? `0${date.getMonth() + 1}`
+        : date.getMonth() + 1;
+    const d = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+    const h = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+    const mi =
+      date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+    const s =
+      date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+    const created_at = `${y}-${m}-${d}T${h}:${mi}:${s}Z`;
+
+    const maxID = (arr) => {
+      return arr.reduce((max, cur) => (max > cur.id ? max : cur.id));
+    };
     const newComment = {
-      id: commentList[commentList.length - 1].id + 1,
+      id: maxID(commentList) + 1,
       content: formData.content,
-      created_at: "",
+      created_at: created_at,
       post: 1,
       author: {
         id: 1,
         username: "user1",
       },
     };
-    console.log(newComment);
     setCommentList([...commentList, newComment]);
     setFormData({ content: "" });
   };
 
+  const deleteComment = (id) => {
+    console.log(commentList);
+    setCommentList(commentList.filter((comment) => comment.id !== id));
+  };
   console.log(commentList);
   return (
     <div className="w-full mt-5 self-start">
       <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
       <div>
         {commentList.map((comment) => (
-          <CommentElement
-            comment={comment}
-            commentList={commentList}
-            setCommentList={setCommentList}
-          />
+          <CommentElement comment={comment} deleteComment={deleteComment} />
         ))}
       </div>
       {/* commentElement // <CommentElement /> 가 comment마다 반복시켜야즤 */}
