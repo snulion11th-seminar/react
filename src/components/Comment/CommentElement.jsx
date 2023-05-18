@@ -4,7 +4,7 @@ import { getCookie } from "../../utils/cookie";
 
 const CommentElement = (props) => {
   const { comment, handleCommentDelete } = props;
-  const [editContent, setEditContent] = useState(comment.content);
+  const [content, setContent] = useState(comment.content);
   const [isEdit, setIsEdit] = useState(false);
 
   const [user, setUser] = useState(null);
@@ -17,7 +17,7 @@ const CommentElement = (props) => {
   day = day < 10 ? `0${day}` : day;
 
   const handleEditComment = () => {
-    updateComment(comment.id, { content: editContent });
+    updateComment(comment.id, { content: content });
   };
 
   useEffect(() => {
@@ -37,8 +37,8 @@ const CommentElement = (props) => {
         {isEdit ? (
           <input
             className="input mr-4"
-            value={editContent}
-            onChange={(e) => setEditContent(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         ) : (
           <p className="text-lg mr-4">{comment.content}</p>
@@ -49,9 +49,6 @@ const CommentElement = (props) => {
       </div>
       {user?.id === comment.author ? (
         <div className="w-1/4 flex flex-row-reverse items-center">
-          {!isEdit && (
-            <button onClick={() => handleCommentDelete(comment.id)}>Del</button>
-          )}
           {isEdit ? (
             <>
               <button className="mr-3" onClick={handleEditComment}>
@@ -61,16 +58,21 @@ const CommentElement = (props) => {
                 className="mr-3"
                 onClick={() => {
                   setIsEdit(!isEdit);
-                  setEditContent(comment.content);
+                  setContent(comment.content);
                 }}
               >
                 Back
               </button>
             </>
           ) : (
-            <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
-              Edit
-            </button>
+            <>
+              <button onClick={() => handleCommentDelete(comment.id)}>
+                Del
+              </button>
+              <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
+                Edit
+              </button>
+            </>
           )}
         </div>
       ) : null}
