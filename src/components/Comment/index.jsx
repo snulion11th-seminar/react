@@ -48,6 +48,7 @@ const Comment = () => {
    }
    console.log("아래가 현재 데이터");
    console.log(commentData);
+   newcomment.value = null;
    
   }
 
