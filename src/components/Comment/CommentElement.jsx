@@ -42,6 +42,8 @@ const CommentElement = ({commentData,setCommentData,commentId}) => {
   const editButton = (e) =>{
     console.log(e.target);
     setIsadjusted(true);
+    // const input = document.getElementById('editInput').target.value;
+    // input = targetComment.content;
   }
 
   const deleteComment = () => {
@@ -66,7 +68,7 @@ const CommentElement = ({commentData,setCommentData,commentId}) => {
     <div className="w-3/4">
 			{/* // 수정중일때와 아닐때를 다르게 보여줘야겠지 */}
 			{isadjusted?
-				<input className="input h-14" onChange = {inputSave}/>:<p className="text-lg mr-4">{targetComment.content}</p>
+				<input type="text" defaultValue={targetComment.content} className="input h-14" onChange = {inputSave}/>:<p className="text-lg mr-4">{targetComment.content}</p>
 			}
 
 			{/* // 날짜 */}
