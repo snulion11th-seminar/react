@@ -17,7 +17,7 @@ const comments = [
     post: 2,
     author: {
       id: 1,
-      username: "김아무개",
+      username: "권아무개",
     },
   },
 ];
