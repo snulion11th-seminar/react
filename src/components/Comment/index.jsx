@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import comments from "/Users/jeon-eojin/Desktop/likelion/react/src/data/comments.js";
+import comments from "../../data/comments";
 import CommentElement from "./CommentElement";
 
 const Comment = () => {
