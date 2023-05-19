@@ -28,7 +28,7 @@ const PostDetailPage = () => {
         <BigPost post={post} />
 
         {/* comment component */}
-        {/* <Comment comment={comment} /> */}
+        <Comment post={post} />
 
         <div>
           <Link to={`/${post.id}/edit`}>
