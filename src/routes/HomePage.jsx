@@ -2,12 +2,15 @@ import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import SignInPage from "./SignInPage";
 
 const HomePage = () => {
   const [postList, setPostList] = useState(posts);
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+
+  console.log(localStorage.getItem("username"));
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
       for (let tag of post.tags) {
@@ -19,6 +22,7 @@ const HomePage = () => {
     setSearchTags([...tagList]);
   }, []);
 
+  const handleUsername = (e) => {};
   const handleChange = (e) => {
     console.log(e.target);
     const { value } = e.target;

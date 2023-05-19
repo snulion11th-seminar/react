@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export const SmallPost = ({ post }) => {
+  const [numLike, setnumLike] = useState(post.like_users.length);
   const onClickLike = () => {
-    console.log("나도 좋아!");
+    console.log(numLike);
+    setnumLike(numLike + 1);
     // add api call for liking post here
   };
 
@@ -17,9 +20,7 @@ export const SmallPost = ({ post }) => {
           </span>
         ))}
       </div>
-      <div onClick={onClickLike}>
-        {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
-      </div>
+      <button onClick={onClickLike}>{numLike > 0 && `❤️ ${numLike}`}</button>
       <Link to={`/${post.id}`}>
         <div className="absolute bottom-0 right-0 bg-orange-400 px-5 py-2 rounded-lg translate-x-5 translate-y-5">
           <span className="uppercase">detail</span>
@@ -32,8 +33,10 @@ export const SmallPost = ({ post }) => {
 export const BigPost = ({ post }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
+    setnumLike(numLike + 1);
     // add api call for liking post here
   };
+  const [numLike, setnumLike] = useState(post.like_users.length);
 
   return (
     <div className="py-5 w-full bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
@@ -49,9 +52,9 @@ export const BigPost = ({ post }) => {
               </span>
             ))}
         </div>
-        <div className="flex mt-5" onClick={onClickLike}>
-          {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
-        </div>
+        <button className="flex mt-5" onClick={onClickLike}>
+          {numLike > 0 && `❤️ ${numLike}`}
+        </button>
       </div>
     </div>
   );

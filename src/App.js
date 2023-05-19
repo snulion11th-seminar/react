@@ -9,6 +9,7 @@ import PostEditPage from "./routes/PostEditPage.jsx";
 import SignUpPage from "./routes/SignUpPage";
 import PostDetailPage from "./routes/PostDetailPage";
 import SignInPage from "./routes/SignInPage";
+import { useState } from "react";
 
 function App() {
   return (

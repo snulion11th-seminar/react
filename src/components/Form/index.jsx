@@ -115,7 +115,11 @@ export const SignInForm = ({ formData, setFormData, handleSignInSubmit }) => {
         onChange={handleFormData}
         value={formData.password}
       />
-      <button type="submit" className="button mt-7">
+      <button
+        onClick={() => (window.location = "/")}
+        type="submit"
+        className="button mt-7"
+      >
         Sign in !
       </button>
     </form>

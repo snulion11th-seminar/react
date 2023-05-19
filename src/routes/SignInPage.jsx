@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SignInForm } from "../components/Form";
+import { Link } from "react-router-dom";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const SignInPage = () => {
 
   const handleSignInSubmit = () => {
     console.log(formData);
+    localStorage.setItem("username", formData.username);
     alert("로그인 완 료!");
     // add api call for sign in here
   };
