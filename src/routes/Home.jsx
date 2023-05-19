@@ -32,13 +32,14 @@ const Home = () => {
       setSearchValue("");
       setPostList(posts);
     } else {
-      const showPost = posts.filter((post) =>
+      const newPosts = posts.filter((post) =>
         post.tags.some((t) => t.content === tag)
       );
-      setPostList(showPost);
+      setPostList(newPosts);
       setSearchValue(tag);
     }
   };
+
 
   return (
     <div>
