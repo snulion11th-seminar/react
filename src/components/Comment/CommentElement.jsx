@@ -1,6 +1,35 @@
-const CommentElement = (props) => {
-  // TODO : props 받기
-  // TODO : 수정하는 input 내용 관리
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+const CommentElement = ({ comment, commentList, setCommentList }) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [editedComment, setEditedComment] = useState(comment);
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setIsEdit(!isEdit);
+  };
+
+  const deleteComment = () => {
+    setCommentList(commentList.filter((c) => c.id !== comment.id));
+    console.log("delete");
+  };
+
+  const updateCommentContent = (e) => {
+    setEditedComment({
+      ...editedComment,
+      content: e.target.value,
+    });
+  };
+
+  const saveEditedComment = (e) => {
+    e.preventDefault();
+    const updatedCommentList = commentList.map((c) =>
+      c.id === editedComment.id ? editedComment : c
+    );
+    setCommentList(updatedCommentList);
+    setIsEdit(false);
+  };
 
   // comment created_at 전처리
   const date = new Date(comment.created_at);
@@ -10,20 +39,47 @@ const CommentElement = (props) => {
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
-  <div className="w-full flex justify-between gap-1 mb-2">
-    <div className="w-3/4">
-      // 수정중일때와 아닐때를 다르게 보여줘야겠지
-      {수정중 ? <input /> : <p>{내용}</p>}
-      // 날짜
-      <span className="text-base mr-1 text-gray-300">
-        {year}.{month}.{day}
-      </span>
-      // 수정, 삭제버튼
-      <div className="w-1/4 flex flex-row-reverse items-center">
-        // delete 버튼은 수정이 아닐때만 보이게 해줘
-      </div>
+  return (
+    <div className="w-full flex flex-row">
+      {isEdit ? (
+        <div className="w-full flex justify-between gap-1 mb-2">
+          <div className="w-3/4">
+            <input
+              className="input"
+              value={editedComment.content}
+              onChange={updateCommentContent}
+            />
+            <span className="text-base mr-1 text-gray-300">
+              {year}.{month}.{day}
+            </span>
+          </div>
+          <div className="w-1/4 flex flex-row-reverse items-center">
+            <button className="commentbutton" onClick={saveEditedComment}>
+              Done
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="w-full flex justify-between gap-1 mb-2">
+          <div className="w-3/4">
+            <p>{comment.content}</p>
+            <span className="text-base mr-1 text-gray-300">
+              {year}.{month}.{day}
+            </span>
+          </div>
+
+          <div className="flex flex-row-reverse w-1/4 items-center">
+            <button className="commentbutton" onClick={deleteComment}>
+              Del
+            </button>
+            <button className="commentbutton mr-5" onClick={handleEdit}>
+              Edit
+            </button>
+          </div>
+        </div>
+      )}
     </div>
-  </div>;
+  );
 };
 
 export default CommentElement;
