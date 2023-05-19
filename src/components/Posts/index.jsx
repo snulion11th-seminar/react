@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const SmallPost = ({ post }) => {
@@ -30,7 +31,11 @@ export const SmallPost = ({ post }) => {
 };
 
 export const BigPost = ({ post }) => {
+  const [likeUsers, setLikeUsers] = useState(post.like_users);
+
   const onClickLike = () => {
+    const updatedLikeUsers = [...likeUsers, post.like_users.id];
+    setLikeUsers(updatedLikeUsers);
     console.log("나도 좋아!");
     // add api call for liking post here
   };
@@ -49,9 +54,9 @@ export const BigPost = ({ post }) => {
               </span>
             ))}
         </div>
-        <div className="flex mt-5" onClick={onClickLike}>
-          {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
-        </div>
+        <button className="flex mt-5" onClick={onClickLike}>
+          {likeUsers.length > 0 && `❤️ ${likeUsers.length}`}
+        </button>
       </div>
     </div>
   );

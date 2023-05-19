@@ -3,6 +3,7 @@ import { useState } from "react";
 const CommentElement = ({ comment, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const [editedAt, setEditedAt] = useState(comment.created_at);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -10,28 +11,31 @@ const CommentElement = ({ comment, onDelete }) => {
 
   const handleSave = () => {
     comment.content = editedContent;
-    setIsEditing(false);
     setEditedContent("");
+    comment.created_at = new Date();
+    setEditedAt(comment.created_at);
+    setIsEditing(false);
   };
 
   const handleDeleteClick = () => {
     onDelete(comment.id);
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    month = month < 10 ? `0${month}` : month;
-    let day = date.getDate();
-    day = day < 10 ? `0${day}` : day;
-
-    return `${year}.${month}.${day}`;
-  };
+  const date = new Date(editedAt);
+  const year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  month = month < 10 ? `0${month}` : month;
+  let day = date.getDate();
+  day = day < 10 ? `0${day}` : day;
+  const hour = date.getHours();
+  const minute = date.getMinutes();
 
   return (
-    <div className="w-full flex justify-between gap-1 mb-2">
+    <div className="w-full flex justify-between gap-1 mb-2 border hover:border-dashed border-white rounded-lg p-4">
       <div className="w-3/4">
+        <div className="text-xl font-bold text-orange-500">
+          {comment.author.username}
+        </div>
         {isEditing ? (
           <input
             className="input"
@@ -43,9 +47,9 @@ const CommentElement = ({ comment, onDelete }) => {
           <p>{comment.content}</p>
         )}
 
-        <span className="text-base mr-1 text-gray-300">
-          {formatDate(comment.created_at)}
-        </span>
+        <div className="flex justify-start gap-3 text-base/3 text-gray-500">
+          {year}.{month}.{day} {hour}:{minute}
+        </div>
       </div>
 
       <div className="w-1/4 flex flex-row-reverse items-center">
