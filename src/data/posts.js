@@ -43,7 +43,7 @@ const posts = [
     author: { id: 4, username: "동민" },
     tags: [
       { id: 7, content: "천재수교과" },
-      { id: 8, content: "다래끼" },
+      { id: 8, content: "다래" },
     ],
     like_users: [0, 1, 2],
     created_at: "2023-02-04T07:42:50.658501Z",
