@@ -18,6 +18,18 @@ export const signUp = async (data) => {
   return response;
 };
 
+// GetUser API
+// Edit, Delete 권한을 확인하거나, 프로필 페이지를 만들 때 사용하겠죠?
+export const getUser = async () => {
+  const response = await instanceWithToken.get("/account/info/");
+  if (response.status === 200) {
+    console.log("GET USER SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating comment");
+  }
+  return response.data;
+};
+
 // Post 관련 API들
 export const getPosts = async () => {
   const response = await instance.get("/post/");
@@ -124,16 +136,4 @@ export const deleteComment = async (id) => {
   } else {
     console.log("[ERROR] error while deleting comment");
   }
-};
-
-// GetUser API
-// 여기는 Edit, Delete 얘기 시작할때부터 필요하게 되는거임!!
-export const getUser = async () => {
-  const response = await instanceWithToken.get("/account/info/");
-  if (response.status === 200) {
-    console.log("GET USER SUCCESS");
-  } else {
-    console.log("[ERROR] error while updating comment");
-  }
-  return response.data;
 };

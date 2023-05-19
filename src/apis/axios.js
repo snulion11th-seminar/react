@@ -13,21 +13,23 @@ export const instance = axios.create();
 export const instanceWithToken = axios.create();
 
 instanceWithToken.interceptors.request.use(
+  // 요청을 보내기전 수행할 일
   (config) => {
-    // 요청을 보내기전 수행할 일
     const accessToken = getCookie('access_token');
 
     if (!accessToken) {
       // token 없으면 리턴
       return;
     } else {
-      // token 있으면 헤더에 담아주기 (Authorization은 장고에서 인식하는 헤더 key - 상황에 따라 다른 이름으로 사용 가능)
+      // token 있으면 헤더에 담아주기 (Authorization은 장고에서 JWT 토큰을 인식하는 헤더 key)
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
     return config;
   },
+
+  // 클라이언트 요청 오류 났을 때 처리
   (error) => {
-    // 오류 요청을 보내기전 수행할 일
+    // 콘솔에 찍어주고, 요청을 보내지 않고 오류를 발생시킴
     console.log("Request Error!!");
     return Promise.reject(error);
   }
@@ -35,14 +37,13 @@ instanceWithToken.interceptors.request.use(
 
 instanceWithToken.interceptors.response.use(
   (response) => {
-    // 응답 데이터를 가공, .then() 으로 이어짐
+    // 서버 응답 데이터를 프론트에 넘겨주기 전 수행할 일 
     console.log("Interceptor Response!!");
     return response;
   },
   (error) => {
-    // 오류 응답을 처리, .catch()으로 이어진다.
+    // 서버가 오류를 응답했을 때 처리 - 콘솔 찍어주고, 프론트에게 보내지 않고 오류를 발생시킴
     console.log("Response Error!!");
-    console.log(error);
     return Promise.reject(error);
   }
 );
