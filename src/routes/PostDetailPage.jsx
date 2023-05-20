@@ -34,7 +34,7 @@ useEffect(() => {
       <div className="flex flex-col items-center w-3/5 p-8">
         {/* post detail component */}
         <BigPost post={post} />
-        <Comment comment={comment} />
+        <Comment comment={comment}/>
 				<div>
           <Link to={`/${post.id}/edit`}>
           <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
