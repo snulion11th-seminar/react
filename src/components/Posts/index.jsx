@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { likePost } from "../../apis/api";
 
 export const SmallPost = ({ post }) => {
   const onClickLike = () => {
-    likePost(post.id);
+    console.log("나도 좋아!");
+    // add api call for liking post here
   };
 
   return (
@@ -34,7 +34,8 @@ export const SmallPost = ({ post }) => {
 
 export const BigPost = ({ post }) => {
   const onClickLike = () => {
-    likePost(post.id);
+    console.log("나도 좋아!");
+    // add api call for liking post here
   };
 
   return (

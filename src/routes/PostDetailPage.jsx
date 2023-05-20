@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { deletePost, getPost, getUser } from "../apis/api";
+import { getPost, getUser } from "../apis/api";
 import { getCookie } from "../utils/cookie";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getPostAPI = async () => {
@@ -33,9 +31,7 @@ const PostDetailPage = () => {
   }, []);
 
   const onClickDelete = () => {
-    if (window.confirm("정말 삭제하시겠습니까?")) {
-      deletePost(postId, navigate);
-    }
+    console.log("delete");
   };
 
   return (
