@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 
-import { Link } from "react-router-dom";
-
-const HomePage = () => {
+const Home = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -27,17 +25,7 @@ const HomePage = () => {
     setSearchTags(newTags);
   };
 
-  const handleTagFilter = (e) => {
-    const targetText = e.target.innerText.slice(1);
-    console.log(targetText)
-    if(searchValue === targetText){
-      setSearchValue("");
-      setPostList(posts);
-    }else{
-      console.log(targetText);
-      setPostList(posts.filter((post) => post.tags.find((tag) => tag.content === targetText)));
-      setSearchValue(targetText);
-    }};
+  const handleTagFilter = (e) => {};
 
   return (
     <div>
@@ -71,13 +59,8 @@ const HomePage = () => {
           <SmallPost key={post.id} post={post} />
         ))}
       </div>
-    	<div className="flex justify-center m-20">
-     <Link className="button" to="/create">
-        Post
-     </Link>
-  </div>
     </div>
   );
 };
 
-export default HomePage;
+export default Home;
