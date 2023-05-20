@@ -81,15 +81,9 @@ const CommentElement = ({
               <button onClick={onClickDel}>Del</button>
             )}
 
-            {isEdited ? (
-              <button className="mr-3" onClick={onClickEdit}>
-                Done
-              </button>
-            ) : (
-              <button className="mr-3" onClick={onClickEdit}>
-                Edit
-              </button>
-            )}
+            <button className="mr-3" onClick={onClickEdit}>
+              {isEdited ? "Done" : "Edit"}
+            </button>
           </div>
         </div>
       </div>
