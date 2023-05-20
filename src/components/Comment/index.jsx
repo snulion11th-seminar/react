@@ -14,8 +14,7 @@ export const Comment = ({ postId }) => {
   }, [postId]);
 
   const handleCommentInput = (e) => {
-    let value = e.target.value;
-    setNewInput(value);
+    setNewInput(e.target.value);
   };
 
   const handleSubmit = (e) => {
