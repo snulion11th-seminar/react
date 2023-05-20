@@ -77,7 +77,6 @@ export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
         onChange={handleFormData}
         value={formData.major}
       />
-      {/* 수정 👆🏻 */}
       <button type="submit" className="button mt-7">
         Sign up !
       </button>
