@@ -31,11 +31,11 @@ const Comment = () => {
       date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
     const created_at = `${y}-${m}-${d}T${h}:${mi}:${s}Z`;
 
-    const maxID = (arr) => {
+    const getBiggestID = (arr) => {
       return arr.reduce((max, cur) => (max > cur.id ? max : cur.id));
     };
     const newComment = {
-      id: maxID(commentList) + 1,
+      id: getBiggestID(commentList) + 1,
       content: formData.content,
       created_at: created_at,
       post: 1,
@@ -52,7 +52,6 @@ const Comment = () => {
     console.log(commentList);
     setCommentList(commentList.filter((comment) => comment.id !== id));
   };
-  console.log(commentList);
   return (
     <div className="w-full mt-5 self-start">
       <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
