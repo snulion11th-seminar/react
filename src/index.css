@@ -42,3 +42,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* 모든 commentbutton 일괄 적용 */
+.commentbutton {
+  @apply text-white font-medium text-sm mb-4;
+}
