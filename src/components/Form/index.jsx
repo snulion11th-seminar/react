@@ -259,3 +259,5 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
     </form>
   );
 };
+
+export const CreateCommentForm = ({})
