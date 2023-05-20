@@ -76,13 +76,20 @@ const CommentElement = ({
           </div>
           <div className="flex flex-row-reverse items-center">
             {isEdited ? (
-              <div className="text-black">Del</div>
+              <div className="invisible">Del</div>
             ) : (
               <button onClick={onClickDel}>Del</button>
             )}
-            <button className="mr-3" onClick={onClickEdit}>
-              Edit
-            </button>
+
+            {isEdited ? (
+              <button className="mr-3" onClick={onClickEdit}>
+                Done
+              </button>
+            ) : (
+              <button className="mr-3" onClick={onClickEdit}>
+                Edit
+              </button>
+            )}
           </div>
         </div>
       </div>
