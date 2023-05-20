@@ -261,3 +261,28 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
       </form>
     );
   };
+
+export const CommentForm = ({onSubmit, commentInput, setCommentInput}) => {
+  const handleChange=(e)=>{
+    setCommentInput(e.target.value);
+  }
+  const onClickSubmit = (e) => {
+    e.preventDefault();
+    onSubmit();
+    setCommentInput("");
+  };
+
+  return (
+    <form className="flex w-full mt-3 gap-x-1 flew-nowrap" onSubmit={onClickSubmit}>
+      <input
+        type="text"
+        placeholder="댓글을 입력해주세요..."
+        id="comment"
+        className="input mt-7 mr-5 h-15"
+        value={commentInput}
+        onChange={handleChange}
+      />
+      <button type="submit" className="button mt-7 h-15">Submit</button>
+    </form>
+  );
+};
