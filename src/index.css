@@ -45,5 +45,5 @@ code {
 
 /* 모든 commentbutton 일괄 적용 */
 .commentbutton {
-  @apply text-white font-medium text-sm;
+  @apply text-white font-medium text-sm mb-4;
 }

@@ -11,9 +11,6 @@ export const Comment = () => {
 
   // TODO 2: comment추가하는 input 관리해줘야겟지
   const [commentInputValue, setcommentInputValue] = useState("");
-  useEffect(() => {
-    setcommentInputValue(commentInputValue);
-  }, [commentInputValue]);
 
   // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
   const handleCommentSubmit = (e) => {
@@ -22,7 +19,12 @@ export const Comment = () => {
       id: commentList.length + 1,
       content: commentInputValue,
       created_at: new Date(),
+      author: {
+        id: 1,
+        username: "붸잉뷍",
+      },
     };
+
     setCommentList([...commentList, newComment]);
     setcommentInputValue("");
   };

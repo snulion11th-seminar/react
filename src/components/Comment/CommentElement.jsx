@@ -34,50 +34,36 @@ const CommentElement = ({ comment, commentList, setCommentList }) => {
   day = day < 10 ? `0${day}` : day;
 
   return (
-    <div className="w-full flex flex-row">
+    <div className="w-full flex flex-row h-11 gap-9">
       {isEdit ? ( //edit이 눌렸을때
-        <div className="w-full flex justify-between gap-1 mb-2">
-          <div className="w-3/4">
+        <div className="w-full flex justify-between gap-1">
             <input
               className="input"
               value={editedComment.content}
-              onChange= {(e) => {
+              onChange={(e) => {
                 setEditedComment({
                   ...editedComment,
                   content: e.target.value,
-                })}
-              }/>
-
-            <span className="text-base mr-1 text-gray-300">
-              {year}.{month}.{day}
-            </span>
+                });
+              } } />
           </div>
 
-          <div className="w-1/4 flex flex-row-reverse items-center">
-            <button className="commentbutton" onClick={saveEditedComment}>
-              Done
-            </button>
-          </div>
-        </div>
-      ) : (  // edit이 안눌렸을때
-        <div className="w-full flex justify-between gap-1 mb-2">
+      ) : ( // edit이 안눌렸을때
+        <div className="w-full flex justify-between gap-1">
           <div className="w-3/4">
             <p>{comment.content}</p>
-            <span className="text-base mr-1 text-gray-300">
-              {year}.{month}.{day}
-            </span>
-          </div>
-
-          <div className="flex flex-row-reverse w-1/4 items-center">
-            <button className="commentbutton" onClick={deleteComment}>
-              Del
-            </button>
-            <button className="commentbutton mr-5" onClick={handleEdit}>
-              Edit
-            </button>
           </div>
         </div>
       )}
+
+      <span className="text-base mr-1 text-gray-300">
+        {year}.{month}.{day}
+      </span> 
+      <div className="text-base mr-1 w-24 text-gray-300">{comment.author.username}</div>
+      <div className="flex flex-row-reverse w-1/4 items-center">
+        {isEdit ? "" : <button className="commentbutton" onClick={deleteComment}>Del</button>}
+        {isEdit ? <button className="commentbutton" onClick={saveEditedComment}>Done</button> : <button className="commentbutton mr-5" onClick={handleEdit}>Edit</button>}
+      </div>
     </div>
   );
 };
