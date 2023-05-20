@@ -12,10 +12,6 @@ export const Comment = () => {
   // TODO 2: comment추가하는 input 관리해줘야겟지
   const [input, setInput] = useState("");
 
-  useEffect(() => {
-    setInput(input);
-  }, [input]);
-
   // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
   // 추가 버튼 혹인 엔터 누르면 태그 생성
   const handleCommentSubmit = (e) => {
@@ -24,6 +20,11 @@ export const Comment = () => {
       id: commentList.length + 1,
       content: input,
       created_at: new Date(),
+      post: 1,
+      author: {
+        id: 1,
+        username: "user1",
+      },
     };
 
     setCommentList([...commentList, newComment]);

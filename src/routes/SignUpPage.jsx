@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SignUpForm } from "../components/Form";
+import axios from "axios";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -11,10 +12,18 @@ const SignUpPage = () => {
     major: "",
   });
 
-  const handleSignUpSubmit = () => {
-    console.log(formData);
-    alert(`${formData.email}로 회원가입 해 줘`);
-    // add api call for sign up here
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault(); // 이벤트의 기본 동작을 막는다. (새로고침 방지)
+    const response = await axios.post(
+      "http://localhost:8000/api/account/signup/",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
   };
 
   return (

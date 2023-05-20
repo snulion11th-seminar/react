@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const CommentElement = ({ comment, commentList, setCommentList }) => {
@@ -39,45 +38,82 @@ const CommentElement = ({ comment, commentList, setCommentList }) => {
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
+  // return (
+  //   <div className="w-full flex flex-row">
+  //     {isEdit ? (
+  //       <div className="w-full flex justify-between gap-1 mb-2">
+  //         <div className="w-3/4">
+  //           <input
+  //             className="input"
+  //             value={editedComment.content}
+  //             onChange={updateCommentContent}
+  //           />
+  //           <span className="text-base mr-1 text-gray-300">
+  //             {year}.{month}.{day}
+  //           </span>
+  //         </div>
+  //         <div className="w-1/4 flex flex-row-reverse items-center">
+  //           <button className="commentbutton" onClick={saveEditedComment}>
+  //             Done
+  //           </button>
+  //         </div>
+  //       </div>
+  //     ) : (
+  //       <div className="w-full flex justify-between gap-1 mb-2">
+  //         <div className="w-3/4">
+  //           <p>{comment.content}</p>
+  //           <span className="text-base mr-1 text-gray-300">
+  //             {year}.{month}.{day}
+  //           </span>
+  //         </div>
+
+  //         <div className="flex flex-row-reverse w-1/4 items-center">
+  //           <button className="commentbutton" onClick={deleteComment}>
+  //             Del
+  //           </button>
+  //           <button className="commentbutton mr-5" onClick={handleEdit}>
+  //             Edit
+  //           </button>
+  //         </div>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
+
   return (
     <div className="w-full flex flex-row">
-      {isEdit ? (
-        <div className="w-full flex justify-between gap-1 mb-2">
-          <div className="w-3/4">
+      <div className="w-full flex justify-between gap-1 mb-2">
+        <div className="w-3/4">
+          {isEdit ? (
             <input
               className="input"
               value={editedComment.content}
               onChange={updateCommentContent}
             />
-            <span className="text-base mr-1 text-gray-300">
-              {year}.{month}.{day}
-            </span>
-          </div>
-          <div className="w-1/4 flex flex-row-reverse items-center">
+          ) : (
+            <p>{comment.content}</p>
+          )}
+          <span className="text-base mr-1 text-gray-300">
+            {year}.{month}.{day}
+          </span>
+        </div>
+        <div className="w-1/4 flex flex-row-reverse items-center">
+          {isEdit ? (
             <button className="commentbutton" onClick={saveEditedComment}>
               Done
             </button>
-          </div>
+          ) : (
+            <div className="flex flex-row-reverse w-1/4 items-center">
+              <button className="commentbutton" onClick={deleteComment}>
+                Del
+              </button>
+              <button className="commentbutton mr-5" onClick={handleEdit}>
+                Edit
+              </button>
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="w-full flex justify-between gap-1 mb-2">
-          <div className="w-3/4">
-            <p>{comment.content}</p>
-            <span className="text-base mr-1 text-gray-300">
-              {year}.{month}.{day}
-            </span>
-          </div>
-
-          <div className="flex flex-row-reverse w-1/4 items-center">
-            <button className="commentbutton" onClick={deleteComment}>
-              Del
-            </button>
-            <button className="commentbutton mr-5" onClick={handleEdit}>
-              Edit
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
