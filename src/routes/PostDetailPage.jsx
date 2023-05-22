@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost, getUser } from "../apis/api";
+import { getPost, getUser, deletePost } from "../apis/api";
 import { getCookie } from "../utils/cookie";
 
 const PostDetailPage = () => {
@@ -30,8 +30,9 @@ const PostDetailPage = () => {
     }
   }, []);
 
+  const navigate = useNavigate();
   const onClickDelete = () => {
-    console.log("delete");
+    deletePost(postId, navigate);
   };
 
   return (
