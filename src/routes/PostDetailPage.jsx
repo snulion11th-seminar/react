@@ -31,6 +31,7 @@ const PostDetailPage = () => {
   }, []);
 
   const onClickDelete = () => {
+    window.confirm("Are you sure you want to delete this post?");
     console.log("delete");
   };
 
