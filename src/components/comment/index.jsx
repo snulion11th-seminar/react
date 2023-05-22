@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
+import { getComments, createComment } from "../../apis/api";
+import { deleteComment } from "../../apis/api";
 
-export const Comment = ({ comments, createComment, deleteComment }) => {
+export const Comment = ({ postId }) => {
   // TODO 1: 가짜 comments 불러와서 관리해야겟즤
 
   // TODO 2: comment추가하는 input 관리해줘야겟지
@@ -10,15 +12,30 @@ export const Comment = ({ comments, createComment, deleteComment }) => {
 
   // TODO 4: commet Delete 하는 함수 만들어죠
 
-  const [content, setContent] = useState();
+  const [content, setContent] = useState("");
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setComments(comments);
+    };
+    getCommentsAPI();
+  }, []);
 
   const handleChange = (e) => {
     setContent(e.target.value);
   };
 
+  const handleCommentDelete = (id) => {
+    if (window.confirm("삭제?")) {
+      deleteComment(id);
+    }
+  };
+
   const addComments = (e) => {
     e.preventDefault();
-    createComment(content);
+    createComment({ post: postId, content: content });
     setContent("");
   };
 
@@ -28,10 +45,8 @@ export const Comment = ({ comments, createComment, deleteComment }) => {
       <div>
         {comments.map((comment) => (
           <CommentElement
-            key={comment.id}
             comment={comment}
-            deleteComment={deleteComment}
-            id={comment.id}
+            handleCommentDelete={handleCommentDelete}
           />
         ))}
       </div>

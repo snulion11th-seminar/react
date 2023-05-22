@@ -1,76 +1,85 @@
 import { useEffect, useState } from "react";
+import { getUser, updateComment } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
 const CommentElement = (props) => {
-  // TODO : props 받기
-  // TODO : 수정하는 input 내용 관리
+  const { comment, handleCommentDelete } = props;
+  const [content, setContent] = useState(comment.content);
+  const [isEdit, setIsEdit] = useState(false);
 
-  // comment created_at 전처리
-  const date = new Date(props.comment.created_at);
+  const [user, setUser] = useState({ id: null });
+
+  const date = new Date(comment.created_at);
   const year = date.getFullYear();
   let month = date.getMonth() + 1;
   month = month < 10 ? `0${month}` : month;
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
-  const [edited, setEdited] = useState();
-  const [content, setContent] = useState();
+  const handleEditComment = () => {
+    updateComment(comment.id, { content: content });
+  };
 
   useEffect(() => {
-    setContent(props.comment.content);
+    // access_token이 있으면 유저 정보 가져옴
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
   }, []);
-
-  const handleChange = (e) => {
-    const text = e.target.value;
-    setContent(text);
-  };
-
-  const deleteComment = (e) => {
-    props.deleteComment(props.id);
-    console.log(props.id);
-  };
 
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
       <div className="w-3/4">
-        {edited ? (
+        {isEdit ? (
           <input
             className="input mr-4"
-            onChange={handleChange}
             value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         ) : (
-          <p>{content}</p>
+          <p className="text-lg mr-4">{comment.content}</p>
         )}
         <span className="text-base mr-1 text-gray-300">
           {year}.{month}.{day}
         </span>
       </div>
+      {user.id === comment.author.id ? (
+        <div className="w-1/4 flex flex-row-reverse items-center">
+          {isEdit ? (
+            <>
+              <button onClick={handleEditComment}>Done</button>
 
-      {edited ? (
-        <div className="w-1/4 flex flex-row-reverse items-center">
-          <button
-            onClick={() => {
-              setEdited(false);
-            }}
-          >
-            Done
-          </button>
+              <button
+                className="mr-3"
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                  setContent(comment.content);
+                }}
+              >
+                Back
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => {
+                  handleCommentDelete(comment.id);
+                }}
+              >
+                Del
+              </button>
+              <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
+                Edit
+              </button>
+            </>
+          )}
         </div>
-      ) : (
-        <div className="w-1/4 flex flex-row-reverse items-center">
-          <button onClick={deleteComment}>Del</button>
-          <button
-            onClick={() => {
-              setEdited(true);
-            }}
-            className="mr-3"
-          >
-            Edit
-          </button>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };
-
 export default CommentElement;
