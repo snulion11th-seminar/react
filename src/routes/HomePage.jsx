@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
-import { SmallPost } from "../components/Posts";
-import posts from "../data/posts";
 import { Link } from "react-router-dom";
+import { SmallPost } from "../components/Posts";
+import { getPosts, getTags } from "../apis/api";
+import { getCookie } from "../utils/cookie";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
-  const [searchValues, setSearchValues] = useState([]);
-  const [postList, setPostList] = useState(posts);
-  const [activatedTags, setActivatedTags] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const tagList = posts.reduce((acc, post) => {
-      for (let tag of post.tags) {
-        acc.add(tag.content);
-      }
-      return acc;
-    }, new Set());
-    setTags([...tagList]);
-    setSearchTags([...tagList]);
+    const getPostsAPI = async () => {
+      const posts = await getPosts();
+      setPostList(posts);
+    };
+    getPostsAPI();
+
+    const getTagsAPI = async () => {
+      const tags = await getTags();
+      const tagContents = tags.map((tag) => {
+        return tag.content;
+      });
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    getTagsAPI();
   }, []);
 
   const handleChange = (e) => {
@@ -28,54 +35,13 @@ const HomePage = () => {
   };
 
   const handleTagFilter = (e) => {
-    let newValue = e.target.textContent.slice(1);
-    let newSearchValues = searchValues;
-    ///const { value } = e.target;
-    let newactivatedTags = activatedTags;
-    let newPostList = [];
-    if (newactivatedTags.includes(newValue)) {
-      newSearchValues = newSearchValues.filter(
-        (searchValue) => searchValue !== newValue
-      );
-      setSearchValues(newSearchValues);
-      newactivatedTags = newactivatedTags.filter((tag) => tag !== newValue);
-      if (newactivatedTags.length === 0) {
-        posts.map((post) => {
-          newPostList.push(post);
-        });
-      } else {
-        posts.map((post) => {
-          newactivatedTags.map((activatedTag) => {
-            if (
-              post.tags.find((tag) => tag.content === activatedTag) &&
-              !newPostList.includes(post)
-            ) {
-              newPostList.push(post);
-            }
-          });
-        });
-      }
+    const { innerText } = e.target;
+    if (searchValue === innerText.substring(1)) {
+      setSearchValue("");
     } else {
-      newSearchValues.push(newValue);
-      setSearchValues(newSearchValues);
-
-      newactivatedTags.push(newValue);
-      posts.map((post) => {
-        newactivatedTags.map((activatedTag) => {
-          if (
-            post.tags.find((tag) => tag.content === activatedTag) &&
-            !newPostList.includes(post)
-          ) {
-            newPostList.push(post);
-          }
-        });
-      });
+      const activeTag = innerText.substring(1);
+      setSearchValue(activeTag);
     }
-    for (let activatedTag of newactivatedTags) {
-      console.log(activatedTag);
-    }
-    setActivatedTags(newactivatedTags);
-    setPostList(newPostList);
   };
 
   return (
@@ -95,9 +61,7 @@ const HomePage = () => {
             return (
               <button
                 key={tag}
-                className={
-                  searchValues.includes(tag) ? "tag active mr-2" : "tag mr-2"
-                }
+                className={tag === searchValue ? "tag active mr-2" : "tag mr-2"}
                 onClick={handleTagFilter}
               >
                 #{tag}
@@ -108,15 +72,25 @@ const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-4 px-10 mt-10">
-        {postList.map((post) => (
-          <SmallPost key={post.id} post={post} />
-        ))}
+        {postList
+          .filter((post) =>
+            searchValue
+              ? post.tags.find((tag) => tag.content === searchValue)
+              : post
+          )
+          .map((post) => (
+            <SmallPost key={post.id} post={post} />
+          ))}
       </div>
-      <div className="flex justify-center m-20">
-        <Link className="button" to="/create">
-          Post
-        </Link>
-      </div>
+
+      {/* 로그인해야지만 Post 버튼 보이도록 설정 */}
+      {getCookie("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };

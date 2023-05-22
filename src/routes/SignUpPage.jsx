@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { SignUpForm } from "../components/Form";
+import { signUp } from "../apis/api";
+
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -10,11 +12,11 @@ const SignUpPage = () => {
     major: "",
   });
 
-
-  const handleSignUpSubmit = () => {
-    alert(`${formData.email}로 회원가입 해 줘`);
-    // add api call for sign up here
+  const handleSignUpSubmit = (e) => {
+    e.preventDefault();
+    signUp(formData);
   };
+
   return (
     <div className="flex flex-col items-center w-1/2">
       <h3 className=" font-bold text-4xl">Sign Up</h3>
@@ -23,7 +25,6 @@ const SignUpPage = () => {
         setFormData={setFormData}
         handleSignUpSubmit={handleSignUpSubmit}
       />
-      ;
     </div>
   );
 };

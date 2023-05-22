@@ -1,79 +1,59 @@
 import { useEffect, useState } from "react";
-import comments from "../../data/comment";
 import CommentElement from "./CommentElement";
-import { useParams } from "react-router-dom";
+import { createComment, getComments } from "../../apis/api";
 
-const Comment = () => {
-  // TODO 1: 가짜 comments 불러와서 관리해야겟즤
-  const [formData, setFormData] = useState(comments);
-  const param = useParams();
-  const [comment, setComment] = useState({
-    id: formData.length + 1,
-    content: "",
-    post: param,
-    created_at: new Date().toISOString(),
-    author: {
-      id: 1,
-      username: "user1",
-    },
-  });
-  // TODO 2: comment추가하는 input 관리해줘야겟지
-  const [inputValue, setInputValue] = useState("");
-  const [id, setId] = useState(formData.length);
-  // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
-  // TODO 4: commet Delete 하는 함수 만들어죠
-  const handleChange = (e) => {
-    const newInputValue = e.target.value;
-    setInputValue(newInputValue);
-  };
+const Comment = ({ postId }) => {
+  const [commentList, setCommentList] = useState([]); // state for comments
+  const [newContent, setNewContent] = useState(""); // state for new comment
+
   useEffect(() => {
-    setComment({
-      ...comment,
-      content: inputValue,
-      id: id,
-    });
-  }, [inputValue]);
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentList(comments);
+    };
+    getCommentsAPI();
+  }, [postId]);
 
-  const onSubmit = (e) => {
+  const handleCommentSubmit = (e) => {
     e.preventDefault();
-    console.log(comment.id);
-    const newFormData = [...formData, comment];
-    setFormData(newFormData);
+    setNewContent("");
+    createComment({ post: postId, content: newContent });
   };
-  useEffect(() => {
-    setInputValue("");
-    setId(id + 1);
-    //onsole.log(formData);
-  }, [formData]);
+
+  // 과제!!
+  const handleCommentDelete = () => {
+    console.log("delete");
+  };
+
   return (
     <div className="w-full mt-5 self-start">
       <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
-      {formData &&
-        formData.map((el, index) => (
-          <div>
+      {commentList.map((comment) => {
+        return (
+          <div className="w-full flex flex-row" key={comment.id}>
             <CommentElement
-              commentId={el.id}
-              comments={formData}
-              setFormData={setFormData}
-              id={id}
-              setId={setId}
-              index = {index}
+              comment={comment}
+              handleCommentDelete={handleCommentDelete}
             />
           </div>
-        ))}
-      <form onSubmit={onSubmit}>
-        <div className="flex justify-between w-full">
-          <input
-            className="input mt-10 py-2 "
-            type="text"
-            placeholder="댓글을 입력해주세요"
-            onChange={handleChange}
-            value={inputValue}
-          />
-          <button className="button mt-10 mx-4 py-2 px-10">comment</button>
-        </div>
+        );
+      })}
+      {/* comment form component */}
+      <form
+        className="flex items-center justify-center mt-10 gap-2"
+        onSubmit={handleCommentSubmit}
+      >
+        <input
+          type="text"
+          value={newContent}
+          placeholder="댓글을 입력해주세요"
+          className="input h-14"
+          onChange={(e) => setNewContent(e.target.value)}
+        />
+        <button type="submit" className="button">
+          comment
+        </button>
       </form>
-      <form></form>
     </div>
   );
 };

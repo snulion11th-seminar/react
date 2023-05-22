@@ -13,6 +13,9 @@
 .button {
   @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl text-lg p-3.5;
 }
+.small-button {
+  @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl p-1;
+}
 /* 모든 form 일괄 적용 */
 .form {
   @apply w-full flex flex-col items-center;
