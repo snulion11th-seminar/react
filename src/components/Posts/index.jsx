@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { likePost } from "../../apis/api";
 
 export const SmallPost = ({ post }) => {
+  const [likeCount, setLikeCount] = useState();
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
+    likePost(post.id);
   };
 
   return (
@@ -36,6 +40,7 @@ export const BigPost = ({ post }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
+    likePost(post.id);
   };
 
   return (

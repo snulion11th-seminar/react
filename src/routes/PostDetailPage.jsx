@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost, getUser } from "../apis/api";
+import { getPost, getUser, deletePost } from "../apis/api";
 import { getCookie } from "../utils/cookie";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPostAPI = async () => {
@@ -31,8 +32,11 @@ const PostDetailPage = () => {
   }, []);
 
   const onClickDelete = () => {
-    window.confirm("Are you sure you want to delete this post?");
-    console.log("delete");
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      deletePost(postId, navigate);
+    } else {
+      window.alert("Cancel delete post");
+    }
   };
 
   return (
