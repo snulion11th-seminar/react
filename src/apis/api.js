@@ -74,7 +74,7 @@ export const deletePost = async (id, navigate) => {
 
 //과제!!
 export const likePost = async (postId) => {
-  const response = await instance.post(`/post/${postId}/like/`);
+  const response = await instanceWithToken.post(`/post/${postId}/like/`);
   return response.data;
 };
 
