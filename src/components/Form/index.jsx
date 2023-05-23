@@ -77,7 +77,6 @@ export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
         onChange={handleFormData}
         value={formData.major}
       />
-      {/* 수정 👆🏻 */}
       <button type="submit" className="button mt-7">
         Sign up !
       </button>
@@ -130,6 +129,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   const [autoCompletes, setAutoCompletes] = useState([]);
 
   const handleChange = (e) => {
+    console.log(e.target.id);
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 

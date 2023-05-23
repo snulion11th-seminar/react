@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { useParams } from "react-router-dom";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
@@ -18,6 +19,46 @@ const PostDetailPage = () => {
     console.log("delete");
     // add api call for deleting post here
     // add redirect to home page
+=======
+import { useParams, useNavigate } from "react-router-dom";
+import Comment from "../components/Comment";
+import { BigPost } from "../components/Posts";
+import { Link } from "react-router-dom";
+import { getPost, getUser, deletePost } from "../apis/api";
+import { getCookie } from "../utils/cookie";
+
+const PostDetailPage = () => {
+  const { postId } = useParams();
+  const [post, setPost] = useState();
+  const [user, setUser] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getPostAPI = async () => {
+      const post = await getPost(postId);
+      setPost(post);
+    };
+    getPostAPI();
+  }, [postId]);
+
+  useEffect(() => {
+    // access_token이 있으면 유저 정보 가져옴
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
+
+  const onClickDelete = () => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      deletePost(postId, navigate);
+    } else {
+      window.alert("Cancel delete post");
+    }
+>>>>>>> main
   };
 
   return (
@@ -26,6 +67,7 @@ const PostDetailPage = () => {
         {/* post detail component */}
         <BigPost post={post} />
 
+<<<<<<< HEAD
         <div>
           <Link to={`/${post.id}/edit`}>
             <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
@@ -36,6 +78,25 @@ const PostDetailPage = () => {
           >
             Delete
           </button>
+=======
+        {/* comments component */}
+        <Comment postId={postId} />
+
+        <div>
+          {user?.id === post?.author.id ? (
+            <>
+              <Link to={`/${post.id}/edit`}>
+                <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
+              </Link>
+              <button
+                className="button mt-10 mx-4 py-2 px-10"
+                onClick={onClickDelete}
+              >
+                Delete
+              </button>
+            </>
+          ) : null}
+>>>>>>> main
         </div>
       </div>
     )
