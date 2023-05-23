@@ -62,10 +62,25 @@ export const updatePost = async (id, data, navigate) => {
 };
 
 //과제!!
-export const deletePost = async (id, navigate) => {};
-
+export const deletePost = async (postId) => {
+  const response = await instanceWithToken.delete(`/post/${postId}/`);
+  if (response.status === 204) {
+    console.log("DELETE SUCCESS");
+  } else {
+    console.log("[ERROR] error while deleting post");
+  }
+};
 //과제!!
-export const likePost = async (postId) => {};
+export const likePost = async (postId) => {
+  const response = await instanceWithToken.post(`/post/${postId}/like/`);
+  if (response.status === 200) {
+    console.log("POST LIKE SUCCESS");
+  } else {
+    console.log("[ERROR] error while liking post");
+  }
+  return response.data;
+};
+
 
 // Tag 관련 API들
 export const getTags = async () => {
@@ -110,4 +125,11 @@ export const updateComment = async (id, data) => {
 };
 
 //과제!!
-export const deleteComment = async (id) => {};
+export const deleteComment = async (id) => {
+  const response = await instanceWithToken.delete(`/comment/${id}/`);
+  if (response.status === 204) {
+    console.log("COMMENT DELETE SUCCESS");
+  } else {
+    console.log("[ERROR] error while deleting comment");
+  }
+};

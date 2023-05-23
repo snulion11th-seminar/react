@@ -5,6 +5,7 @@ import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
 import { getPost, getUser } from "../apis/api";
 import { getCookie } from "../utils/cookie";
+import { deletePost } from "../apis/api";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
@@ -30,8 +31,17 @@ const PostDetailPage = () => {
     }
   }, []);
 
-  const onClickDelete = () => {
-    console.log("delete");
+  const onClickDelete = async () => {
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+    if (confirmed) {
+      try {
+        await deletePost(postId);
+        console.log("delete");
+        window.location.href = "/";
+      } catch (error) {
+        console.error("Failed to delete the post:", error);
+      }
+    }
   };
 
   return (

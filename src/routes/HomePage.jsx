@@ -28,6 +28,8 @@ const HomePage = () => {
     getTagsAPI();
   }, []);
 
+  console.log(postList);
+
   const handleChange = (e) => {
     const { value } = e.target;
     const newTags = tags.filter((tag) => tag.includes(value));
