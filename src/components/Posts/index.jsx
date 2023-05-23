@@ -5,7 +5,6 @@ export const SmallPost = ({ post }) => {
   const onClickLike = (e) => {
     console.log("나도 좋아!");
     // add api call for liking post here
-    e.preventDefault();
     console.log(post.id);
     likePost(post.id);
   };
@@ -40,7 +39,6 @@ export const BigPost = ({ post }) => {
   const onClickLike = (e) => {
     console.log("나도 좋아!");
     // add api call for liking post here
-    e.preventDefault();
     console.log(post.id);
     likePost(post.id);
   };

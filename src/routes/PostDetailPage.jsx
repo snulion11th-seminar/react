@@ -35,8 +35,6 @@ const PostDetailPage = () => {
 
   // 과제 - 삭제 기능 구현
   const onClickDelete = (e) => {
-    e.preventDefault();
-
     if (window.confirm("정말 삭제하시겠습니까?")) {
       deletePost(postId, navigate);
       console.log("delete");
