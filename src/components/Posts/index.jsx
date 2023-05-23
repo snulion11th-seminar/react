@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
+import { likePost } from "../../apis/api";
+import { useState } from "react";
 
 export const SmallPost = ({ post }) => {
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.like_users.length);
+
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
+    likePost(post.id).then((updatedPost) => {
+      setLiked(true);
+      setLikeCount(updatedPost.like_users.length);
+    });
   };
 
   return (
@@ -21,7 +30,7 @@ export const SmallPost = ({ post }) => {
         className="absolute bottom-3 left-4 cursor-pointer"
         onClick={onClickLike}
       >
-        ❤️ {post.like_users.length}
+        ❤️ {likeCount}
       </div>
       <Link to={`/${post.id}`}>
         <div className="absolute bottom-0 right-0 bg-orange-400 px-5 py-2 rounded-lg translate-x-5 translate-y-5">
@@ -33,9 +42,16 @@ export const SmallPost = ({ post }) => {
 };
 
 export const BigPost = ({ post }) => {
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.like_users.length);
+
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
+    likePost(post.id).then((updatedPost) => {
+      setLiked(true);
+      setLikeCount(updatedPost.like_users.length);
+    });
   };
 
   return (
@@ -53,7 +69,7 @@ export const BigPost = ({ post }) => {
             ))}
         </div>
         <div className="flex mt-5 cursor-pointer" onClick={onClickLike}>
-          ❤️ {post.like_users.length}
+          ❤️ {likeCount}
         </div>
       </div>
     </div>

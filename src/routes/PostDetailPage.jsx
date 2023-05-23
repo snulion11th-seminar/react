@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost, getUser } from "../apis/api";
+import { deletePost, getPost, getUser } from "../apis/api";
 import { getCookie } from "../utils/cookie";
 
 const PostDetailPage = () => {
+  const navigate = useNavigate();
+
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
@@ -31,7 +33,11 @@ const PostDetailPage = () => {
   }, []);
 
   const onClickDelete = () => {
-    console.log("delete");
+    const confirmDelete = window.confirm("정말 이 글을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      deletePost(post.id, navigate);
+      console.log("delete");
+    }
   };
 
   return (

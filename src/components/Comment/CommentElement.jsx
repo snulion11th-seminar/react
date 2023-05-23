@@ -51,9 +51,8 @@ const CommentElement = (props) => {
         <div className="w-1/4 flex flex-row-reverse items-center">
           {isEdit ? (
             <>
-              <button className="mr-3" onClick={handleEditComment}>
-                Done
-              </button>
+              <button onClick={handleEditComment}>Done</button>
+
               <button
                 className="mr-3"
                 onClick={() => {
