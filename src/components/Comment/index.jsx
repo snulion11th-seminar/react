@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
-import { createComment, getComments } from "../../apis/api";
+import { createComment, getComments, deleteComment } from "../../apis/api";
+
 
 const Comment = ({ postId }) => {
   const [commentList, setCommentList] = useState([]); // state for comments
@@ -21,8 +22,12 @@ const Comment = ({ postId }) => {
   };
 
   // 과제!!
-  const handleCommentDelete = () => {
-    console.log("delete");
+  const handleCommentDelete = async (commentId) => {
+    const confirmDelete = window.confirm("정말로 댓글을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      await deleteComment(commentId);
+      window.location.reload();
+    }
   };
 
   return (

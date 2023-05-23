@@ -20,6 +20,7 @@ const CommentElement = (props) => {
     updateComment(comment.id, { content: content });
   };
 
+
   useEffect(() => {
     // access_token이 있으면 유저 정보 가져옴
     if (getCookie("access_token")) {
