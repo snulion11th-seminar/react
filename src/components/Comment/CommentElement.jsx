@@ -34,10 +34,12 @@ const CommentElement = (props) => {
   console.log(user);
   console.log(comment);
 
+  const isCommentAuthor = user?.id === comment.author.id;
+
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
       <div className="w-3/4">
-        {isEdit ? (
+        {isEdit && isCommentAuthor ? (
           <input
             className="input mr-4"
             value={content}
@@ -50,35 +52,31 @@ const CommentElement = (props) => {
           {year}.{month}.{day}
         </span>
       </div>
-      {user?.id === comment.author.id ? (
-        <div className="w-1/4 flex flex-row-reverse items-center">
-          {isEdit ? (
-            <>
-              <button className="mr-3" onClick={handleEditComment}>
-                Done
-              </button>
-              <button
-                className="mr-3"
-                onClick={() => {
-                  setIsEdit(!isEdit);
-                  setContent(comment.content);
-                }}
-              >
-                Back
-              </button>
-            </>
-          ) : (
-            <>
-              <button onClick={() => handleCommentDelete(comment.id)}>
-                Del
-              </button>
-              <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
-                Edit
-              </button>
-            </>
-          )}
-        </div>
-      ) : null}
+      <div className="w-1/4 flex flex-row-reverse items-center">
+        {isEdit && isCommentAuthor ? (
+          <>
+            <button className="mr-3" onClick={handleEditComment}>
+              Done
+            </button>
+            <button
+              className="mr-3"
+              onClick={() => {
+                setIsEdit(!isEdit);
+                setContent(comment.content);
+              }}
+            >
+              Back
+            </button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => handleCommentDelete(comment.id)}>Del</button>
+            <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
+              Edit
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
