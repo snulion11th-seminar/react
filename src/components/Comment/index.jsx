@@ -1,67 +1,66 @@
-import { useState, useEffect } from "react";
-import comments from "../../data/comments";
+import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
+import { createComment, getComments, deleteComment } from "../../apis/api";
 
-export const Comment = () => {
-  // TODO 1: comments 불러와서 저장해야겟즤
-  const [commentList, setCommentList] = useState();
+
+const Comment = ({ postId }) => {
+  const [commentList, setCommentList] = useState([]); // state for comments
+  const [newContent, setNewContent] = useState(""); // state for new comment
+
   useEffect(() => {
-    setCommentList(comments);
-  }, []);
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentList(comments);
+    };
+    getCommentsAPI();
+  }, [postId]);
 
-  // TODO 2: comment추가하는 input 관리해줘야겟지
-  const [commentInputValue, setcommentInputValue] = useState("");
-
-  // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    const newComment = {
-      id: commentList.length + 1,
-      content: commentInputValue,
-      created_at: new Date(),
-      author: {
-        id: 1,
-        username: "붸잉뷍",
-      },
-    };
-
-    setCommentList([...commentList, newComment]);
-    setcommentInputValue("");
+    setNewContent("");
+    createComment({ post: postId, content: newContent });
   };
 
-
+  // 과제!!
+  const handleCommentDelete = async (commentId) => {
+    const confirmDelete = window.confirm("정말로 댓글을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      await deleteComment(commentId);
+      window.location.reload();
+    }
+  };
 
   return (
     <div className="w-full mt-5 self-start">
       <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
-
-      {commentList &&
-        commentList.map((comment) => {
-          return (
+      {commentList.map((comment) => {
+        return (
+          <div className="w-full flex flex-row" key={comment.id}>
             <CommentElement
               comment={comment}
-              commentList={commentList}
-              setCommentList={setCommentList}
+              handleCommentDelete={handleCommentDelete}
             />
-          );
-        })}
-
-      {/* // TODO 2-3 : comment 추가하는 comment form 만들어주기 */}
+          </div>
+        );
+      })}
+      {/* comment form component */}
       <form
         className="flex items-center justify-center mt-10 gap-2"
         onSubmit={handleCommentSubmit}
       >
         <input
-          className="input placeholder-white"
-          placeholder="댓글을 입력해주세요."
-          value={commentInputValue}
-          onChange={(e) => setcommentInputValue(e.target.value)}
+          type="text"
+          value={newContent}
+          placeholder="댓글을 입력해주세요"
+          className="input h-14"
+          onChange={(e) => setNewContent(e.target.value)}
         />
-
         <button type="submit" className="button">
-          Comment
+          comment
         </button>
       </form>
     </div>
   );
 };
+
+export default Comment;
