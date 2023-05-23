@@ -75,6 +75,11 @@ export const deletePost = async (id, navigate) => {
 //과제!!
 export const likePost = async (postId) => {
   const response = await instanceWithToken.post(`/post/${postId}/like/`);
+  if (response.status === 200) {
+    console.log("LIKE SUCCESS");
+  } else {
+    console.log("[ERROR] error while liking post");
+  }
   return response.data;
 };
 
