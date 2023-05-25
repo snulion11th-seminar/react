@@ -1,47 +1,50 @@
 import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement.jsx";
-import commentList from "../../data/comment.js";
+import { getComments } from "../../apis/api.js";
+import { createComment } from "../../apis/api.js";
 
-const Comment = () => {
-  const [commentListinPost, setCommentListinPost] = useState(commentList);
-  const [commentInputValue, setCommentInputValue] = useState({ content: "" });
+const Comment = ({ postId }) => {
+  const [commentInputValue, setCommentInputValue] = useState("");
   const [editingText, setEditingText] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
+  const [commentListinPost, setCommentListinPost] = useState([]);
+
+  useEffect(() => {
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentListinPost(comments);
+    };
+    getCommentsAPI();
+  }, [postId]);
+  //getComments를 이용해 모든 comment 가져오고 commentList에 담아두기
 
   // show comment in commentList
   useEffect(() => {
-    setCommentListinPost(commentList);
+    setCommentListinPost(commentListinPost);
   }, []);
 
   // handle comment input value
   const handleCommentData = (e) => {
     const { id, value } = e.target;
-    setCommentInputValue({ ...commentInputValue, [id]: value });
+    setCommentInputValue(value);
   };
 
   // add comment
   const addComment = (e) => {
     e.preventDefault();
-    const newComment = {
-      id: commentListinPost.length + 1,
-      post: "post",
-      created_at: new Date(),
-      author: {
-        id: 1,
-        username: "베이비",
-      },
-      content: commentInputValue.content,
-    };
-    setCommentListinPost([...commentListinPost, newComment]);
-    setCommentInputValue({ content: "" });
+    createComment({ post: postId, content: commentInputValue });
+    setCommentInputValue("");
   };
 
   //deleteComment
   const deleteComment = (id) => {
-    const updatedCommentList = commentListinPost.filter(
-      (comment) => comment.id !== id
-    );
-    setCommentListinPost(updatedCommentList);
+    const confirmed = window.confirm("삭제할꼬얌?");
+    if (confirmed) {
+      const updatedCommentList = commentListinPost.filter(
+        (comment) => comment.id !== id
+      );
+      setCommentListinPost(updatedCommentList);
+    }
   };
 
   //edit Comment
@@ -71,7 +74,7 @@ const Comment = () => {
             id={comment.id}
             post={comment.post}
             created_at={comment.created_at}
-            author={comment.author}
+            author={comment.author.id}
             content={comment.content}
             commentListinPost={commentListinPost}
             setCommentListinPost={setCommentListinPost}
@@ -90,7 +93,7 @@ const Comment = () => {
           type="text"
           placeholder="댓글을 입력해주세요"
           id="content"
-          value={commentInputValue["content"]}
+          value={commentInputValue}
           onChange={handleCommentData}
           className="input h-14"
         />

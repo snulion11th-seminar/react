@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { SignInForm } from "../components/Form";
+import { getCookie } from "../utils/cookie";
+import axios from "axios";
+import { signIn } from "../apis/api";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -12,11 +15,16 @@ const SignInPage = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleSignInSubmit = () => {
-    console.log(formData);
-    alert("로그인 완 료!");
-    // add api call for sign in here
+  const handleSignInSubmit = (e) => {
+    e.preventDefault();
+    signIn(formData);
   };
+
+  // const handleSignInSubmit = () => {
+  //   console.log(formData);
+  //   alert("로그인 완 료!");
+  //   // add api call for sign in here
+  // };
 
   return (
     <div className="flex flex-col items-center w-1/2">
