@@ -158,7 +158,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
     setAutoCompletes([]);
   };
 
-  // 추가 버튼 혹인 엔터 누르면 태그 생성
+  // 추가 버튼 혹은 엔터 누르면 태그 생성
   const addTag = (e) => {
     e.preventDefault();
 

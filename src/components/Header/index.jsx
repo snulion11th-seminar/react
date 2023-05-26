@@ -1,8 +1,24 @@
+import { useEffect } from "react";
 import lion from "../../assets/images/lion.jpeg";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { getCookie, removeCookie } from "../../utils/cookie";
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const isToken = getCookie("access_token") ? true : false;
+    setIsLoggedIn(isToken);
+  }, [isLoggedIn]);
+
+  const handleLogout = () => {
+    removeCookie("access_token");
+    removeCookie("refresh_token");
+    setIsLoggedIn(false);
+    window.location.href = "/";
+  };
+
   return (
     <div
       id="header-wrapper"
@@ -15,12 +31,20 @@ const Header = () => {
         </Link>
       </div>
       <div className="flex">
-        <Link to="/signin" className="mr-10 p-3 uppercase">
-          sign in
-        </Link>
-        <Link to="/signup" className="mr-10 p-3 uppercase">
-          sign up
-        </Link>
+        {isLoggedIn ? (
+          <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
+            log out
+          </Link>
+        ) : (
+          <div>
+            <Link to="/signin" className="mr-10 p-3 uppercase">
+              sign in
+            </Link>
+            <Link to="/signup" className="mr-10 p-3 uppercase">
+              sign up
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
