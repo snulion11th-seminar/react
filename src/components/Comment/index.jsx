@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
 import { createComment, getComments } from "../../apis/api";
+import { deleteComment } from "../../apis/api";
 
 const Comment = ({ postId }) => {
   const [commentList, setCommentList] = useState([]); // state for comments
@@ -21,8 +22,9 @@ const Comment = ({ postId }) => {
   };
 
   // 과제!!
-  const handleCommentDelete = () => {
-    console.log("delete");
+  const handleCommentDelete = (id) => {
+    window.confirm("코멘트를 지우시겠습니까?");
+    deleteComment(id);
   };
 
   return (
