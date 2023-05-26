@@ -181,7 +181,6 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
       tags: formData.tags.filter((t) => t !== tag),
     });
   };
-
   return (
     <form className="form" onSubmit={onSubmit}>
       <label htmlFor="title" className="label">
