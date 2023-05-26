@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
+import { getUser, updateComment } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
-export const CommentElement = ({ comment, commentList, setCommentList }) => {
+export const CommentElement = (
+  props
+) => {
   // TODO : props 받기
-
+  const { comment, handleCommentDelete } = props;
   // TODO : 수정하는 input 내용 관리
+  const [user, setUser] = useState(null);
 
   const [commentInput, setCommentInput] = useState(comment.content);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const commentStatus = () => {
-    if (isSubmitted) {
-      return setIsSubmitted(false);
-    } else {
-      return setIsSubmitted(true);
-    }
-  };
 
   // comment created_at 전처리
   const date = new Date(comment.created_at);
@@ -25,13 +22,39 @@ export const CommentElement = ({ comment, commentList, setCommentList }) => {
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
-  const commentDelete = () => {
-    const newCommentList = commentList.filter(
-      (clickedComment) => clickedComment.id !== comment.id
-    );
-    setCommentList(newCommentList);
-    console.log(comment.id);
+  useEffect(() => {
+    // access_token이 있으면 유저 정보 가져옴
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
+
+  // const commentDelete = () => {
+  //   const newCommentList = commentList.filter(
+  //     (clickedComment) => clickedComment.id !== comment.id
+  //   );
+  //   setCommentList(newCommentList);
+  //   console.log(comment.id);
+  // };
+
+  const handleEditComment = () => {
+    updateComment(comment.id, { content: commentInput });
   };
+  // updateComment 활용
+
+  useEffect(() => {
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
 
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
@@ -56,17 +79,40 @@ export const CommentElement = ({ comment, commentList, setCommentList }) => {
         </div>
         <div className="flex felx-row justify-between">
           {/* // 수정, 삭제버튼 */}
-          <div className="w-1/4 flex flex-row-reverse items-center">
-            {isSubmitted ? (
-              <button onClick={commentStatus}>Done</button>
-            ) : (
-              <button onClick={commentStatus}>Edit</button>
-            )}
-          </div>
-          <div className="w-1/4 flex flex-row-reverse items-center">
-            {/* // delete 버튼은 수정이 아닐때만 보이게 해줘 */}
-            {isSubmitted ? null : <button onClick={commentDelete}>Del</button>}
-          </div>
+          {user?.id === comment.author ? (
+            <div className="w-1/4 flex flex-row-reverse items-center">
+              {isSubmitted ? (
+                <>
+                  <button onClick={handleEditComment}>Done</button>
+
+                  <button
+                    className="mr-3"
+                    onClick={() => {
+                      setIsSubmitted(!isSubmitted);
+                      setCommentInput(comment.content);
+                    }}
+                  >
+                    Back
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={() => handleCommentDelete(comment.id)}>
+                    Del
+                  </button>
+                  <button
+                    className="mr-3"
+                    onClick={() => setIsSubmitted(!isSubmitted)}
+                  >
+                    Edit
+                  </button>
+                </>
+              )}
+            </div>
+          ) : null}
+
+          {/* comment 데이터를 console에 찍어보면, comment.author에는
+					comment를 작성한 유저의 id만 전달. 그러니 comment.author만 적음 */}
         </div>
       </div>
     </div>
