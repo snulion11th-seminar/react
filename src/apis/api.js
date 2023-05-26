@@ -1,3 +1,4 @@
+import { is } from "@babel/types";
 import { instance, instanceWithToken } from "./axios";
 
 // Account 관련 API들
@@ -62,10 +63,30 @@ export const updatePost = async (id, data, navigate) => {
 };
 
 //과제!!
-export const deletePost = async (id, navigate) => {};
+export const deletePost = async (id, navigate) => {
+  const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
+  const response = await instanceWithToken.delete(`/post/${id}/`);
+  if (isConfirmed) {
+    if (response.status === 204) {
+      console.log("POST DELETE SUCCESS");
+      navigate("/");
+    } else {
+      console.log("[ERROR] error while deleting post");
+    }
+  }
+};
 
 //과제!!
-export const likePost = async (postId) => {};
+export const likePost = async (postId) => {
+  const response = await instanceWithToken.post(`/post/${postId}/like/`);
+  if (response.status === 200) {
+    console.log("LIKE SUCCESS");
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while liking post");
+  }
+  return response.data;
+};
 
 // Tag 관련 API들
 export const getTags = async () => {
@@ -110,4 +131,15 @@ export const updateComment = async (id, data) => {
 };
 
 //과제!!
-export const deleteComment = async (id) => {};
+export const deleteComment = async (id) => {
+  const isConfirmed = window.confirm("댓글을 삭제하시겠습니까?");
+  if (isConfirmed) {
+    const response = await instanceWithToken.delete(`/comment/${id}/`);
+    if (response.status === 204) {
+      console.log("DELETE COMMENT SUCCESS");
+      window.location.reload();
+    } else {
+      console.log("[ERROR] error while removing comment");
+    }
+  }
+};

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
-import { createComment, getComments } from "../../apis/api";
+import { createComment, getComments, deleteComment } from "../../apis/api";
 
 const Comment = ({ postId }) => {
   const [commentList, setCommentList] = useState([]); // state for comments
@@ -21,8 +21,8 @@ const Comment = ({ postId }) => {
   };
 
   // 과제!!
-  const handleCommentDelete = () => {
-    console.log("delete");
+  const handleDeleteComment = (id) => {
+    deleteComment(id);
   };
 
   return (
@@ -33,7 +33,7 @@ const Comment = ({ postId }) => {
           <div className="w-full flex flex-row" key={comment.id}>
             <CommentElement
               comment={comment}
-              handleCommentDelete={handleCommentDelete}
+              handleCommentDelete={handleDeleteComment}
             />
           </div>
         );
