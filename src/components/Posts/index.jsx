@@ -3,7 +3,7 @@ import { likePost } from "../../apis/api";
 
 export const SmallPost = ({ post }) => {
   const onClickLike = () => {
-    console.log("나도 좋아!");
+    likePost(post.id);
     // add api call for liking post here
   };
 
