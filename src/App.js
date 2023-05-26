@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
@@ -12,7 +11,7 @@ import SignInPage from "./routes/SignInPage";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <BrowserRouter>
         <Header />
         <Routes>
