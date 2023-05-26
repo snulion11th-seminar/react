@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SignInForm } from "../components/Form";
+import { signIn } from "../apis/api";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -7,9 +8,9 @@ const SignInPage = () => {
     password: "",
   });
 
-  const handleSignInSubmit = () => {
-    console.log(formData);
-    alert("로그인 완 료!");
+  const handleSignInSubmit = (e) => {
+    e.preventDefault();
+    signIn(formData);
     // add api call for sign in here
   };
   return (
