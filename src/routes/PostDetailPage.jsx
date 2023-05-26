@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost, getUser } from "../apis/api";
+import { getPost, getUser, deletePost, likePost } from "../apis/api";
 import { getCookie } from "../utils/cookie";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPostAPI = async () => {
@@ -25,13 +26,15 @@ const PostDetailPage = () => {
       const getUserAPI = async () => {
         const user = await getUser();
         setUser(user);
+        console.log(user);
       };
       getUserAPI();
     }
   }, []);
 
-  const onClickDelete = () => {
+  const onClickDelete = async () => {
     console.log("delete");
+    deletePost(postId, navigate);
   };
 
   return (

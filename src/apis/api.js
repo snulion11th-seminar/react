@@ -61,11 +61,30 @@ export const updatePost = async (id, data, navigate) => {
   }
 };
 
-//과제!!
-export const deletePost = async (id, navigate) => {};
+export const deletePost = async (id, navigate) => {
+  if (window.confirm("글을 삭제하시겠어요? 정말요?")) {
+    const response = await instanceWithToken.delete(`post/${id}/`);
+    if (response.status === 204) {
+      console.log("POST DELETE SUCCESS");
+      navigate("/");
+    } else {
+      console.log("[ERROR] error while deleting post");
+    }
+  }
+};
 
 //과제!!
-export const likePost = async (postId) => {};
+export const likePost = async (id) => {
+  const response = await instanceWithToken.post(`/post/${id}/like/`);
+  if (response.status === 200) {
+    console.log("POST LIKE SUCCESS");
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while creating like");
+  }
+
+  return response.data;
+};
 
 // Tag 관련 API들
 export const getTags = async () => {
@@ -110,4 +129,15 @@ export const updateComment = async (id, data) => {
 };
 
 //과제!!
-export const deleteComment = async (id) => {};
+export const deleteComment = async (id) => {
+  const isConfirmed = window.confirm("댓글을 삭제하시겠어요? 진짜요?");
+  if (isConfirmed) {
+    const response = await instanceWithToken.delete(`/comment/${id}/`);
+    if (response.status === 204) {
+      console.log("DELETE COMMENT SUCCESS");
+      window.location.reload();
+    } else {
+      console.log("[ERROR] error while deleting comment");
+    }
+  }
+};

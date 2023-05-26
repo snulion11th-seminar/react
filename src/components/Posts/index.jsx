@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { likePost } from "../../apis/api";
+import { useState, useEffect } from "react";
 
 export const SmallPost = ({ post }) => {
   const onClickLike = () => {
@@ -33,9 +35,18 @@ export const SmallPost = ({ post }) => {
 };
 
 export const BigPost = ({ post }) => {
+  const [likeUsers, setLikeUsers] = useState([]);
+
+  useEffect(() => {
+    setLikeUsers([...post.like_users, "test"]);
+  }, [post]);
+
   const onClickLike = () => {
-    console.log("나도 좋아!");
-    // add api call for liking post here
+    likePost(post.id, {
+      id: post.id,
+      content: post.content,
+      like_users: likeUsers,
+    });
   };
 
   return (

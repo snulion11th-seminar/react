@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
-import { createComment, getComments } from "../../apis/api";
+import { createComment, getComments, deleteComment } from "../../apis/api";
 
 const Comment = ({ postId }) => {
   const [commentList, setCommentList] = useState([]); // state for comments
@@ -16,13 +16,14 @@ const Comment = ({ postId }) => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    setNewContent("");
     createComment({ post: postId, content: newContent });
+    setNewContent("");
   };
 
   // 과제!!
-  const handleCommentDelete = () => {
+  const handleCommentDelete = (comment_id) => {
     console.log("delete");
+    deleteComment(comment_id);
   };
 
   return (
