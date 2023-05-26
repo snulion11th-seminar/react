@@ -1,8 +1,6 @@
-import logo from "./logo.svg";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./routes/HomePage";
 import PostCreatePage from "./routes/PostCreatePage";
@@ -10,12 +8,10 @@ import PostEditPage from "./routes/PostEditPage";
 import SignUpPage from "./routes/SignUpPage";
 import PostDetailPage from "./routes/PostDetailPage";
 import SignInPage from "./routes/SignInPage";
-{/* 추가 👆🏻 */}
 
 function App() {
   return (
-    <div className="App">
-			{/* 수정 👇🏻 */}
+    <div className="app">
       <BrowserRouter>
         <Header />
         <Routes>
@@ -34,9 +30,8 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-			{/* 수정 👆🏻 */}
     </div>
-  )
+  );
 }
 
 export default App;
