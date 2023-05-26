@@ -47,6 +47,7 @@ export const updatePost = async (id, data, navigate) => {
   if (response.status === 200) {
     console.log("POST UPDATE SUCCESS");
     navigate(-1);
+    navigate("/");
   } else {
     console.log("[ERROR] error while updating post");
   }

@@ -12,18 +12,13 @@ axios.defaults.headers.common["X-CSRFToken"] = getCookie("csrftoken");
 // 누구나 접근 가능한 API들
 export const instance = axios.create();
 
-// Token 있어야 접근 가능한 API들 - 얘는 토큰을 넣어줘야 해요
+// Token 있어야 접근 가능한 API들
 export const instanceWithToken = axios.create();
 
-// src/apis/axios.js
-
-// ⬇️ 추가
-// instanceWithToken에는 쿠키에서 토큰을 찾고 담아줍시다!
 instanceWithToken.interceptors.request.use(
   // 요청을 보내기전 수행할 일
-  // 사실상 이번 세미나에 사용할 부분은 이거밖에 없어요
   (config) => {
-    const accessToken = getCookie("access_token");
+    const accessToken = getCookie('access_token');
 
     if (!accessToken) {
       // token 없으면 리턴
@@ -55,48 +50,3 @@ instanceWithToken.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-
-// src/apis/api.js
-// ...
-// 추가 
-export const getPosts = async () => {
-  const response = await instance.get("/post/");
-  return response.data;
-};
-
-export const getPost = async (id) => {
-  const response = await instance.get(`/post/${id}/`);
-  return response.data;
-};
-
-export const createPost = async (data, navigate) => {
-  const response = await instanceWithToken.post("/post/", data);
-  if (response.status === 201) {
-    console.log("POST SUCCESS");
-    navigate("/");
-  } else {
-    console.log("[ERROR] error while creating post");
-  }
-};
-
-export const updatePost = async (id, data, navigate) => {
-  const response = await instanceWithToken.patch(`/post/${id}/`, data);
-  if (response.status === 200) {
-    console.log("POST UPDATE SUCCESS");
-    navigate(-1);
-  } else {
-    console.log("[ERROR] error while updating post");
-  }
-};
-
-
-// 과제!!
-export const deletePost = async (id, navigate) => {
-  
-};
-
-// 과제!!
-export const likePost = async (postId) => {
-  
-};
