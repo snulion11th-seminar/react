@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import comments from "../../data/comments";
 import CommentElement from "./CommentElement";
-
+import { getComments } from "../../apis/api";
+import { createComment, deleteComment } from "../../apis/api";
 const Comment = ({ postId }) => {
   // TODO 1: 가짜 comments 불러와서 관리해야겟즤
-  const [commentList, setCommentList] = useState(
-    comments.filter((comment) => comment.post === parseInt(postId))
-  );
+  const [commentList, setCommentList] = useState([]);
   // TODO 2: comment추가하는 input 관리해줘야겟지
   const [commentData, setCommentData] = useState({
     id: commentList.length + 1,
@@ -22,27 +21,27 @@ const Comment = ({ postId }) => {
     const { id, value } = e.target;
     setCommentData({ ...commentData, [id]: value });
   };
+  useEffect(() => {
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentList(comments);
+    };
+    getCommentsAPI();
+  }, [postId]);
+
   // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
+
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    setCommentList((commentList) => [...commentList, commentData]);
-    setCommentData({
-      id: commentList.length + 1,
-      content: "",
-      created_at: new Date(),
-      post: 1,
-      author: {
-        id: 1,
-        username: "user1",
-      },
-    });
+    createComment({ post: postId, content: commentData.content });
+    setCommentData("");
+    // postId, newContent만 하나의 객체로 만들어 보내줌
   };
   // TODO 4: commet Delete 하는 함수 만들어죠\
-  const deleteComment = (e) => {
-    const { id } = e;
-    setCommentList(
-      commentList.filter((comment) => comment.id !== parseInt(id))
-    );
+  const handleDeleteComment = (e) => {
+    console.log("delete");
+    console.log(e.id);
+    deleteComment(e.id);
   };
   return (
     <div className="w-full mt-5 self-start">
@@ -51,7 +50,7 @@ const Comment = ({ postId }) => {
         <CommentElement
           key={comment.id}
           comment={comment}
-          deleteComment={deleteComment}
+          deleteComment={handleDeleteComment}
         />
       ))}
       <form className="flex gap-2" onSubmit={handleCommentSubmit}>
