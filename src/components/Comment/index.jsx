@@ -41,7 +41,9 @@ const Comment = ({ postId }) => {
       <div className="flex flex-col">
         {commentList.map((comment) => (
           <CommentElement
+            
             key={comment.id}
+            comment={comment}
             handleCommentDelete={handleCommentDelete}
           />
         ))}

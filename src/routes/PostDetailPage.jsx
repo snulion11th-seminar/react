@@ -6,7 +6,7 @@ import posts from "../data/posts";
 import Comment from "../components/Comment";
 import { getPost, getUser } from "../apis/api";
 import { getCookie } from "../utils/cookie";
-import { deletePost } from "../apis/axios";
+import { deletePost } from "../apis/api";
 
 const PostDetailPage = () => {
   // parameter로 받은 id에 해당하는 post를 찾아서 넣자
@@ -46,7 +46,7 @@ const PostDetailPage = () => {
     const confirmDelete = window.confirm("정말로 게시글을 삭제하시겠습니까?");
     if (confirmDelete) {
       await deletePost(postId, navigate);
-      window.location.reload();
+      //navigate("/");
     }
     // add redirect to home page
   };

@@ -42,7 +42,7 @@ export const CommentElement = (
   // };
 
   const handleEditComment = () => {
-    updateComment(comment.id, { content: commentInput });
+    updateComment(comment.id, { "content": commentInput });
   };
   // updateComment 활용
 

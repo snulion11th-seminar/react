@@ -46,7 +46,6 @@ export const updatePost = async (id, data, navigate) => {
   const response = await instanceWithToken.patch(`/post/${id}/`, data);
   if (response.status === 200) {
     console.log("POST UPDATE SUCCESS");
-    navigate(-1);
     navigate("/");
   } else {
     console.log("[ERROR] error while updating post");
@@ -66,9 +65,9 @@ export const getUser = async () => {
 // 과제!!
 export const deletePost = async (id, navigate) => {
   const response = await instanceWithToken.delete(`/post/${id}/`);
-  if (response.status === 200) {
+  if (response.status === 204) {
     console.log("POST DELETE SUCCESS");
-    navigate(-1);
+    navigate("/");
   } else {
     console.log("[ERROR] error while deleting post");
   }
@@ -77,6 +76,7 @@ export const deletePost = async (id, navigate) => {
 // 과제!!
 export const likePost = async (postId) => {
   const response = await instanceWithToken.post(`/post/${postId}/like/`);
+  window.location.reload();
   return response.data;
 };
 
