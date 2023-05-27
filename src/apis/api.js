@@ -129,7 +129,6 @@ export const updateComment = async (id, data) => {
 };
 
 //과제!!
-export const deleteComment = async (id) => {
   const isConfirmed = window.confirm("댓글을 삭제하시겠어요? 진짜요?");
   if (isConfirmed) {
     const response = await instanceWithToken.delete(`/comment/${id}/`);

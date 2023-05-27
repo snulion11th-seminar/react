@@ -5,6 +5,7 @@ import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
 import { getPost, getUser, deletePost, likePost } from "../apis/api";
 import { getCookie } from "../utils/cookie";
+import { deletePost } from "../apis/api";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
@@ -33,8 +34,10 @@ const PostDetailPage = () => {
   }, []);
 
   const onClickDelete = async () => {
+
     console.log("delete");
     deletePost(postId, navigate);
+
   };
 
   return (
