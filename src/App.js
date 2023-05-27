@@ -1,8 +1,6 @@
-import logo from "./logo.svg";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./routes/HomePage";
 import PostCreatePage from "./routes/PostCreatePage";
@@ -13,7 +11,7 @@ import SignInPage from "./routes/SignInPage";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <BrowserRouter>
         <Header />
         <Routes>
