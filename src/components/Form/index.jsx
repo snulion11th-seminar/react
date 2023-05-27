@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { editProfile } from "../../apis/api";
 
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
@@ -265,19 +266,23 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
 export const ProfileEditForm = ({
   formData,
   setFormData,
-  handleEditSubmit,
+  refresh,
+  setRefresh,
   datainfo,
   datatype,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
-
   const handleFormData = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
-
-  const handleSubmit = () => {
-    handleEditSubmit();
+  const handleCancel = () => {
+    setRefresh(!refresh);
+    setIsEdit(false);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    editProfile(formData);
     setIsEdit(false);
   };
   return (
@@ -286,14 +291,14 @@ export const ProfileEditForm = ({
         {datainfo}:
       </label>
       <form
-        className="form !flex-row !justify-between items-center"
+        className="form !flex-row !justify-between items-center pl-3"
         onSubmit={handleSubmit}
       >
         {isEdit ? (
           <input
             type={datatype}
             id={datainfo}
-            className="input"
+            className="flex input max-w-[65%]"
             onChange={handleFormData}
             value={formData[datainfo]}
           />
@@ -304,29 +309,29 @@ export const ProfileEditForm = ({
         )}
 
         {isEdit ? (
-          <div class="flex justify-center items-center">
+          <div class="flex-nowrap justify-center items-center ml-2">
             <button
               type="button"
-              className="button mt-7 mr-10"
-              onClick={() => setIsEdit(false)}
+              className="button mt-0 mr-2"
+              onClick={handleCancel}
             >
-              취소하기
+              취소
             </button>
-            <button type="submit" className="button mt-7">
-              수정하기
+            <button type="submit" className="button mt-0">
+              수정
             </button>
           </div>
         ) : (
           <button
             type="button"
-            className="button mt-7"
+            className="button mt-0"
             onClick={() => setIsEdit(true)}
           >
             변경
           </button>
         )}
       </form>
-      <hr className="border-1 border-white-500 mt-3 w-full" />
+      <hr className="border-1 border-white-500 my-3 w-full" />
     </div>
   );
 };
