@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost, getUser } from "../apis/api";
+import { deletePost, getPost, getUser } from "../apis/api";
 import { getCookie } from "../utils/cookie";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getPostAPI = async () => {
       const post = await getPost(postId);
@@ -31,7 +31,8 @@ const PostDetailPage = () => {
   }, []);
 
   const onClickDelete = () => {
-    console.log("delete");
+    window.confirm("포스트를 지우시겠습니까?")
+    deletePost(postId, navigate);
   };
 
   return (
