@@ -30,16 +30,19 @@ const Header = () => {
         {!isUser ? (
           <>
             <Link to="/signin" className="mr-10 p-3 uppercase">
-              sign In
+              SIGN IN
             </Link>
             <Link to="/signup" className="mr-10 p-3 uppercase">
-              sign up
+              SIGN UP
             </Link>
           </>
         ) : (
           <>
+            <Link to="/mypage" className="mr-10 p-3 uppercase">
+              MY PAGE
+            </Link>
             <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
-              log out
+              LOG OUT
             </Link>
           </>
         )}

@@ -261,3 +261,72 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
     </form>
   );
 };
+
+export const ProfileEditForm = ({
+  formData,
+  setFormData,
+  handleEditSubmit,
+  datainfo,
+  datatype,
+}) => {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = () => {
+    handleEditSubmit();
+    setIsEdit(false);
+  };
+  return (
+    <div className="flex-col w-full">
+      <label htmlFor={datainfo} className="label">
+        {datainfo}:
+      </label>
+      <form
+        className="form !flex-row !justify-between items-center"
+        onSubmit={handleSubmit}
+      >
+        {isEdit ? (
+          <input
+            type={datatype}
+            id={datainfo}
+            className="input"
+            onChange={handleFormData}
+            value={formData[datainfo]}
+          />
+        ) : (
+          <div className="text-xl text-left font-bold">
+            {formData[datainfo]}
+          </div>
+        )}
+
+        {isEdit ? (
+          <div class="flex justify-center items-center">
+            <button
+              type="button"
+              className="button mt-7 mr-10"
+              onClick={() => setIsEdit(false)}
+            >
+              취소하기
+            </button>
+            <button type="submit" className="button mt-7">
+              수정하기
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="button mt-7"
+            onClick={() => setIsEdit(true)}
+          >
+            변경
+          </button>
+        )}
+      </form>
+      <hr className="border-1 border-white-500 mt-3 w-full" />
+    </div>
+  );
+};
