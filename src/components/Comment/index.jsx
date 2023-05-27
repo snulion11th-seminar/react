@@ -1,53 +1,33 @@
-import { useState } from "react";
-import comments from "../../data/comment";
+import { useState, useEffect } from "react";
 import { CommentElement } from "./CommentElement";
+import { getComments } from "../../apis/api";
+import { createComment, deleteComment } from "../../apis/api";
 
 export const Comment = ({ postId }) => {
   // TODO 1: comments 불러와서 저장해야겟즤
-  const [commentList, setCommentList] = useState(
-    comments.filter((comment) => comment.post === parseInt(postId))
-  );
+  const [commentList, setCommentList] = useState([]);
   // TODO 2: comment추가하는 input 관리해줘야겟지
-  const [commentInput, setCommentInput] = useState("");
-  const [newComment, setNewComment] = useState({
-    id: 0,
-    content: "",
-    created_at: new Date(),
-    post: postId,
-    author: {
-      id: 2,
-      username: "user2",
-    },
-  });
+  const [newComment, setNewComment] = useState("");
+
+  useEffect(() => {
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentList(comments);
+    };
+    getCommentsAPI();
+  }, [postId]);
 
   // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
-  const handleComment = (e) => {
-    setCommentInput(e.target.value);
-    setNewComment({
-      id: commentList.length + 3,
-      content: e.target.value,
-      created_at: new Date(),
-      post: postId,
-      author: {
-        id: 2,
-        username: "user2",
-      },
-    });
-  };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    setCommentList((commentList) => [...commentList, newComment]);
-    setCommentInput("");
+    createComment({ post: postId, content: newComment });
+    setNewComment("");
   };
 
   // TODO 4: commet Delete 하는 함수 만들어죠
-  const deleteComment = (id) => {
-    setCommentList(
-      commentList.filter((comment) => {
-        return comment.id !== id;
-      })
-    );
+  const handleDeleteComment = (id) => {
+    deleteComment(id);
   };
 
   return (
@@ -59,7 +39,7 @@ export const Comment = ({ postId }) => {
             <CommentElement
               key={comment.id}
               comment={comment}
-              deleteComment={deleteComment}
+              handleCommentDelete={handleDeleteComment}
             />
           );
         })}
@@ -71,9 +51,10 @@ export const Comment = ({ postId }) => {
             type="text"
             placeholder="댓글을 입력해주세요"
             id="comment"
-            value={commentInput}
             className="input"
-            onChange={handleComment}
+            onChange={(e) => {
+              setNewComment(e.target.value);
+            }}
           />
         </form>
         <button className="button" onClick={handleCommentSubmit}>

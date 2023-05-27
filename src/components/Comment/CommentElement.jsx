@@ -1,31 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUser, updateComment } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
-export const CommentElement = ({ comment, deleteComment }) => {
-  // TODO : props 받기
-  // TODO : 수정하는 input 내용 관리
+export const CommentElement = (props) => {
+  const { comment, handleCommentDelete } = props;
   const [content, setContent] = useState(comment.content);
-  const [editInput, setEditInput] = useState(content);
   const [isEdit, setIsEdit] = useState(false);
-  
-  const handleEdit = (e) => {
-    setEditInput(e.target.value);
-  };
 
-  const onClickEdit = () => {
-    setIsEdit(true);
-  };
+  const [user, setUser] = useState(null);
 
-  const onClickDone = () => {
-    setIsEdit(false);
-    setContent(editInput);
-  };
-
-  const onClickDel = () => {
-    console.log(comment.id)
-    deleteComment(comment.id)
-  };
-
-  // comment created_at 전처리
   const date = new Date(comment.created_at);
   const year = date.getFullYear();
   let month = date.getMonth() + 1;
@@ -33,50 +16,71 @@ export const CommentElement = ({ comment, deleteComment }) => {
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
+	// 추가
+  const handleEditComment = (e) => {
+    updateComment(comment.id, { content: content });
+  };
+	// updateComment 활용
+
+  useEffect(() => {
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
+
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
       <div className="w-3/4">
-        {/* // 수정중일때와 아닐때를 다르게 보여줘야겠지 */}
         {isEdit ? (
           <input
-            type="text"
-            placeholder={content}
-            id="comment"
-            value={editInput}
-            className="input"
-            onChange={handleEdit}
+            className="input mr-4"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         ) : (
-          <p>{content}</p>
+          <p className="text-lg mr-4">{comment.content}</p>
         )}
-        {/* // 날짜 */}
         <span className="text-base mr-1 text-gray-300">
           {year}.{month}.{day}
         </span>
       </div>
-      {/* // 수정, 삭제버튼 */}
-      <div className="w-1/4 flex flex-row-reverse items-center">
-        {/* // delete 버튼은 수정이 아닐때만 보이게 해줘 */}
-        {isEdit ? (
-          null
-        ) : (
-          <button className="mr-3" onClick={onClickDel}>
-            Del
-          </button>
-        )}
-        {isEdit ? <button
-            className="mr-3" onClick={onClickDone}
-          >
-            Done
-          </button> : 
-          <button
-          className="mr-3" onClick={onClickEdit}
-        >
-          Edit
-        </button>
-          }
-      </div>
+			{/* 수정 */}
+
+      {user?.id === comment.author.id ? (
+        <div className="w-1/4 flex flex-row-reverse items-center">
+          {isEdit ? (
+            <>
+              <button onClick={() => handleEditComment(comment.id)}>Done</button>
+
+              <button
+                className="mr-3"
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                  setContent(comment.content);
+                }}
+              >
+                Back
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => handleCommentDelete(comment.id)}>
+                Del
+              </button>
+              <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
+                Edit
+              </button>
+            </>
+          )}
+        </div>
+      ) : null}
+
+			{/* 수정 */}
     </div>
   );
 };
-
+export default CommentElement;

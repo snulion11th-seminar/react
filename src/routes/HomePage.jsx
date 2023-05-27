@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
-import posts from "../data/posts";
 import { Link } from "react-router-dom";
+import { getPosts, getTags } from "../apis/api";
+import { getCookie } from "../utils/cookie";
+// import axios from "axios";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
+  const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const tagList = posts.reduce((acc, post) => {
-      for (let tag of post.tags) {
-        acc.add(tag.content);
-      }
-      return acc;
-    }, new Set());
-    setTags([...tagList]);
-    setSearchTags([...tagList]);
+    const getPostsAPI = async () => {
+      const posts = await getPosts();
+      setPostList(posts);
+      console.log(posts);
+    };
+    getPostsAPI();
+
+    const getTagsAPI = async () => {
+      const tags = await getTags();
+      const tagContents = tags.map((tag) => {
+        return tag.content;
+      });
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    getTagsAPI();
+    // getTags() 이용해서 tag들 불러오고 tags.map을 이용해서 tagContents에
+    // tag.content만 저장한 후, tags와 searchTags에 저장
   }, []);
 
   const handleChange = (e) => {
@@ -27,24 +39,15 @@ const HomePage = () => {
   };
 
   const handleTagFilter = (e) => {
-    const filteredPosts = [];
-    const clickedTag = e.target.innerText.slice(1);
-
-    if (searchValue === clickedTag) {
+    const { innerText } = e.target;
+    if (searchValue === innerText.substring(1)) {
       setSearchValue("");
-      setPostList(posts);
     } else {
-      setSearchValue(clickedTag);
-      for (let post of posts) {
-        for (let tag of post.tags) {
-          if (tag.content === clickedTag) {
-            filteredPosts.push(post);
-          }
-        }
-      }
-      setPostList(filteredPosts);
+      const activeTag = innerText.substring(1);
+      setSearchValue(activeTag);
     }
   };
+  // 태그를 눌렀을 때는 searchValue만 바뀜
 
   return (
     <div>
@@ -74,15 +77,25 @@ const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-4 px-10 mt-10">
-        {postList.map((post) => (
-          <SmallPost key={post.id} post={post} />
-        ))}
+        {postList
+          .filter((post) =>
+            searchValue
+              ? post.tags.find((tag) => tag.content === searchValue)
+              : post
+          )
+          .map((post) => (
+            <SmallPost key={post.id} post={post} />
+          ))}
       </div>
-      <div className="flex justify-center m-20">
-        <Link className="button" to="/create">
-          Post
-        </Link>
-      </div>
+
+      {getCookie("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
+      {/* 로그인해야지만 Post 버튼 보이도록 설정 */}
     </div>
   );
 };
