@@ -1,69 +1,64 @@
-import { useState, useEffect } from "react";
-import comments from "../../data/comments";
+import { useEffect, useState } from "react";
 import CommentElement from "./CommentElement";
+import { createComment, getComments, deleteComment } from "../../apis/api";
 
-export const Comment = ({ postId }) => {
-  const [filteredComments, setFilteredComments] = useState([]);
-  const [newInput, setNewInput] = useState("");
+const Comment = ({ postId }) => {
+  const [commentList, setCommentList] = useState([]); // state for comments
+  const [newContent, setNewContent] = useState(""); // state for new comment
 
   useEffect(() => {
-    const commentList = comments.filter(
-      (comment) => comment.post === parseInt(postId)
-    );
-    setFilteredComments(commentList);
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentList(comments);
+    };
+    getCommentsAPI();
   }, [postId]);
 
-  const handleCommentInput = (e) => {
-    setNewInput(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
+  const handleCommentSubmit = (e) => {
     e.preventDefault();
-    const newComment = {
-      id: comments.length + 1,
-      content: newInput,
-      created_at: Date.now(),
-      author: {
-        id: 1,
-        username: "user1",
-      },
-    };
-    setFilteredComments([...filteredComments, newComment]);
-    setNewInput("");
+    setNewContent("");
+    createComment({ post: parseInt(postId), content: newContent });
   };
 
-  // TODO 4: commet Delete 하는 함수 만들어죠
-  const handleCommentDelete = (id) => {
-    setFilteredComments(
-      filteredComments.filter((comment) => comment.id !== id)
-    );
+  // 과제!!
+  const handleCommentDelete = async (e) => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      await deleteComment(e);
+      console.log("comment deleted");
+    }
   };
 
   return (
     <div className="w-full mt-5 self-start">
       <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
-      {filteredComments.map((comment) => {
+      {commentList.map((comment) => {
         return (
-          <CommentElement
-            key={comment.id}
-            comment={comment}
-            handleCommentDelete={handleCommentDelete}
-          />
+          <div className="w-full flex flex-row" key={comment.id}>
+            <CommentElement
+              comment={comment}
+              handleCommentDelete={handleCommentDelete}
+            />
+          </div>
         );
       })}
-      <form className="flex mt-10 gap-2 justify-center items-center">
+      {/* comment form component */}
+      <form
+        className="flex items-center justify-center mt-10 gap-2"
+        onSubmit={handleCommentSubmit}
+      >
         <input
           type="text"
+          value={newContent}
           placeholder="댓글을 입력해주세요"
           className="input h-14"
-          onChange={handleCommentInput}
-          value={newInput}
-          required
-        ></input>
-        <button className="button" type="submit" onClick={handleSubmit}>
+          onChange={(e) => setNewContent(e.target.value)}
+        />
+        <button type="submit" className="button">
           comment
         </button>
       </form>
     </div>
   );
 };
+
+export default Comment;

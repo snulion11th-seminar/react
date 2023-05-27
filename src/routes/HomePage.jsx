@@ -1,23 +1,31 @@
 import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
-import posts from "../data/posts";
 import { Link } from "react-router-dom";
+import { getPosts, getTags } from "../apis/api";
+import { getCookie } from "../utils/cookie";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
+  const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const tagList = posts.reduce((acc, post) => {
-      for (let tag of post.tags) {
-        acc.add(tag.content);
-      }
-      return acc;
-    }, new Set());
-    setTags([...tagList]);
-    setSearchTags([...tagList]);
+    const getPostAPI = async () => {
+      const posts = await getPosts();
+      setPostList(posts);
+    };
+    getPostAPI();
+
+    const getTagsAPI = async () => {
+      const tags = await getTags();
+      const tagContents = tags.map((tag) => {
+        return tag.content;
+      });
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    getTagsAPI();
   }, []);
 
   const handleChange = (e) => {
@@ -27,16 +35,12 @@ const HomePage = () => {
   };
 
   const handleTagFilter = (e) => {
-    const selection = e.target.innerText.slice(1);
-    if (selection === searchValue) {
-      setPostList(posts);
-      setSearchValue("");
+    const { innerText } = e.target;
+    if (searchValue === innerText.substring(1)) {
+      setSearchValue(""); //postList는 그대로 두고 searchvalue만 바꾸기
     } else {
-      setSearchValue(selection);
-      const filtered = posts.filter((post) =>
-        post.tags.some((t) => t.content === selection)
-      );
-      setPostList(filtered);
+      const activeTag = innerText.substring(1);
+      setSearchValue(activeTag);
     }
   };
 
@@ -68,15 +72,25 @@ const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-4 px-10 mt-10">
-        {postList.map((post) => (
-          <SmallPost key={post.id} post={post} />
-        ))}
+        {" "}
+        {/*tag에 해당하는 것만 필터해서 보여주는 것 */}
+        {postList
+          .filter((post) =>
+            searchValue
+              ? post.tags.find((tag) => tag.content === searchValue)
+              : post
+          )
+          .map((post) => (
+            <SmallPost key={post.id} post={post} />
+          ))}
       </div>
-      <div className="flex justify-center m-20">
-        <Link className="button" to="/create">
-          Post
-        </Link>
-      </div>
+      {getCookie("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };
