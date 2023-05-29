@@ -44,7 +44,7 @@ export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
         value={formData.confirm_password}
       />
 
-      <label required htmlFor="username" className="label">
+      <label required htmlFor="name" className="label">
         *이름:
       </label>
       <input
@@ -93,7 +93,7 @@ export const SignInForm = ({ formData, setFormData, handleSignInSubmit }) => {
   return (
     <form className="form" onSubmit={handleSignInSubmit}>
       <label htmlFor="username" className="label">
-        *이름:
+        *username:
       </label>
       <input
         required
@@ -129,6 +129,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   const [autoCompletes, setAutoCompletes] = useState([]);
 
   const handleChange = (e) => {
+    console.log(e.target.id);
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
@@ -157,7 +158,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
     setAutoCompletes([]);
   };
 
-  // 추가 버튼 혹은 엔터 누르면 태그 생성
+  // 추가 버튼 혹인 엔터 누르면 태그 생성
   const addTag = (e) => {
     e.preventDefault();
 
@@ -180,6 +181,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
       tags: formData.tags.filter((t) => t !== tag),
     });
   };
+
   return (
     <form className="form" onSubmit={onSubmit}>
       <label htmlFor="title" className="label">

@@ -11,7 +11,7 @@ import SignInPage from "./routes/SignInPage";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <BrowserRouter>
         <Header />
         <Routes>

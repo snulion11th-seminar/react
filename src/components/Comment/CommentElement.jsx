@@ -1,63 +1,83 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUser, updateComment } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
 const CommentElement = (props) => {
-  // TODO : props 받기
-  // TODO : 수정하는 input 내용 관리
-  const { id, content, created_at, post, author, commentDelete } = props;
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(content);
+  const { comment, handleCommentDelete } = props;
+  const [content, setContent] = useState(comment.content);
+  const [isEdit, setIsEdit] = useState(false);
 
-  // comment created_at 전처리
-  const date = new Date(created_at);
+  const [user, setUser] = useState(null);
+
+  const date = new Date(comment.created_at);
   const year = date.getFullYear();
   let month = date.getMonth() + 1;
   month = month < 10 ? `0${month}` : month;
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
+  const handleEditComment = () => {
+    updateComment(comment.id, { content: content });
+  };
+
+  useEffect(() => {
+    // access_token이 있으면 유저 정보 가져옴
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
+
+  console.log(user);
+  console.log(comment);
+
+  const isCommentAuthor = user?.id === comment.author.id;
+
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
       <div className="w-3/4">
-        {isEditing ? (
+        {isEdit && isCommentAuthor ? (
           <input
-            className="w-full border-2 border-gray-300 rounded-2xl px-5 py-3 mt-2 mb-2 text-white bg-transparent"
-            value={editedContent}
-            onChange={(e) => setEditedContent(e.target.value)}
+            className="input mr-4"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         ) : (
-          <p className="text-lg">{editedContent}</p>
+          <p className="text-lg mr-4">{comment.content}</p>
         )}
         <span className="text-base mr-1 text-gray-300">
           {year}.{month}.{day}
         </span>
       </div>
       <div className="w-1/4 flex flex-row-reverse items-center">
-        {!isEditing && (
-          <button
-            className="text-gray-300 mr-3"
-            onClick={() => commentDelete(id)}
-          >
-            Del
-          </button>
-        )}
-        {isEditing ? (
-          <button
-            className="text-gray-300 mr-3"
-            onClick={() => setIsEditing(false)}
-          >
-            Done
-          </button>
+        {isEdit && isCommentAuthor ? (
+          <>
+            <button className="mr-3" onClick={handleEditComment}>
+              Done
+            </button>
+            <button
+              className="mr-3"
+              onClick={() => {
+                setIsEdit(!isEdit);
+                setContent(comment.content);
+              }}
+            >
+              Back
+            </button>
+          </>
         ) : (
-          <button
-            className="text-gray-300 mr-3"
-            onClick={() => setIsEditing(true)}
-          >
-            Edit
-          </button>
+          <>
+            <button onClick={() => handleCommentDelete(comment.id)}>Del</button>
+            <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
+              Edit
+            </button>
+          </>
         )}
       </div>
     </div>
   );
 };
-
 export default CommentElement;
