@@ -18,6 +18,16 @@ export const signUp = async (data) => {
   return response;
 };
 
+export const updateAccount = async (data) => {
+  const response = await instanceWithToken.patch(`/account/info/`, data);
+  if (response.status === 200) {
+    console.log("ACCOUNT UPDATE SUCCESS");
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while updating account");
+  }
+};
+
 // GetUser API
 // Edit, Delete 권한을 확인하거나, 프로필 페이지를 만들 때 사용하겠죠?
 export const getUser = async () => {
