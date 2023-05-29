@@ -155,3 +155,47 @@ export const getUser = async () => {
   }
   return response.data;
 };
+
+export const getProfile = async () => {
+  const response = await instanceWithToken.get("/account/profile/");
+  if (response.status === 200) {
+    console.log("GET USER SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating comment");
+  }
+  return response.data;
+};
+
+export const updateProfile = async (data) => {
+  const response = await instanceWithToken.patch("/account/profile/", data);
+  if (response.status === 200) {
+    console.log("UPDATE PROFILE SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating comment");
+  }
+  return response.data;
+};
+
+export const updateUser = async (data) => {
+  const response = await instanceWithToken.patch("/account/info/", data);
+  if (response.status === 200) {
+    console.log("UPDATE USER SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating comment");
+  }
+  return response.data;
+};
+
+export const deleteTagAPI = async (id) => {
+  try {
+    const response = await instanceWithToken.delete(`/tag/${id}/`);
+    if (response.status === 204) {
+      console.log("TAG DELETE SUCCESS");
+    } else {
+      console.error(`[ERROR] Unexpected status code: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("[ERROR] error while deleting tag:", error);
+    throw error;
+  }
+};

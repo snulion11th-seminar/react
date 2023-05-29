@@ -1,4 +1,73 @@
 import { useState } from "react";
+import { deleteTagAPI } from "../../apis/api";
+
+export const MyPageForm = ({ formData, setFormData, handleMyPageSubmit }) => {
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  return (
+    <form className="form" onSubmit={handleMyPageSubmit}>
+      <label htmlFor="email" className="label">
+        *email:
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          required
+          type="email"
+          id="email"
+          className="input"
+          value={formData.email}
+          onChange={handleFormData}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+
+      <label required htmlFor="username" className="label">
+        *이름:
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          required
+          type="text"
+          id="username"
+          className="input"
+          onChange={handleFormData}
+          value={formData.username}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+
+      <label htmlFor="college" className="label">
+        대학:{" "}
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          type="text"
+          id="college"
+          className="input"
+          onChange={handleFormData}
+          value={formData.college}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+      <label htmlFor="major" className="label">
+        전공:{" "}
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          type="text"
+          id="major"
+          className="input"
+          onChange={handleFormData}
+          value={formData.major}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+    </form>
+  );
+};
 
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
@@ -187,11 +256,20 @@ export const PostForm = ({
     setAutoCompletes([]);
   };
 
-  const deleteTag = (tag) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      tags: prevFormData.tags.filter((t) => t !== tag),
-    }));
+  const deleteTag = async (tag) => {
+    try {
+      // Call the delete API
+      await deleteTagAPI(tag.id);
+
+      // Update local state
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        tags: prevFormData.tags.filter((t) => t.content !== tag.content),
+      }));
+      setTags((prevTags) => prevTags.filter((t) => t.content !== tag.content));
+    } catch (error) {
+      console.error("Error deleting tag:", error);
+    }
   };
 
   return (
@@ -254,7 +332,7 @@ export const PostForm = ({
       {tags && (
         <div className="flex w-full mt-3 gap-x-1 flew-nowrap">
           {tags.map((tag) => (
-            <div key={tag} className="flex">
+            <div key={tag.id} className="flex">
               <span className="tag active m-1 flex flex-row items-center gap-x-2">
                 <p>#{tag.content}</p>
               </span>

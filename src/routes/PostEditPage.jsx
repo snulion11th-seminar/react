@@ -46,7 +46,7 @@ const PostEditPage = () => {
   const handleCreateTag = async (tagContent) => {
     try {
       const newTag = await createTag({ content: tagContent });
-      setTags((prevTags) => [...prevTags, newTag]);
+      setTags((prevTags) => [...prevTags, newTag]); // Append the new tag to the existing tags
       console.log("Tag created successfully");
     } catch (error) {
       console.error("Error creating tag:", error);
