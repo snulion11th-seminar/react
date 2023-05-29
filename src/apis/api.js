@@ -143,3 +143,19 @@ export const deleteComment = async (id) => {
     }
   }
 };
+
+export const getUserProfile = async () => {
+  const response = await instanceWithToken.get("/account/profileinfo/");
+  return response.data;
+};
+
+export const updateInformation = async (data) => {
+  const response = await instanceWithToken.patch("/account/info/", data);
+  if (response.status === 200) {
+    window.location.reload();
+    console.log("INFORMATION UPDATE SUCCESS");
+    console.log(response.data);
+  } else {
+    console.log("[ERROR] error while updating information");
+  }
+};

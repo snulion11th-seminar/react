@@ -8,6 +8,7 @@ import PostEditPage from "./routes/PostEditPage";
 import SignUpPage from "./routes/SignUpPage";
 import PostDetailPage from "./routes/PostDetailPage";
 import SignInPage from "./routes/SignInPage";
+import MyPage from "./routes/MyPage";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Routes>
           {/* home */}
           <Route path="/" element={<HomePage />} />
+          {/* MyPage */}
+          <Route path="/mypage" element={<MyPage />} />
           {/* craete post */}
           <Route path="/create" element={<PostCreatePage />} />
           {/* edit post */}
