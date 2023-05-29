@@ -291,7 +291,7 @@ export const ProfileEditForm = ({
         {datainfo}:
       </label>
       <form
-        className="form !flex-row !justify-between items-center pl-3"
+        className="form !flex-row !justify-between pl-3 align-items-flex-end"
         onSubmit={handleSubmit}
       >
         {isEdit ? (
@@ -303,7 +303,7 @@ export const ProfileEditForm = ({
             value={formData[datainfo]}
           />
         ) : (
-          <div className="text-xl text-left font-bold">
+          <div className="text-2xl text-left font-bold">
             {formData[datainfo]}
           </div>
         )}
