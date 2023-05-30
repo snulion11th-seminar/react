@@ -2,17 +2,25 @@ import { createElement, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import comment from "../../data/comment";
 import CommentElement from "./CommentElement";
+import { getComments } from "../../apis/api";
+import { createComment } from "../../apis/api";
 
-const Comment = ({ commentt }) => {
+const Comment = ({ postId }) => {
   // TODO 1: 가짜 comments 불러와서 관리해야겟즤
-  const { postId } = useParams();
+  // const { postId } = useParams();
 
-  const [comments, setComments] = useState();
-
-  useEffect(() => {
-    const comments = comment.filter((comment) => comment.post == postId);
-    setComments(comments);
+  const [commentList, setCommentList] = useState([]); // 처음에는 빈 리스트로 설정	
+	const [newContent, setNewContent] = useState("");
+	
+	//추가
+	useEffect(() => {
+    const getCommentsAPI = async () => {
+      const comments = await getComments(postId);
+      setCommentList(comments);
+    };
+    getCommentsAPI();
   }, [postId]);
+;
 
   // TODO 2: comment추가하는 input 관리해줘야겟지
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -21,8 +29,6 @@ const Comment = ({ commentt }) => {
   useEffect(() => {
     const commentInputValue = formData.content;
     setCommentInputValue(commentInputValue);
-    // commentelement로 만들어줘야겠지? -> 이게 아닌가벼?
-    // 그럼 이걸 그냥 밑에 올리는. 그런...
   }, [commentInputValue]);
 
   // TODO 3: comment Form 제출됐을때 실행되는 함수 만들어줘
@@ -46,59 +52,42 @@ const Comment = ({ commentt }) => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    comments.push(formData);
-    console.log(formData.content);
-    setFormData((nowFormData) => ({
-      ...nowFormData,
-      content: "",
-    }));
-    // console.log("input", commentInputValue);
-    console.log(comments);
-    // alert(`"${formData.content}" 댓글이 작성 완료되었습니다잉`);
-    // comments.push(formData);
+    createComment({ post: postId, content: newContent });
+    setNewContent("");
   };
 
   // TODO 4: commet Delete 하는 함수 만들어죠
-  const deleteComment = (comment) => {
-    console.log(comment.content);
-    const deletedComments = comments.filter(
-      (c) => c.content !== comment.content
-    );
-    setComments(deletedComments);
-    console.log(deletedComments);
-  };
+  // const handleCommentDelete = () => {
+  //   // deleteComment(comment.id);
+  //   console.log("delete");
+  // };
 
   return (
     <div className="w-full mt-5 self-start">
       <h1 className="text-3xl font-bold mt-5 mb-3">Comments</h1>
-      {/* // commentElement */}
-      {/* // <CommentElement/> 가 comment마다 반복시켜야즤 */}
-
-      {comments &&
-        comments.map((comment) => (
-          <CommentElement
-            comment={comment}
-            comments={comments}
-            deleteComment={deleteComment}
-            setComments={setComments}
-          />
-        ))}
-
+      {commentList.map((comment) => {
+        return (
+          <div className="w-full flex flex-row" key={comment.id}>
+            <CommentElement
+              comment={comment}
+              // handleCommentDelete={handleCommentDelete}
+            />
+          </div>
+        );
+      })}
+      {/* comment form component */}
       <form
         className="flex items-center justify-center mt-10 gap-2"
         onSubmit={handleCommentSubmit}
+        // method="patch"
       >
-        {/* // TODO 2-3 : comment 추가하는 comment form 만들어주기 */}
         <input
-          required
           type="text"
-          id="content"
+          value={newContent}
+          placeholder="댓글을 입력해주세요"
           className="input h-14"
-          onChange={handleFormData}
-          value={formData.content}
-          placeholder="댓글을 입력해주세용"
+          onChange={(e) => setNewContent(e.target.value)}
         />
-
         <button type="submit" className="button">
           comment
         </button>
