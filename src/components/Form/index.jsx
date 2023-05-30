@@ -1,7 +1,4 @@
 import { useState } from "react";
-{
-  /* 추가 👇🏻 */
-}
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
     const { id, value } = e.target;
@@ -79,7 +76,6 @@ export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
         onChange={handleFormData}
         value={formData.major}
       />
-      {/* 수정 👆🏻 */}
       <button type="submit" className="button mt-7">
         Sign up !
       </button>
@@ -123,9 +119,6 @@ export const SignInForm = ({ formData, setFormData, handleSignInSubmit }) => {
     </form>
   );
 };
-{
-  /* 추가 👆🏻 */
-}
 export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   //태그 Input 안에 값
   const [tagInputValue, setTagInputValue] = useState("");
@@ -134,6 +127,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   const [autoCompletes, setAutoCompletes] = useState([]);
 
   const handleChange = (e) => {
+    console.log(e.target.id);
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
@@ -251,7 +245,6 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
               </span>
               {/* 삭제버튼 */}
               <button
-                // eslint-disable-next-line no-octal-escape
                 className="after:content-['\00d7'] text-xl"
                 onClick={() => deleteTag(tag)}
               />
