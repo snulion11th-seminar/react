@@ -42,6 +42,9 @@ const Header = () => {
           </>
         ) : (
           <>
+            <Link to="/mypage" className="mr-10 p-3 uppercase">
+              my page
+            </Link>
             <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
               log out
             </Link>
