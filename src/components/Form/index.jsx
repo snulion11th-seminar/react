@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { editProfile } from "../../apis/api";
 
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
@@ -258,5 +259,81 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
         Submit
       </button>
     </form>
+  );
+};
+
+export const ProfileEditForm = ({
+  defaultData,
+  formData,
+  setFormData,
+  datainfo,
+  datatype,
+}) => {
+  const [isEdit, setIsEdit] = useState(false);
+  /* 수정중일 때, 아닐 때 구분하는 state */
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+  /* 입력 시 formData 수정하여 화면에 보이게 하기 */
+  const handleCancel = () => {
+    setFormData({ ...formData, [datainfo]: defaultData[datainfo] });
+    setIsEdit(false);
+  };
+  /* 취소 버튼 눌렀을 때 호출(refresh 상태를 변경시켜 새로 입력한 값이 아닌 기존 값 가져오기) */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    editProfile(formData);
+    setIsEdit(false);
+  };
+  /* 수정 버튼 눌렀을 때 호출하는 함수 */
+  return (
+    <div className="flex-col w-full">
+      <label htmlFor={datainfo} className="label">
+        {datainfo}:
+      </label>
+      <form
+        className="form !flex-row !justify-between pl-3 align-items-flex-end"
+        onSubmit={handleSubmit}
+      >
+        {isEdit ? (
+          <input
+            type={datatype}
+            id={datainfo}
+            className="flex input max-w-[65%]"
+            onChange={handleFormData}
+            value={formData[datainfo]}
+          />
+        ) : (
+          <div className="text-2xl text-left font-bold">
+            {defaultData[datainfo]}
+          </div>
+        )}
+
+        {isEdit ? (
+          <div class="flex-nowrap justify-center items-center ml-2">
+            <button
+              type="button"
+              className="button mt-0 mr-2"
+              onClick={handleCancel}
+            >
+              취소
+            </button>
+            <button type="submit" className="button mt-0">
+              수정
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="button mt-0"
+            onClick={() => setIsEdit(true)}
+          >
+            변경
+          </button>
+        )}
+      </form>
+      <hr className="border-1 border-white-500 my-3 w-full" />
+    </div>
   );
 };

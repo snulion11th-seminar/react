@@ -1,5 +1,14 @@
 import { instance, instanceWithToken } from "./axios";
+import { removeCookie } from "../utils/cookie";
 
+export const refreshToken = async (token) => {
+  const response = await instance.post("/account/refresh/", { refresh: token });
+  if (response.status === 200) {
+    console.log("REFRESH TOKEN SUCCESS");
+  } else {
+    console.log("[ERROR] error while refreshing token");
+  }
+};
 // Account 관련 API들
 export const signIn = async (data) => {
   const response = await instance.post("/account/signin/", data);
@@ -16,6 +25,32 @@ export const signUp = async (data) => {
     window.location.href = "/";
   }
   return response;
+};
+
+export const logOut = async (token) => {
+  const response = await instanceWithToken.post("/account/logout/", {
+    refresh: token,
+  });
+  if (response.status === 204) {
+    console.log("REFRESH TOKEN SUCCESS");
+
+    removeCookie("refresh_token");
+    removeCookie("access_token");
+
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while refreshing token");
+  }
+};
+
+export const editProfile = async (data) => {
+  const response = await instanceWithToken.patch("/account/info/", data);
+  if (response.status === 200) {
+    console.log("EDIT SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating");
+  }
+  return response.data;
 };
 
 // GetUser API
