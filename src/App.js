@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./routes/HomePage";
+import MyPage from "./routes/MyPage";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PostCreatePage from "./routes/PostCreatePage";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           {/* sign up */}
           <Route path="/signin" element={<SignInPage />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

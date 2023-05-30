@@ -1,18 +1,29 @@
 import { useEffect, useState } from "react";
+import { getUser, updateComment, deleteComment } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
 const CommentElement = ({
-  comment,
-  commentList,
+  // comment,
+  // commentList,
   setCommentList,
-  commentData,
-  setCommentData,
-  id,
-  content,
-  onEdit
-  //   onClickDelete,
+  // commentData,
+  // setCommentData,
+  // id,
+  // // content,
+  onEdit,
+  // postId
+  comment
+  // handleCommentDelete
+
+  
 }) => {
+  console.log(comment);
+  // const { comment, handleCommentDelete } = props;
   // TODO : props 받기
   // TODO : 수정하는 input 내용 관리
+  const [content, setContent] = useState(comment.content);
+  const [isEdit, setIsEdit] = useState(false);
+  const [user, setUser] = useState(null);
 
   // comment created_at 전처리
   console.log("왔다");
@@ -27,37 +38,83 @@ const CommentElement = ({
   const [isOnClickEdit, setIsOnClickEdit] = useState(false);
   const [editedComment, setEditedComment] = useState(content);
 
-  const onClickEdit = () => {
-    setIsOnClickEdit(true);
+  const handleEditComment = () => {
+    updateComment(comment.id, { content: content });
+
+  };
+
+  useEffect(() => {
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
+
+  const handleCommentDelete = async () => {
+    // console.log(commentList);
+    // console.log(id);
+    // const newCL = commentList.filter((c) => c.id !== id);
+    // console.log(newCL);
+    // setCommentList(newCL);
+    // console.log(comment.id);
+    // deleteComment(comment.id);
+    
+    deleteComment(comment.id);
     
   };
 
-  const clickEdit = (e) => {
-    const editCL = e.target.value;
-    setEditedComment(editCL);
-  };
+  // const onClickEdit = () => {
+  //   setIsOnClickEdit(true);
+  // };
 
-  const onDoneClick = () => {
-    onEdit(id, editedComment)
-    setIsOnClickEdit(false);
-  };
+  // const clickEdit = (e) => {
+  //   const editCL = e.target.value;
+  //   setEditedComment(editCL);
+  // };
 
-  const onClickDelete = (id) => {
-    console.log(commentList);
-    console.log(id);
-    const newCL = commentList.filter((c) => c.id !== id);
-    console.log(newCL);
-    setCommentList(newCL);
-  };
+  // const onDoneClick = () => {
+  //   onEdit(id, editedComment);
+  //   setIsOnClickEdit(false);
+  // };
+
+  // const handleCommentDelete = async () => {
+  //   // console.log(commentList);
+  //   // console.log(id);
+  //   // const newCL = commentList.filter((c) => c.id !== id);
+  //   // console.log(newCL);
+  //   // setCommentList(newCL);
+  //   // console.log(comment.id);
+  //   // deleteComment(comment.id);
+  //   deleteComment(comment.id);
+    
+  // };
+  // console.log(comment.id);
+
+  // useEffect(() => {
+  //   const deleteCommentAPI = async () => {
+  //     const deletecomment = await deleteComment(pos);
+
+  //   }
+  //   deleteCommentAPI();
+
+  // },[onClickDelete]);
+
+  // console.log(postId);
 
   return (
     <div className="w-full flex justify-between gap-1 mb-2">
-      <div className="w-3/4" >
-        {isOnClickEdit ? (
-          <input type="text" className = "input" value={editedComment} onChange={clickEdit}/>
-        )
-        : (
-          <p>{comment.content}</p>
+      <div className="w-3/4">
+        {isEdit ? (
+          <input
+          className="input mr-4"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          />
+        ) : (
+          <p className="text-lg mr-4">{comment.content}</p>
         )}
         {/* // 날짜 */}
         <span className="text-base mr-1 text-gray-300">
@@ -65,14 +122,34 @@ const CommentElement = ({
         </span>
       </div>
       {/* // 수정, 삭제버튼 */}
-      <div className="w-1/4 flex flex-row-reverse items-center">
-          {/* // delete 버튼은 수정이 아닐때만 보이게 해줘 */}
-          {isOnClickEdit ? "":
-          <button onClick={() => onClickDelete(comment.id)}>Del</button>}
-          
-          {isOnClickEdit ? <button type="submit" onClick={() => onDoneClick(comment.id)} class="p-8">Done</button>:<button class="mr-3" onClick={onClickEdit}>Edit</button>}
+      {user?.id === comment.author.id ? (
+        <div className="w-1/4 flex flex-row-reverse items-center">
+          {isEdit ? (
+            <>
+              <button onClick={handleEditComment}>Done</button>
 
-      </div>
+              <button
+                className="mr-3"
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                  setContent(comment.content);
+                }}
+              >
+                Back
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={handleCommentDelete}>
+                Del
+              </button>
+              <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
+                Edit
+              </button>
+            </>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 };

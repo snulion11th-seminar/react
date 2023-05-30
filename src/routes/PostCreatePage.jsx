@@ -2,70 +2,69 @@ import { useEffect, useState } from "react";
 import { BigPost } from "../components/Posts";
 import posts from "../data/posts";
 import { PostForm } from "../components/Form";
+import { getTags, createPost } from "../apis/api";
+import { useNavigate } from "react-router-dom";
 
 
 const PostCreatePage = () => {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 		// 화면그리기
 	const [formData, setFormData] = useState({
-		id: posts.length,
 		title: "",
-		content: "",
-		author: { id: posts.length, username: "베이비" },
-		tags: [],
+   	 	content: "",
+    	tags: [],
 	});
 
 	const [tags, setTags] = useState([]);
-
-	const onSubmit = (e) => {
-		//TODO : api connect
-		e.preventDefault();
-	
-			{/* 추가 👇🏻 */}
-			const createdPost = {
-		  ...formData,
-		  like_users: [],
-		  tags: formData.tags.map((tag, idx) => {
-			return { id: idx + 1, content: tag };
-		  }),
-		};
-		setFormData(createdPost);
-		setIsSubmitted(true);
-			{/* 추가 👆🏻 */}
-	  };
-	  
 	useEffect(() => {
-		const duplicatedTagList = posts.reduce((acc, post) => {
-		for (let tag of post.tags) {
-			acc.add(tag.content);
-		}
+		const getTagsAPI = async () => {
+		  const tags = await getTags();
+		  const tagContents = tags.map((tag) => {
+			return tag.content;
+		  });
+		  setTags(tagContents);
+		};
+		getTagsAPI();
+	  }, []);
 
-		return acc;
-		}, new Set());
+	// const navigate = useNavigate();
 
-		const tagList = [...duplicatedTagList];
+// const onSubmit = (e) => {
+//     e.preventDefault();
+//     createPost(formData, navigate);
+//   };
+	  
+// 	useEffect(() => {
+// 		const duplicatedTagList = posts.reduce((acc, post) => {
+// 		for (let tag of post.tags) {
+// 			acc.add(tag.content);
+// 		}
 
-		setTags([...tagList]);
-	}, []);
+// 		return acc;
+// 		}, new Set());
+
+// 		const tagList = [...duplicatedTagList];
+
+// 		setTags([...tagList]);
+// 	}, []);
+
+const navigate = useNavigate();
+
+const onSubmit = (e) => {
+    e.preventDefault();
+    createPost(formData, navigate);
+  };
 
 	return (
-		<>
-		{isSubmitted ? (
-			<div className="flex flex-col items-center w-3/5 p-8">
-			<BigPost post={formData} />
-			</div>
-		) : (
-			<div className="flex flex-col items-center w-3/5">
-				<h3 className="font-bold text-4xl">New Post</h3>
-				<PostForm
-					tags={tags}
-            		onSubmit={onSubmit}
-            		formData={formData}
-					setFormData={setFormData}
-				/>
-			</div>
-		)}
-		</>
+		<div className="flex flex-col items-center w-3/5">
+      <h3 className="font-bold text-4xl">New Post</h3>
+      <PostForm
+        onSubmit={onSubmit}
+        tags={tags}
+        formData={formData}
+        setFormData={setFormData}
+      />
+    </div>
 	);
 	};
 

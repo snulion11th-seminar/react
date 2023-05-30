@@ -1,23 +1,44 @@
 import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
-import posts from "../data/posts";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { getTags, getPosts } from "../apis/api";
+import { getCookie } from "../utils/cookie";
+// import axios from "axios";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
+  const [postList, setPostList] = useState([]);
 
+  // useEffect( () => {
+  //   const getPostAPI = async () => {
+  //     const response = await axios.get("http://localhost:8000/api/post/");
+  //     console.log(response);
+  //   }
+  //   getPostAPI();
+  //   }, []);
   useEffect(() => {
-    const tagList = posts.reduce((acc, post) => {
-      for (let tag of post.tags) {
-        acc.add(tag.content);
-      }
-      return acc;
-    }, new Set());
-    setTags([...tagList]);
-    setSearchTags([...tagList]);
+    const getPostAPI = async () => {
+      const posts = await getPosts();
+      setPostList(posts);
+    }
+    getPostAPI();
+
+
+
+    //추가
+    const getTagsAPI = async () => {
+      const tags = await getTags();
+      const tagContents = tags.map((tag) => {
+        return tag.content;
+      });
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    getTagsAPI();
+		// getTags() 이용해서 tag들 불러오고 tags.map을 이용해서 tagContents에
+		// tag.content만 저장한 후, tags와 searchTags에 저장
   }, []);
 
   const handleChange = (e) => {
@@ -27,28 +48,35 @@ const HomePage = () => {
   };
 
   const handleTagFilter = (e) => {
-    let tag = e.target.innerText.slice(1);
-    if (searchValue === tag) {
-      const clickedtag = tags.filter((t) => {
-        t !== tag;
-      });
-      setSearchValue(clickedtag);
-      setPostList(posts);
+    // let tag = e.target.innerText.slice(1);
+    // if (searchValue === tag) {
+    //   const clickedtag = tags.filter((t) => {
+    //     t !== tag;
+    //   });
+    //   setSearchValue(clickedtag);
+    //   // setPostList(posts);
+    // } else {
+    //   // let tmp = searchValue.push(tag);
+    //   setSearchValue(tag);
+    //   let clickedpost = posts.filter((post) => {
+    //     let include = false;
+    //     post.tags.map((t) => {
+    //       if (t.content === tag) include = true;
+    //       // console.log(t.content);
+    //       // console.log(tag);
+    //     });
+    //     return include;
+    //     // console.log(post.tags);
+    //   });
+    //   // console.log(clickedpost);
+    //   setPostList(clickedpost);
+    // }
+    const { innerText } = e.target;
+    if (searchValue === innerText.substring(1)) {
+      setSearchValue("");
     } else {
-      // let tmp = searchValue.push(tag);
-      setSearchValue(tag);
-      let clickedpost = posts.filter((post) => {
-        let include = false;
-        post.tags.map((t) => {
-          if (t.content === tag) include = true;
-          // console.log(t.content);
-          // console.log(tag);
-        });
-        return include;
-        // console.log(post.tags);
-      });
-      // console.log(clickedpost);
-      setPostList(clickedpost);
+      const activeTag = innerText.substring(1);
+      setSearchValue(activeTag);
     }
   };
 
@@ -80,16 +108,30 @@ const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-4 px-10 mt-10">
-        {postList.map((post) => (
-          <SmallPost key={post.id} post={post} />
-        ))}
+        {postList
+          .filter((post) =>
+            searchValue
+              ? post.tags.find((tag) => tag.content === searchValue)
+              : post
+          )
+          .map((post) => (
+            <SmallPost key={post.id} post={post} />
+          ))}
       </div>
 
-      <div className="flex justify-center m-20">
+      {getCookie("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
+
+      {/* <div className="flex justify-center m-20">
       <Link className="button" to="/create">
           Post
       </Link>
-      </div>
+      </div> */}
     </div>
   );
 };

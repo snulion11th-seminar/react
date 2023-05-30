@@ -11,7 +11,7 @@
 }
 /* 모든 버튼 일괄 적용 */
 .button {
-  @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl text-lg p-3.5;
+  @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl text-lg p-2.5;
 }
 /* 모든 form 일괄 적용 */
 .form {
@@ -23,6 +23,10 @@
 /* 모든 input 일괄 적용 */
 .input {
   @apply border-2 border-white w-full px-6 py-3 rounded-2xl text-white bg-transparent placeholder-opacity-50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent;
+}
+
+.textDesign{
+  @apply border-b border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 px-4 py-2 w-full;
 }
 
 body {

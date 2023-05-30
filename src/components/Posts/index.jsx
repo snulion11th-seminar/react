@@ -1,9 +1,20 @@
 import { Link } from "react-router-dom"
+import { likePost } from "../../apis/api";
+import { useState } from "react";
 
-export const SmallPost = ({ post }) => {
-  const onClickLike = () => {
+
+export const SmallPost = ({ post, setPostList  }) => {
+  const [likeCount, setLikeCount] = useState(post.like_users.length);
+  const onClickLike = async () => {
     console.log("나도 좋아!");
     // add api call for liking post here
+    const liking = await likePost(post.id);
+    setPostList((prevPostList) =>
+      prevPostList.map((p) => (p.id === post.id ? response : p))
+    );
+    // setLikeCount(liking);
+
+
   };
 
   return (
@@ -18,7 +29,9 @@ export const SmallPost = ({ post }) => {
         ))}
       </div>
       <div onClick={onClickLike}>
-        {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
+        ❤️ {post.like_users.length > 0 && `${post.like_users.length}`}
+        {/* {`❤️ ${post.like_users.length}`} */}
+        {/* ❤️ {likeCount} */}
       </div>
       <Link to={`/${post.id}`}>
         <div className="absolute bottom-0 right-0 bg-orange-400 px-5 py-2 rounded-lg translate-x-5 translate-y-5">
@@ -32,9 +45,13 @@ export const SmallPost = ({ post }) => {
 
 
 export const BigPost = ({ post }) => {
+  const [likeCount, setLikeCount] = useState(post.like_users.length);
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
+    const liking = likePost(post.id);
+    setLikeCount(post.like_users.length);
+
   };
 
   return (
@@ -53,8 +70,11 @@ export const BigPost = ({ post }) => {
         </div>
         <div className="flex mt-5" onClick={onClickLike}>
           ❤️ {post.like_users.length > 0 && `${post.like_users.length}`}
+          {/* ❤️ {post.like_users.length} */}
+          {/* ❤️ {likeCount} */}
         </div>
       </div>
     </div>
   );
 };
+
