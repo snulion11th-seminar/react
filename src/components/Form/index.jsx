@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUser, updateAccount } from "../../apis/api";
 
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
@@ -259,5 +260,226 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
         Submit
       </button>
     </form>
+  );
+};
+
+export const MyPageForm = ({ formData, setFormData, handleUpdateAccount }) => {
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const [isEmailEdit, setIsEmailEdit] = useState(false);
+  const [isUsernameEdit, setIsUsernameEdit] = useState(false);
+  const [isCollegeEdit, setIsCollegeEdit] = useState(false);
+  const [isMajorEdit, setIsMajorEdit] = useState(false);
+
+  return (
+    <>
+      <form className="form mb-5">
+        <label htmlFor="email" className="label">
+          email:
+        </label>
+
+        <div className="flex w-full items-center">
+          {isEmailEdit ? (
+            <>
+              <input
+                required
+                type="text"
+                id="email"
+                className="input"
+                onChange={handleFormData}
+                value={formData.email}
+              />
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsEmailEdit(!isEmailEdit);
+                }}
+              >
+                취소
+              </button>
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsEmailEdit(!isEmailEdit);
+                  handleUpdateAccount(formData);
+                }}
+              >
+                완료
+              </button>
+            </>
+          ) : (
+            <div className="flex border-b-2 w-full items-center">
+              <div className="w-full ">{formData.email}</div>
+              <button
+                type="submit"
+                className="button w-1/6 ml-4"
+                onClick={() => {
+                  setIsEmailEdit(!isEmailEdit);
+                }}
+              >
+                변경
+              </button>
+            </div>
+          )}
+        </div>
+      </form>
+
+      <form className="form mb-5">
+        <label htmlFor="username" className="label">
+          username:
+        </label>
+
+        <div className="flex w-full items-center">
+          {isUsernameEdit ? (
+            <>
+              <input
+                required
+                type="text"
+                id="username"
+                className="input"
+                onChange={handleFormData}
+                value={formData.username}
+              />
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsUsernameEdit(!isUsernameEdit);
+                }}
+              >
+                취소
+              </button>
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsUsernameEdit(!isUsernameEdit);
+                  handleUpdateAccount(formData);
+                }}
+              >
+                완료
+              </button>
+            </>
+          ) : (
+            <div className="flex border-b-2 w-full items-center">
+              <div className="w-full ">{formData.username}</div>
+              <button
+                type="submit"
+                className="button w-1/6 ml-4"
+                onClick={() => {
+                  setIsUsernameEdit(!isUsernameEdit);
+                }}
+              >
+                변경
+              </button>
+            </div>
+          )}
+        </div>
+      </form>
+
+      <form className="form mb-5">
+        <label htmlFor="college" className="label">
+          college:
+        </label>
+
+        <div className="flex w-full items-center">
+          {isCollegeEdit ? (
+            <>
+              <input
+                required
+                type="text"
+                id="college"
+                className="input"
+                onChange={handleFormData}
+                value={formData.college}
+              />
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsCollegeEdit(!isCollegeEdit);
+                }}
+              >
+                취소
+              </button>
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsCollegeEdit(!isCollegeEdit);
+                  handleUpdateAccount(formData);
+                }}
+              >
+                완료
+              </button>
+            </>
+          ) : (
+            <div className="flex border-b-2 w-full items-center">
+              <div className="w-full ">{formData.college}</div>
+              <button
+                type="submit"
+                className="button w-1/6 ml-4"
+                onClick={() => {
+                  setIsCollegeEdit(!isCollegeEdit);
+                }}
+              >
+                변경
+              </button>
+            </div>
+          )}
+        </div>
+      </form>
+
+      <form className="form mb-5">
+        <label htmlFor="major" className="label">
+          major:
+        </label>
+
+        <div className="flex w-full items-center">
+          {isMajorEdit ? (
+            <>
+              <input
+                required
+                type="text"
+                id="major"
+                className="input"
+                onChange={handleFormData}
+                value={formData.major}
+              />
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsMajorEdit(!isMajorEdit);
+                }}
+              >
+                취소
+              </button>
+              <button
+                className="w-1/6"
+                onClick={() => {
+                  setIsMajorEdit(!isMajorEdit);
+                  handleUpdateAccount(formData);
+                }}
+              >
+                완료
+              </button>
+            </>
+          ) : (
+            <div className="flex border-b-2 w-full items-center">
+              <div className="w-full ">{formData.major}</div>
+              <button
+                type="submit"
+                className="button w-1/6 ml-4"
+                onClick={() => {
+                  setIsMajorEdit(!isMajorEdit);
+                }}
+              >
+                변경
+              </button>
+            </div>
+          )}
+        </div>
+      </form>
+    </>
   );
 };

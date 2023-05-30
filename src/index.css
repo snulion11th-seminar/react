@@ -21,7 +21,7 @@
   @apply w-full flex flex-col items-center;
 }
 .label {
-  @apply self-start mt-5 mb-2 align-middle ml-3;
+  @apply self-start mt-5 mb-2 align-middle font-bold text-xl;
 }
 /* 모든 input 일괄 적용 */
 .input {

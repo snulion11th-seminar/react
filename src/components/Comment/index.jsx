@@ -17,17 +17,14 @@ const Comment = ({ postId }) => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    setNewContent("");
     createComment({ post: postId, content: newContent });
+    setNewContent("");
   };
 
-  // 과제!!
-  const handleCommentDelete = async (commentId) => {
-    const confirmDelete = window.confirm("정말로 댓글을 삭제하시겠습니까?");
-    if (confirmDelete) {
-      await deleteComment(commentId);
-      window.location.reload();
-    }
+
+  const handleCommentDelete = (comment_id) => {
+    console.log("delete");
+    deleteComment(comment_id);
   };
 
   return (

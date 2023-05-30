@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../components/Comment";
 import { BigPost } from "../components/Posts";
 import { Link } from "react-router-dom";
-import { getPost, getUser } from "../apis/api";
+import { getPost, getUser, deletePost, likePost } from "../apis/api";
 import { getCookie } from "../utils/cookie";
 import { deletePost } from "../apis/api";
 
@@ -11,6 +11,7 @@ const PostDetailPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPostAPI = async () => {
@@ -26,22 +27,17 @@ const PostDetailPage = () => {
       const getUserAPI = async () => {
         const user = await getUser();
         setUser(user);
+        console.log(user);
       };
       getUserAPI();
     }
   }, []);
 
   const onClickDelete = async () => {
-    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
-    if (confirmed) {
-      try {
-        await deletePost(postId);
-        console.log("delete");
-        window.location.href = "/";
-      } catch (error) {
-        console.error("Failed to delete the post:", error);
-      }
-    }
+
+    console.log("delete");
+    deletePost(postId, navigate);
+
   };
 
   return (

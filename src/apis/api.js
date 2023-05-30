@@ -18,6 +18,16 @@ export const signUp = async (data) => {
   return response;
 };
 
+export const updateAccount = async (data) => {
+  const response = await instanceWithToken.patch(`/account/info/`, data);
+  if (response.status === 200) {
+    console.log("ACCOUNT UPDATE SUCCESS");
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while updating account");
+  }
+};
+
 // GetUser API
 // Edit, Delete 권한을 확인하거나, 프로필 페이지를 만들 때 사용하겠죠?
 export const getUser = async () => {
@@ -61,26 +71,30 @@ export const updatePost = async (id, data, navigate) => {
   }
 };
 
-//과제!!
-export const deletePost = async (postId) => {
-  const response = await instanceWithToken.delete(`/post/${postId}/`);
-  if (response.status === 204) {
-    console.log("DELETE SUCCESS");
-  } else {
-    console.log("[ERROR] error while deleting post");
+export const deletePost = async (id, navigate) => {
+  if (window.confirm("글을 삭제하시겠어요? 정말요?")) {
+    const response = await instanceWithToken.delete(`post/${id}/`);
+    if (response.status === 204) {
+      console.log("POST DELETE SUCCESS");
+      navigate("/");
+    } else {
+      console.log("[ERROR] error while deleting post");
+    }
   }
-};
-//과제!!
-export const likePost = async (postId) => {
-  const response = await instanceWithToken.post(`/post/${postId}/like/`);
-  if (response.status === 200) {
-    console.log("POST LIKE SUCCESS");
-  } else {
-    console.log("[ERROR] error while liking post");
-  }
-  return response.data;
 };
 
+//과제!!
+export const likePost = async (id) => {
+  const response = await instanceWithToken.post(`/post/${id}/like/`);
+  if (response.status === 200) {
+    console.log("POST LIKE SUCCESS");
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while creating like");
+  }
+
+  return response.data;
+};
 
 // Tag 관련 API들
 export const getTags = async () => {
@@ -125,11 +139,14 @@ export const updateComment = async (id, data) => {
 };
 
 //과제!!
-export const deleteComment = async (id) => {
-  const response = await instanceWithToken.delete(`/comment/${id}/`);
-  if (response.status === 204) {
-    console.log("COMMENT DELETE SUCCESS");
-  } else {
-    console.log("[ERROR] error while deleting comment");
+  const isConfirmed = window.confirm("댓글을 삭제하시겠어요? 진짜요?");
+  if (isConfirmed) {
+    const response = await instanceWithToken.delete(`/comment/${id}/`);
+    if (response.status === 204) {
+      console.log("DELETE COMMENT SUCCESS");
+      window.location.reload();
+    } else {
+      console.log("[ERROR] error while deleting comment");
+    }
   }
 };

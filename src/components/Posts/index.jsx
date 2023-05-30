@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { likePost } from "../../apis/api";
+import { useState, useEffect } from "react";
+
 
 export const SmallPost = ({ post }) => {
   const onClickLike = async () => {
@@ -38,13 +40,20 @@ export const SmallPost = ({ post }) => {
 };
 
 export const BigPost = ({ post }) => {
-  const onClickLike = async () => {
-    try {
-      await likePost(post.id);
-      window.location.reload();
-    } catch (error) {
-      console.error("Failed to like the post:", error);
-    }
+
+  const [likeUsers, setLikeUsers] = useState([]);
+
+  useEffect(() => {
+    setLikeUsers([...post.like_users, "test"]);
+  }, [post]);
+
+  const onClickLike = () => {
+    likePost(post.id, {
+      id: post.id,
+      content: post.content,
+      like_users: likeUsers,
+    });
+
   };
 
   return (

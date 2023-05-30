@@ -48,6 +48,7 @@ const CommentElement = (props) => {
           {year}.{month}.{day}
         </span>
       </div>
+
       {user?.id === comment.author ? (
         <div className="w-1/4 flex flex-row-reverse items-center">
           {isEdit ? (

@@ -3,12 +3,21 @@ import { Link } from "react-router-dom";
 import { SmallPost } from "../components/Posts";
 import { getPosts, getTags } from "../apis/api";
 import { getCookie } from "../utils/cookie";
+// import axios from "axios";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [postList, setPostList] = useState([]);
+
+  // useEffect(() => {
+  //   const getPostAPI = async () => {
+  //     const response = await axios.get("http://localhost:8000/api/post/");
+  //     console.log(response);
+  //   };
+  //   getPostAPI();
+  // }, []);
 
   useEffect(() => {
     const getPostsAPI = async () => {
