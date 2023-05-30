@@ -264,10 +264,9 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
 };
 
 export const ProfileEditForm = ({
+  defaultData,
   formData,
   setFormData,
-  refresh,
-  setRefresh,
   datainfo,
   datatype,
 }) => {
@@ -279,7 +278,7 @@ export const ProfileEditForm = ({
   };
   /* 입력 시 formData 수정하여 화면에 보이게 하기 */
   const handleCancel = () => {
-    setRefresh(!refresh);
+    setFormData(defaultData);
     setIsEdit(false);
   };
   /* 취소 버튼 눌렀을 때 호출(refresh 상태를 변경시켜 새로 입력한 값이 아닌 기존 값 가져오기) */

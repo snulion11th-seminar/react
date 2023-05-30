@@ -4,11 +4,15 @@ import { ProfileEditForm } from "../components/Form";
 import { SmallPost } from "../components/Posts";
 
 const MyPage = () => {
-  const [refresh, setRefresh] = useState(false);
-  /* 변경 취소 시 기존 값으로 돌려놓기 위한 state */
   const [postList, setPostList] = useState([]);
   const [userID, setUserID] = useState("");
   /* 로그인한 유저 정보를 가져오는 state */
+  const [defaultData, setDefaultData] = useState({
+    email: "",
+    username: "",
+    college: "",
+    major: "",
+  });
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -46,9 +50,10 @@ const MyPage = () => {
         major: user.major,
       };
       setFormData(userFormData);
+      setDefaultData(userFormData);
     };
     setUserAPI();
-  }, [refresh]);
+  }, []);
   /* refresh 상태가 변할 때마다 formData에 데이터베이스 정보 가져오기 */
 
   /* /components/Form 에 정의된 form에 각 항목 props로 넘겨주기 */
@@ -57,34 +62,30 @@ const MyPage = () => {
       <div className="flex flex-col items-center w-1/2">
         <h3 className=" font-bold text-4xl">My Info</h3>
         <ProfileEditForm
+          defaultData={defaultData}
           formData={formData}
           setFormData={setFormData}
-          refresh={refresh}
-          setRefresh={setRefresh}
           datainfo={"email"}
           datatype={"email"}
         />
         <ProfileEditForm
+          defaultData={defaultData}
           formData={formData}
           setFormData={setFormData}
-          refresh={refresh}
-          setRefresh={setRefresh}
           datainfo={"username"}
           datatype={"text"}
         />
         <ProfileEditForm
+          defaultData={defaultData}
           formData={formData}
           setFormData={setFormData}
-          refresh={refresh}
-          setRefresh={setRefresh}
           datainfo={"college"}
           datatype={"text"}
         />
         <ProfileEditForm
+          defaultData={defaultData}
           formData={formData}
           setFormData={setFormData}
-          refresh={refresh}
-          setRefresh={setRefresh}
           datainfo={"major"}
           datatype={"text"}
         />
