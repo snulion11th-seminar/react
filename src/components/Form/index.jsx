@@ -278,7 +278,7 @@ export const ProfileEditForm = ({
   };
   /* 입력 시 formData 수정하여 화면에 보이게 하기 */
   const handleCancel = () => {
-    setFormData(defaultData);
+    setFormData({ ...formData, [datainfo]: defaultData[datainfo] });
     setIsEdit(false);
   };
   /* 취소 버튼 눌렀을 때 호출(refresh 상태를 변경시켜 새로 입력한 값이 아닌 기존 값 가져오기) */
@@ -307,7 +307,7 @@ export const ProfileEditForm = ({
           />
         ) : (
           <div className="text-2xl text-left font-bold">
-            {formData[datainfo]}
+            {defaultData[datainfo]}
           </div>
         )}
 
