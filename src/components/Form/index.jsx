@@ -272,19 +272,23 @@ export const ProfileEditForm = ({
   datatype,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
+  /* 수정중일 때, 아닐 때 구분하는 state */
   const handleFormData = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
+  /* 입력 시 formData 수정하여 화면에 보이게 하기 */
   const handleCancel = () => {
     setRefresh(!refresh);
     setIsEdit(false);
   };
+  /* 취소 버튼 눌렀을 때 호출(refresh 상태를 변경시켜 새로 입력한 값이 아닌 기존 값 가져오기) */
   const handleSubmit = (e) => {
     e.preventDefault();
     editProfile(formData);
     setIsEdit(false);
   };
+  /* 수정 버튼 눌렀을 때 호출하는 함수 */
   return (
     <div className="flex-col w-full">
       <label htmlFor={datainfo} className="label">
