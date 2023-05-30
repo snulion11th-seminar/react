@@ -12,7 +12,11 @@ import MyPage from "./routes/MyPage";
 
 function App() {
   return (
+<<<<<<< HEAD
+    <div className="App">
+=======
     <div className="app">
+>>>>>>> main
       <BrowserRouter>
         <Header />
         <Routes>
