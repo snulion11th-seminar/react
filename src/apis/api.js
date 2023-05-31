@@ -68,7 +68,7 @@ export const likePost = async (postId) => {
   const response = await instanceWithToken.post(`/post/${postId}/like/`);
   if (response.status === 200) {
     console.log("LIKE SUCCESS");
-    window.location.href = `/${postId}`;
+    window.location.reload();
   } else {
     console.log("[ERROR] error while liking post");
   }
@@ -140,7 +140,26 @@ export const getUser = async () => {
   if (response.status === 200) {
     console.log("GET USER SUCCESS");
   } else {
-    console.log("[ERROR] error while updating comment");
+    console.log("[ERROR] error while getting user");
   }
   return response.data;
+};
+
+export const setUserProfile = async (data) => {
+  const response = await instanceWithToken.patch("/account/info/", data);
+  if (response.status === 200) {
+    console.log("SET USER SUCCESS");
+  } else {
+    console.log("[ERROR] error while setting user");
+  }
+  return response.data;
+};
+
+export const refreshToken = async (token) => {
+  const response = await instance.post("/refresh/", { refresh: token });
+  if (response.status === 200) {
+    console.log("REFRESH TOKEN SUCCESS");
+  } else {
+    console.log("[ERROR] error while refreshing token");
+  }
 };

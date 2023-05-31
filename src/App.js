@@ -10,6 +10,7 @@ import PostEditPage from "./routes/PostEditPage";
 import SignUpPage from "./routes/SignUpPage.jsx";
 import PostDetailPage from "./routes/PostDetailPage";
 import SignInPage from "./routes/SignInPage";
+import MyPage from "./routes/MyPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           {/* sign up */}
           <Route path="/signin" element={<SignInPage />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
@@ -257,5 +257,73 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
         Submit
       </button>
     </form>
+  );
+};
+
+export const MyPageForm = ({ id, formData, setFormData, submitFormData }) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [prevFormData, setPrevFormData] = useState();
+
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+  return (
+    <div className="flex flex-col items-center w-1/2">
+      <label htmlFor="email" className="label">
+        {id}:
+      </label>
+
+      <div className="w-full flex justify-between gap-1 mb-2 border-b-2 border-indigo-100">
+        <div className="w-3/4 m-5">
+          {isEdit ? (
+            <input
+              id={id}
+              className="input mr-4"
+              onChange={handleFormData}
+              value={formData[id]}
+            />
+          ) : (
+            <p className="text-lg mr-4">{formData[id]}</p>
+          )}
+        </div>
+        <div className="w-1/4 flex flex-row-reverse items-center">
+          {isEdit ? (
+            <>
+              <button
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                  submitFormData();
+                }}
+              >
+                Done
+              </button>
+
+              <button
+                className="mr-3"
+                onClick={() => {
+                  setFormData(prevFormData);
+                  setIsEdit(!isEdit);
+                }}
+              >
+                Back
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="mr-3"
+                onClick={() => {
+                  setPrevFormData(formData);
+                  setIsEdit(!isEdit);
+                }}
+              >
+                Edit
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };

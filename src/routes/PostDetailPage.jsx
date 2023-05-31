@@ -10,7 +10,11 @@ const PostDetailPage = () => {
   // TODO : api call(get post by id)
   const { postId } = useParams();
   const [post, setPost] = useState();
-  const [user, setUser] = useState({ id: null });
+  const [user, setUser] = useState({
+    user: {
+      id: null,
+    },
+  });
   useEffect(() => {
     const getPostAPI = async () => {
       const post = await getPost(postId);
@@ -25,6 +29,7 @@ const PostDetailPage = () => {
       const getUserAPI = async () => {
         const user = await getUser();
         setUser(user);
+        console.log(user.user.id);
       };
       getUserAPI();
     }
@@ -43,7 +48,7 @@ const PostDetailPage = () => {
         <BigPost post={post} />
         <Comment postId={postId} />
         <div>
-          {user.id === post.author.id ? (
+          {user.user.id === post.author.id ? (
             <>
               <Link to={`/${post.id}/edit`}>
                 <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
