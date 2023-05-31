@@ -50,6 +50,7 @@ export const editProfile = async (data) => {
   } else {
     console.log("[ERROR] error while updating");
   }
+  window.location.reload();
   return response.data;
 };
 
