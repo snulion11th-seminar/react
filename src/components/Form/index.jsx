@@ -268,10 +268,6 @@ export const MyPageForm = ({ id, formData, setFormData, submitFormData }) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
-
-  const confirmEdit = (e) => {
-    submitFormData();
-  };
   return (
     <div className="flex flex-col items-center w-1/2">
       <label htmlFor="email" className="label">
@@ -297,7 +293,7 @@ export const MyPageForm = ({ id, formData, setFormData, submitFormData }) => {
               <button
                 onClick={() => {
                   setIsEdit(!isEdit);
-                  confirmEdit();
+                  submitFormData();
                 }}
               >
                 Done
