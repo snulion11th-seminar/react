@@ -15,6 +15,8 @@ const CommentElement = (props) => {
   month = month < 10 ? `0${month}` : month;
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
+  const hour = date.getHours();
+  const minute = date.getMinutes();
 
   const handleEditComment = () => {
     updateComment(comment.id, { content: content });
@@ -44,7 +46,7 @@ const CommentElement = (props) => {
           <p className="text-lg mr-4">{comment.content}</p>
         )}
         <span className="text-base mr-1 text-gray-300">
-          {year}.{month}.{day}
+          {year}.{month}.{day} {hour}:{minute}
         </span>
       </div>
       {user?.id === comment.author ? (
