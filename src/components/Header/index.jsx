@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import lion from "../../assets/images/lion.jpeg";
 import { Link } from "react-router-dom";
-import { getCookie, removeCookie } from "../../utils/cookie";
+import { getCookie } from "../../utils/cookie";
+import { logOut } from "../../apis/api";
+
 const Header = () => {
   const [isUser, setIsUser] = useState("");
 
@@ -11,9 +13,10 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    removeCookie("access_token");
-    window.location.href = "/"; // 새로고침 - 로그아웃 되었다는 것을 인지시켜주기 위해
+    const token = getCookie("refresh_token");
+    logOut(token);
   };
+
   return (
     <div
       id="header-wrapper"
@@ -38,6 +41,9 @@ const Header = () => {
           </>
         ) : (
           <>
+            <Link to="/mypage" className="mr-10 p-3 uppercase">
+              my page
+            </Link>
             <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
               log out
             </Link>
