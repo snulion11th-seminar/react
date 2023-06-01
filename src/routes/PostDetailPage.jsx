@@ -36,31 +36,30 @@ const PostDetailPage = () => {
   };
 
   return (
-    post && (
-      <div className="flex flex-col items-center w-3/5 p-8">
-        {/* post detail component */}
-        <BigPost post={post} />
-
-        {/* comments component */}
-        <Comment postId={postId} />
-
-        <div>
-          {user?.id === post?.author.id ? (
-            <>
-              <Link to={`/${post.id}/edit`}>
-                <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
-              </Link>
-              <button
-                className="button mt-10 mx-4 py-2 px-10"
-                onClick={onClickDelete}
-              >
-                Delete
-              </button>
-            </>
-          ) : null}
+    <>
+      {post && (
+        <div className="flex flex-col items-center w-3/5 p-8">
+          {/* post detail component */}
+          <BigPost post={post} />
+          <Comment postId={postId} />
+          <div>
+            {user?.id === post?.author.id ? (
+              <>
+                <Link to={`/${post.id}/edit`}>
+                  <button className="button mt-10 mx-4 py-2 px-10">Edit</button>
+                </Link>
+                <button
+                  className="button mt-10 mx-4 py-2 px-10"
+                  onClick={onClickDelete}
+                >
+                  Delete
+                </button>
+              </>
+            ) : null}
+          </div>
         </div>
-      </div>
-    )
+      )}
+    </>
   );
 };
 
