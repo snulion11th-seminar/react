@@ -1,6 +1,22 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import lion from "../../assets/images/lion.jpeg";
+import { Link } from "react-router-dom";
+import { getCookie } from "../../utils/cookie";
+import { logOut } from "../../apis/api";
+
 const Header = () => {
+  const [isUser, setIsUser] = useState("");
+
+  useEffect(() => {
+    const user = getCookie("access_token") ? true : false;
+    setIsUser(user);
+  }, []);
+
+  const handleLogout = () => {
+    const token = getCookie("refresh_token");
+    logOut(token);
+  };
+
   return (
     <div
       id="header-wrapper"
@@ -8,17 +24,33 @@ const Header = () => {
     >
       <div className="flex items-center">
         <img id="header-lion" src={lion} alt="lion" className="max-h-16" />
-        <Link to="/" className="ml-3">
+        <Link className="ml-3" to="/">
           Snulion Blog
         </Link>
       </div>
+
       <div className="flex">
-        <Link to="/signin" className="mr-10 p-3 uppercase">
-          sign in
-        </Link>
-        <Link to="/signup" className="mr-10 p-3 uppercase">
-          sign up
-        </Link>
+        {!isUser ? (
+          <>
+            <Link to="/signin" className="mr-10 p-3 uppercase">
+              sign In
+            </Link>
+            <Link to="/signup" className="mr-10 p-3 uppercase">
+              sign up
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/mypage" className="mr-10 p-3 uppercase">
+              my page
+            </Link>
+            <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
+              log out
+            </Link>
+          </>
+        )}
+
+        {/* <Link to="/signup" className="p-3 uppercase">profile</Link> */}
       </div>
     </div>
   );
