@@ -1,19 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,  } from "react";
 import lion from "../../assets/images/lion.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getCookie, removeCookie } from "../../utils/cookie";
+
+
 const Header = () => {
   const [isUser, setIsUser] = useState("");
+  
 
   useEffect(() => {
     const user = getCookie("access_token") ? true : false;
     setIsUser(user);
   }, []);
 
+
+
   const handleLogout = () => {
     removeCookie("access_token");
     window.location.href = "/"; // 새로고침 - 로그아웃 되었다는 것을 인지시켜주기 위해
   };
+
+
+
   return (
     <div
       id="header-wrapper"
@@ -38,6 +46,9 @@ const Header = () => {
           </>
         ) : (
           <>
+            <Link to="/mypage" className="mr-10 p-3 uppercase">
+              mypage
+            </Link>
             <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
               log out
             </Link>

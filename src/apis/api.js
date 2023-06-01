@@ -30,6 +30,16 @@ export const getUser = async () => {
   return response.data;
 };
 
+export const getMyPage = async () => {
+  const response = await instanceWithToken.get("/account/mypage/");
+  if (response.status === 200) {
+    console.log("GET USER SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating comment");
+  }
+  return response.data;
+};
+
 // Post 관련 API들
 export const getPosts = async () => {
   const response = await instance.get("/post/");
@@ -56,6 +66,15 @@ export const updatePost = async (id, data, navigate) => {
   if (response.status === 201) {
     console.log("POST UPDATE SUCCESS");
     navigate("/");
+  } else {
+    console.log("[ERROR] error while updating post");
+  }
+};
+
+export const updateMyInfo = async (data) => {
+  const response = await instanceWithToken.patch(`/account/info/`, data);
+  if (response.status === 201) {
+    console.log("POST UPDATE SUCCESS");
   } else {
     console.log("[ERROR] error while updating post");
   }
