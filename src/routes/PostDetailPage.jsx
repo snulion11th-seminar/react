@@ -30,7 +30,7 @@ const PostDetailPage = () => {
     if (getCookie("access_token")) {
       const getUserAPI = async () => {
         const user = await getUser();
-        setUser(user);
+        setUser(user.user);
       };
       getUserAPI();
     }
@@ -40,7 +40,8 @@ const PostDetailPage = () => {
   const navigate = useNavigate();
   const onClickDelete = () => {
     deletePost(postId, navigate);
-  };
+  }; 
+
 
   return (
     post && (
