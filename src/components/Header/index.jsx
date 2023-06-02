@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import lion from "../../assets/images/lion.jpeg";
-import { getCookie, removeCookie } from "../../utils/cookie";
+import { getCookie } from "../../utils/cookie";
 import { useEffect, useState } from "react";
+import { logOut } from "../../apis/api";
+
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState("");
@@ -14,9 +16,8 @@ const Header = () => {
   // getCookie를 통해 access token을 가져올 수 있으면 로그인 된 것으로 설정
 
   const handleLogout = () => {
-    removeCookie("access_token");
-    removeCookie("refresh_token");
-    window.location.href = "/"; // 새로고침 - 로그아웃 되었다는 것을 인지시켜주기 위해
+    const token = getCookie("refresh_token");
+    logOut(token);
   };
 
   return (
@@ -42,6 +43,9 @@ const Header = () => {
           </>
         ) : (
           <>
+            <Link to="/mypage" className="mr-10 p-3 uppercase">
+              MY PAGE
+            </Link>
             <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
               log out
             </Link>

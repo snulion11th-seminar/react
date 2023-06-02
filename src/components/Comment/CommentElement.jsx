@@ -17,7 +17,7 @@ export const CommentElement = (props) => {
   day = day < 10 ? `0${day}` : day;
 
 	// 추가
-  const handleEditComment = (e) => {
+  const handleEditComment = () => {
     updateComment(comment.id, { content: content });
   };
 	// updateComment 활용
