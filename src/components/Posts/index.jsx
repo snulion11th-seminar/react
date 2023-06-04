@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { likePost } from "../../apis/api";
 
 export const SmallPost = ({ post }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
     // add api call for liking post here
+    likePost(post.id);
   };
 
   return (
@@ -32,13 +34,14 @@ export const SmallPost = ({ post }) => {
 export const BigPost = ({ post }) => {
   const onClickLike = () => {
     console.log("나도 좋아!");
+    likePost(post.id);
     // add api call for liking post here
   };
 
   return (
     <div className="py-5 w-full bg-orange-400 text-black border-0 ring-8 ring-orange-200 rounded-xl font-medium">
       <div className="px-8">
-        <h1 className="font-extrabold text-2xl">{post.title}</h1> 
+        <h1 className="font-extrabold text-2xl">{post.title}</h1>
         <span className="mt-2 text-white ">{post.author.username}</span>
         <div className="mt-2 h-28">{post.content}</div>
         <div className="flex mt-5">

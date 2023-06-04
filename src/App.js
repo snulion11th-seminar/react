@@ -9,6 +9,7 @@ import PostEditPage from "./routes/PostEditPage";
 import SignUpPage from "./routes/SignUpPage";
 import PostDetailPage from "./routes/PostDetailPage";
 import SignInPage from "./routes/SignInPage";
+import MyInfoPage from "./routes/MyInfoPage"
 
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           {/* sign up */}
           <Route path="/signin" element={<SignInPage />} />
+          {/* my info */}
+          <Route path="/myinfo" element={<MyInfoPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

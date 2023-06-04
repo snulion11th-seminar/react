@@ -2,12 +2,34 @@ import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
 import posts from "../data/posts";
 import { Link } from "react-router-dom";
+import { getPosts, getUser } from "../apis/api";
+import { getTags } from "../apis/api";
+import { getCookie } from "../utils/cookie";
 
 const HomePage = () => {
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
+  const [postList, setPostList] = useState([]);
+
+  useEffect(() => {
+		const getPostsAPI = async () => {
+			const posts = await getPosts();
+			setPostList(posts);
+		};
+		getPostsAPI();
+
+    const getTagsAPI = async () => {
+      const tags = await getTags();
+      const tagContents = tags.map((tag) => {
+        return tag.content;
+      });
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    getTagsAPI();
+	}, []);
+
 
   useEffect(() => {
     const tagList = posts.reduce((acc, post) => {
@@ -27,25 +49,13 @@ const HomePage = () => {
   };
 
   const handleTagFilter = (e) => {
-    const tagText = e.target.innerText;
-    console.log(tagText);
-    const filteredTagText = tagText.replace("#", "");
-    console.log(filteredTagText);
-    setSearchValue(filteredTagText);
-
-    if (filteredTagText === searchValue) {
-      console.log("다시");
+    const { innerText } = e.target;
+    if (searchValue === innerText.substring(1)) {
       setSearchValue("");
-      setPostList(posts);
-      return;
+    } else {
+      const activeTag = innerText.substring(1);
+      setSearchValue(activeTag);
     }
-
-    console.log("postList", postList);
-    console.log("posts", posts);
-    const filteredPosts = posts.filter((post) =>
-      post.tags.some((tag) => tag.content === filteredTagText)
-    );
-    setPostList(filteredPosts);
   };
 
   return (
@@ -76,15 +86,23 @@ const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-4 px-10 mt-10">
-        {postList.map((post) => (
-          <SmallPost key={post.id} post={post} />
-        ))}
+        {postList
+          .filter((post) =>
+            searchValue
+              ? post.tags.find((tag) => tag.content === searchValue)
+              : post
+          )
+          .map((post) => (
+            <SmallPost key={post.id} post={post} />
+          ))}
       </div>
-      <div className="flex justify-center m-20">
-        <Link className="button" to="/create">
-          Post
-        </Link>
-      </div>
+      {getCookie("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };

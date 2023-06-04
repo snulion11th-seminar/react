@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { getUser, updateComment, deleteComment } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
 
-const CommentElement = ({ comment, deleteComment, editComment}) => {
-  // TODO : props 받기
-  // TODO : 수정하는 input 내용 관리`
+const CommentElement = (props) => {
+  const { comment, handleCommentDelete } = props;
+  const [content, setContent] = useState(comment.content);
+  const [isEdit, setIsEdit] = useState(false);
 
-  // comment created_at 전처리
+  const [user, setUser] = useState(null);
+
   const date = new Date(comment.created_at);
   const year = date.getFullYear();
   let month = date.getMonth() + 1;
@@ -12,78 +16,73 @@ const CommentElement = ({ comment, deleteComment, editComment}) => {
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
 
-  const [isClickEdit, setIsClickEdit] = useState(false);
-
-  const onClickDelete = () => {
-    console.log("delete");
-    deleteComment(comment);
+  const handleEditComment = () => {
+    console.log("content: ", content);
+    updateComment(comment.id, { content: content });
   };
 
-  const onClickEdit = () => {
-    setIsClickEdit(true);
+  const handleDeleteComment = () => {
+    console.log("comment.id: ", comment.id);
+    deleteComment(comment.id);
   };
 
-	const doneClickEdit = () => {
-		// setFormData((nowFormData) => ({
-		// 	...nowFormData,
-		// 	content: input.value
-		// }))
-		editComment(comment);
-    setIsClickEdit(false);
-  };
-
-  // useEffect(()=>{
-  // 	if(handleCommentDelete){
-
-  // 	}
-  // })
+  useEffect(() => {
+    // access_token이 있으면 유저 정보 가져옴
+    if (getCookie("access_token")) {
+      const getUserAPI = async () => {
+        const user = await getUser();
+        setUser(user);
+      };
+      getUserAPI();
+    }
+  }, []);
 
   return (
-    <div>
-      <div className="w-full flex justify-between gap-1 mb-2">
-        {isClickEdit ? (
-          <div className="w-full flex flex-row">
-            <div className="w-3/4">
-              <input className="input mr-4" defaultValue= {comment.content} />
-              <span className="text-base mr-1 text-gray-300">
-                {year}.{month}.{day}
-              </span>
-            </div>
-            <div className="w-1/4 flex flex-row-reverse items-center">
-              <button className="mr-3 mb-6" onClick={doneClickEdit}>Done</button>
-            </div>
-          </div>
+    <div className="w-full flex justify-between gap-1 mb-2">
+      <div className="w-3/4">
+        {isEdit ? (
+          <input
+            className="input mr-4"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
         ) : (
-          <div className="w-full flex flex-row">
-            <div className="w-3/4">
-              <div>{comment.content}</div>
-              <span className="text-base mr-1 text-gray-300">
-                {year}.{month}.{day}
-              </span>
-            </div>
-            <div className="w-1/4 flex flex-row-reverse items-center">
-              <button onClick={onClickDelete}>Del</button>
-              <button className="mr-3" onClick={onClickEdit}>
+          <p className="text-lg mr-4">{comment.content}</p>
+        )}
+        <span className="text-base mr-1 text-gray-300">
+          {year}.{month}.{day}
+        </span>
+      </div>
+      {user?.data.id === comment.author.id ? (
+        <div className="w-1/4 flex flex-row-reverse items-center">
+          {isEdit ? (
+            <>
+              <button className="mr-3" onClick={handleEditComment}>
+                Done
+              </button>
+              <button
+                className="mr-3"
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                  setContent(comment.content);
+                }}
+              >
+                Back
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => handleDeleteComment(comment.id)}>
+                Del
+              </button>
+              <button className="mr-3" onClick={() => setIsEdit(!isEdit)}>
                 Edit
               </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div> // 1
-    // 			<div>
-    // 		<div className="w-3/4">
-    // 			<div>{comment.content}</div>
-    // 			<span className="text-base mr-1 text-gray-300">
-    // 					{year}.{month}.{day}
-    // 			</span>
-    // 		</div>
-    // 		<div className="w-1/4 flex flex-row-reverse items-center">
-    // 			<button onClick={onClickDelete}>Del</button>
-    // 			<button className="mr-3" onClick={onClickEdit}>Edit</button>
-    // 		</div>
-    // 		)};
+            </>
+          )}
+        </div>
+      ) : null}
+    </div>
   );
 };
-
 export default CommentElement;
