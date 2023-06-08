@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import MyPageElement from "./MyPageElement";
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
     const { id, value } = e.target;
@@ -158,7 +158,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
     setAutoCompletes([]);
   };
 
-  // 추가 버튼 혹인 엔터 누르면 태그 생성
+  // 추가 버튼 혹은 엔터 누르면 태그 생성
   const addTag = (e) => {
     e.preventDefault();
 
@@ -258,6 +258,41 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
       <button type="submit" className="button mt-7">
         Submit
       </button>
+    </form>
+  );
+};
+
+export const MyPageForm = ({ profile, formData, setFormData, setProfile }) => {
+  return (
+    <form className="form">
+      <MyPageElement
+        profile={profile}
+        formData={formData}
+        setFormData={setFormData}
+        setProfile={setProfile}
+        title="email"
+      />
+      <MyPageElement
+        profile={profile}
+        formData={formData}
+        setFormData={setFormData}
+        setProfile={setProfile}
+        title="username"
+      />
+      <MyPageElement
+        profile={profile}
+        formData={formData}
+        setFormData={setFormData}
+        setProfile={setProfile}
+        title="college"
+      />
+      <MyPageElement
+        profile={profile}
+        formData={formData}
+        setFormData={setFormData}
+        setProfile={setProfile}
+        title="major"
+      />
     </form>
   );
 };
