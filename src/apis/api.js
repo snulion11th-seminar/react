@@ -25,9 +25,19 @@ export const getUser = async () => {
   if (response.status === 200) {
     console.log("GET USER SUCCESS");
   } else {
-    console.log("[ERROR] error while updating comment");
+    console.log("[ERROR] error while getting user");
   }
   return response.data;
+};
+
+export const updateInfo = async (data) => {
+  const response = await instanceWithToken.patch(`/account/info/`, data);
+  if (response.status === 200) {
+    console.log("INFO UPDATE SUCCESS");
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while updating Info");
+  }
 };
 
 // Post 관련 API들
@@ -80,7 +90,6 @@ export const likePost = async (postId) => {
   }
   return response.data;
 };
-
 
 // Tag 관련 API들
 export const getTags = async () => {

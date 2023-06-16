@@ -8,6 +8,7 @@ import PostEditPage from "./routes/PostEditPage";
 import SignUpPage from "./routes/SignUpPage";
 import PostDetailPage from "./routes/PostDetailPage";
 import SignInPage from "./routes/SignInPage";
+import InfoPage from "./routes/InfoPage";
 
 function App() {
   return (
@@ -25,8 +26,10 @@ function App() {
           <Route path="/:postId" element={<PostDetailPage />} />
           {/* sign up */}
           <Route path="/signup" element={<SignUpPage />} />
-          {/* sign up */}
+          {/* sign in */}
           <Route path="/signin" element={<SignInPage />} />
+          {/* my info */}
+          <Route path="/info" element={<InfoPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
