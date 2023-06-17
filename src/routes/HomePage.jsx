@@ -2,72 +2,84 @@ import { useState, useEffect } from "react";
 import { SmallPost } from "../components/Posts";
 import postsData from "../data/posts";
 import { Link } from "react-router-dom";
+import { getPosts } from "../apis/api";
+import { getTags } from "../apis/api";
+import { getCookie } from "../utils/cookie";
+// import axios from "axios";
 
 const HomePage = () => {
-  const [postList, setPostList] = useState(postsData);
-  const [tags, setTags] = useState(new Map());
+  //원래는 const [posts, setPosts] = useState(postData); 를 했었는데 아래 빈 어레이..
+  const [postList, setPostList] = useState([]);
+  const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchTagIdList, setSearchTagIdList] = useState([]);
 
+  //추가
+
   useEffect(() => {
-    const tagList = postsData.reduce((acc, post) => {
-      for (let tag of post.tags) {
-        if (!acc.has(tag.id)) {
-          acc.set(tag.id, tag.content);
-        } else {
-          continue;
-        }
-      }
-      return acc;
-    }, new Map());
-    setTags(tagList);
-    setSearchTags(Array.from(tagList.keys()));
+    const getPostsAPI = async () => {
+      const posts = await getPosts();
+      setPostList(posts);
+    };
+    getPostsAPI();
   }, []);
+
+  useEffect(() => {
+    const getPostsAPI = async () => {
+      const posts = await getPosts();
+      setPostList(posts);
+    };
+    getPostsAPI();
+
+    //추가
+    const getTagsAPI = async () => {
+      const tags = await getTags();
+      const tagContents = tags?.map((tag) => {
+        return { id: tag.id, content: tag.content };
+      });
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    console.log(getTagsAPI);
+    getTagsAPI();
+    // getTags() 이용해서 tag들 불러오고 tags?.map을 이용해서 tagContents에
+    // tag.content만 저장한 후, tags와 searchTags에 저장
+  }, []);
+
+  console.log(tags);
 
   const handleChange = (e) => {
     const { value } = e.target;
-    // [key, value]
-    const newTags = tags.entries().filter((tag) => {
-      return tag[1].includes(value);
+    const newTags = tags.filter((tag) => {
+      return tag.content.includes(value);
     });
     setSearchTags(newTags);
+    console.log(newTags);
   };
 
   useEffect(() => {
-    if (searchTagIdList.length == 0) {
-      console.log(
-        "🚀 ~ file: Home.jsx:37 ~ useEffect ~ searchTagIdList:",
-        searchTagIdList
-      );
-      setPostList(postsData);
+    if (searchTagIdList.length === 0) {
+      setPostList([]);
     } else {
-      const newPostList = postsData.filter((post) => {
-        return post.tags.some((tag) => searchTagIdList.includes(tag.id));
-      });
+      const newPostList = postList.filter((post) =>
+        post.tags.some((tag) => searchTagIdList.includes(tag.id))
+      );
       setPostList(newPostList);
     }
   }, [searchTagIdList]);
 
+
+
   const toggleSearchTagId = (id) => {
     if (searchTagIdList.includes(id)) {
-      const newSearchTagIdList = searchTagIdList.filter((tagId) => {
-        return tagId !== id;
-      });
-
+      const newSearchTagIdList = searchTagIdList.filter(
+        (tagId) => tagId !== id
+      );
       setSearchTagIdList(newSearchTagIdList);
     } else {
       setSearchTagIdList([...searchTagIdList, id]);
     }
   };
-
-  // const handleTagFilter = (e) => {
-  //   const { innerText } = e.target;
-  //   setSearchValue(innerText.slice(1));
-  //   const newPostList = posts.filter((post) => {
-  //     return post.tags.some((tag) => tag.content === innerText.slice(1));
-  //   });
-  //   setPostList(newPostList);
-  // };
 
   return (
     <div>
@@ -84,17 +96,17 @@ const HomePage = () => {
           className="border border-orange-400 outline-none rounded-2xl text-center py-2 px-20 text-orange-400 bg-transparent"
         />
         <div className="flex mt-5">
-          {searchTags.map((id) => {
-            const searchTagClassname = searchTagIdList.includes(id)
+          {searchTags.map((tag, index) => {
+            const searchTagClassname = searchTagIdList.includes(tag.id)
               ? "tag active mr-2"
               : "tag mr-2";
             return (
               <button
-                key={id}
+                key={index}
                 className={searchTagClassname}
-                onClick={() => toggleSearchTagId(id)}
+                onClick={() => toggleSearchTagId(tag.id)}
               >
-                #{tags.get(id)}
+                #{tag.content}
               </button>
             );
           })}
@@ -111,11 +123,14 @@ const HomePage = () => {
           />
         ))}
       </div>
-      <div className="flex justify-center m-20">
-        <Link className="button" to="/create">
-          Post
-        </Link>
-      </div>
+
+      {getCookie("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };

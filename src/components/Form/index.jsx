@@ -1,4 +1,73 @@
 import { useState } from "react";
+import { deleteTagAPI } from "../../apis/api";
+
+export const MyPageForm = ({ formData, setFormData, handleMyPageSubmit }) => {
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  return (
+    <form className="form" onSubmit={handleMyPageSubmit}>
+      <label htmlFor="email" className="label">
+        *email:
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          required
+          type="email"
+          id="email"
+          className="input"
+          value={formData.email}
+          onChange={handleFormData}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+
+      <label required htmlFor="username" className="label">
+        *이름:
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          required
+          type="text"
+          id="username"
+          className="input"
+          onChange={handleFormData}
+          value={formData.username}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+
+      <label htmlFor="college" className="label">
+        대학:{" "}
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          type="text"
+          id="college"
+          className="input"
+          onChange={handleFormData}
+          value={formData.college}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+      <label htmlFor="major" className="label">
+        전공:{" "}
+      </label>
+      <div className="flex flex-row w-full">
+        <input
+          type="text"
+          id="major"
+          className="input"
+          onChange={handleFormData}
+          value={formData.major}
+        />
+        <button className="button selection:mr-3">🖋️</button>
+      </div>
+    </form>
+  );
+};
 
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
@@ -122,7 +191,14 @@ export const SignInForm = ({ formData, setFormData, handleSignInSubmit }) => {
   );
 };
 
-export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
+export const PostForm = ({
+  onSubmit,
+  tags,
+  formData,
+  setFormData,
+  setTags,
+  handleCreateTag,
+}) => {
   //태그 Input 안에 값
   const [tagInputValue, setTagInputValue] = useState("");
 
@@ -134,37 +210,43 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   };
 
   //태그 인풋 값 바뀌면 그에 따라서 자동 완성값들도 변경
+
   const handleTag = (e) => {
     setTagInputValue(e.target.value);
     if (e.target.value) {
-      const autoCompleteData = tags.filter((tag) =>
-        tag.includes(e.target.value)
+      const autoCompleteData = tags.filter(
+        (tag) => typeof tag === "string" && tag.includes(e.target.value)
       );
       setAutoCompletes(autoCompleteData);
     }
   };
 
-  // 자동완성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
+  // 자동성 값이 있는 버튼을 눌렀을 때 이를 태그에 등록
   const handleAutoCompletes = (autoComplete) => {
-    const selectedTag = tags.find((tag) => tag === autoComplete);
-
-    if (formData.tags.includes(selectedTag)) return;
+    if (formData.tags.includes(autoComplete)) return;
 
     setFormData({
       ...formData,
-      tags: [...formData.tags, selectedTag],
+      tags: [...formData.tags, autoComplete],
     });
     setTagInputValue("");
     setAutoCompletes([]);
   };
 
-  // 추가 버튼 혹인 엔터 누르면 태그 생성
   const addTag = (e) => {
     e.preventDefault();
+    if (!Array.isArray(formData.tags)) return;
 
-    // 입력한 내용이 이미 등록된 태그면 그냥 등록 안됨
-    if (formData.tags.find((tag) => tag === tagInputValue)) return;
+    // Check if formData.tags is defined and an array before using the find method
+    if (
+      Array.isArray(formData.tags) &&
+      formData.tags.find((tag) => tag === tagInputValue)
+    ) {
+      return;
+    }
 
+    const newTag = { id: Date.now().toString(), content: tagInputValue }; // Create a new tag object
+    setTags([...tags, newTag]); // Add the new tag to the tags state
     setFormData({
       ...formData,
       tags: [...formData.tags, tagInputValue],
@@ -174,12 +256,20 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
     setAutoCompletes([]);
   };
 
-  // X버튼 눌렀을때 태그 삭제
-  const deleteTag = (tag) => {
-    setFormData({
-      ...formData,
-      tags: formData.tags.filter((t) => t !== tag),
-    });
+  const deleteTag = async (tag) => {
+    try {
+      // Call the delete API
+      await deleteTagAPI(tag.id);
+
+      // Update local state
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        tags: prevFormData.tags.filter((t) => t.content !== tag.content),
+      }));
+      setTags((prevTags) => prevTags.filter((t) => t.content !== tag.content));
+    } catch (error) {
+      console.error("Error deleting tag:", error);
+    }
   };
 
   return (
@@ -239,18 +329,18 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
             ))}
         </div>
       </div>
-      {formData.tags && (
+      {tags && (
         <div className="flex w-full mt-3 gap-x-1 flew-nowrap">
-          {formData.tags.map((tag) => (
-            <div key={tag} className="flex">
+          {tags.map((tag) => (
+            <div key={tag.id} className="flex">
               <span className="tag active m-1 flex flex-row items-center gap-x-2">
-                <p>#{tag}</p>
+                <p>#{tag.content}</p>
               </span>
               {/* 삭제버튼 */}
-              <button
-                className="after:content-['\00d7'] text-xl"
+              <div
+                className="after:content-['\00d7'] text-xl cursor-pointer"
                 onClick={() => deleteTag(tag)}
-              />
+              ></div>
             </div>
           ))}
         </div>
