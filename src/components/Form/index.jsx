@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createComment } from "../../apis/api";
 
 //signup form component
 export const SignUpForm = ({formData, setFormData, handleSignUpSubmit})=> {
@@ -262,14 +263,17 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
     );
   };
 
-export const CommentForm = ({onSubmit, commentInput, setCommentInput}) => {
+export const CommentForm = ({postId}) => {
+  const [newContent, setNewContent] = useState("");
+  
   const handleChange=(e)=>{
-    setCommentInput(e.target.value);
+    setNewContent(e.target.value);
   }
   const onClickSubmit = (e) => {
     e.preventDefault();
-    onSubmit();
-    setCommentInput("");
+    createComment({ post: postId, content: newContent });
+    setNewContent("");
+ 		// postId, newContent만 하나의 객체로 만들어 보내줌
   };
 
   return (
@@ -279,7 +283,7 @@ export const CommentForm = ({onSubmit, commentInput, setCommentInput}) => {
         placeholder="댓글을 입력해주세요..."
         id="comment"
         className="input mt-7 mr-5 h-15"
-        value={commentInput}
+        value={newContent}
         onChange={handleChange}
       />
       <button type="submit" className="button mt-7 h-15">Submit</button>

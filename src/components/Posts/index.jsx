@@ -1,44 +1,45 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { likePost } from "../../apis/api";
+import { useState } from "react";
 
 export const SmallPost = ({ post }) => {
-  const onClickLike = () => {
-    console.log("나도 좋아!");
+  const [likeCount, setLikeCount] = useState(post.like_users.length);
+  const onClickLike = async () => {
     // add api call for liking post here
+    setLikeCount(await likePost(post.id));
   };
 
   return (
     <div className="w-64 relative block group py-10 px-8 mr-5 my-5 ring-8 ring-transparent border-2 border-box border-white hover:bg-orange-400 hover:text-black hover:border-transparent hover:ring-orange-200 rounded-xl font-medium">
       <h1 className="font-extrabold text-2xl truncate">{post.title}</h1>
       <p className="mt-2">{post.author.username}</p>
-      <div className="flex flex-wrap mt-5">
+      <div className="flex flex-wrap mt-5 mb-3">
         {post.tags.map((tag) => (
           <span key={tag.id} className="tag m-1">
             #{tag.content}
           </span>
         ))}
       </div>
-      <div onClick={onClickLike}>
-        {post.like_users.length > 0 && `❤️ ${post.like_users.length}`}
+      <div
+        className="absolute bottom-3 left-4 cursor-pointer"
+        onClick={onClickLike}
+      >
+        ❤️ {likeCount}
       </div>
-      <div className="flex justify-center m-20">
-        <div className="flex justify-center m-20">
+      <Link to={`/${post.id}`}>
+        <div className="absolute bottom-0 right-0 bg-orange-400 px-5 py-2 rounded-lg translate-x-5 translate-y-5">
+          <span className="uppercase">detail</span>
         </div>
-        
-        <Link to={`/${post.id}`}>
-          <div className="absolute bottom-0 right-0 bg-orange-400 px-5 py-2 rounded-lg translate-x-5 translate-y-5">
-            <span className="uppercase">detail</span>
-          </div>
-        </Link>
-      </div>
+      </Link>
     </div>
   );
 };
 
-
 export const BigPost = ({ post }) => {
-  const onClickLike = () => {
-    console.log("나도 좋아!");
+  const [likeCount, setLikeCount] = useState(post.like_users.length);
+  const onClickLike = async () => {
     // add api call for liking post here
+    setLikeCount(await likePost(post.id));
   };
 
   return (
@@ -55,8 +56,8 @@ export const BigPost = ({ post }) => {
               </span>
             ))}
         </div>
-        <div className="flex mt-5" onClick={onClickLike}>
-          ❤️ {post.like_users.length > 0 && `${post.like_users.length}`}
+        <div className="flex mt-5 cursor-pointer" onClick={onClickLike}>
+          ❤️ {likeCount}
         </div>
       </div>
     </div>

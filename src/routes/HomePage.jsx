@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 import { SmallPost } from "../components/Posts";
-import posts from "../data/posts";
-import { Dotting } from "dotting";
+import { getPosts, getTags } from "../apis/api";
+import { Link } from "react-router-dom";
+import { getCookie } from "../utils/cookie";
 
 const HomePage = () => {
+  //get post API call
+
   const [tags, setTags] = useState([]);
   const [searchTags, setSearchTags] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [postList, setPostList] = useState(posts);
+  const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const tagList = posts.reduce((acc, post) => {
-      for (let tag of post.tags) {
-        acc.add(tag.content);
-      }
-      return acc;
-    }, new Set());
-    setTags([...tagList]);
-    setSearchTags([...tagList]);
+    const getPostAPI=async ()=>{
+      const posts=await getPosts();
+      setPostList(posts);
+    };
+    getPostAPI();
+    const getTagsAPI=async ()=>{
+      const tags = await getTags();
+      const tagContents=tags.map((tag)=>tag.content);
+      setTags(tagContents);
+      setSearchTags(tagContents);
+    };
+    getTagsAPI();
   }, []);
+
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -28,29 +36,14 @@ const HomePage = () => {
 
   const handleTagFilter = (e) => {
     const { innerText } = e.target;
-    let tag=innerText.slice(1);
-    if(tag == searchValue) {
+    if (searchValue === innerText.substring(1)) {
       setSearchValue("");
-      // setSearchTags(tags);
-      setPostList(posts);
+    } else {
+      const activeTag = innerText.substring(1);
+      setSearchValue(activeTag);
     }
-    else {
-      setSearchValue(tag);
-      const newTags = tags.filter((postTag) => postTag.includes(tag));
-      // setSearchTags(newTags);
-    
-    let filteredPosts = posts.filter((post) => {
-      for (let postTag of post.tags) {
-        if (postTag.content === tag) {
-          return true;
-        }
-      }
-      return false;
-
-    });
-    setPostList(filteredPosts);
-  }
   };
+
   return (
     <div>
       {/* <Dotting width={600} height={300}/> */}
@@ -77,13 +70,26 @@ const HomePage = () => {
             );
           })}
         </div>
+        <div className="grid grid-cols-4 px-10 mt-10">
+        {postList
+          .filter((post) =>
+            searchValue
+              ? post.tags.find((tag) => tag.content === searchValue)
+              : post
+          )
+          .map((post) => (
+            <SmallPost key={post.id} post={post} />
+          ))}
+      </div>
+      {getCookie("access_token") ? (
+        <div className="flex justify-center m-20">
+          <Link className="button" to="/create">
+            Post
+          </Link>
+        </div>
+      ) : null}
       </div>
 
-      <div className="grid grid-cols-4 px-10 mt-10">
-        {postList.map((post) => (
-          <SmallPost key={post.id} post={post} />
-        ))}
-      </div>
     </div>
   );
 };
