@@ -22,6 +22,7 @@ export const signUp = async (data) => {
 //posts
 export const getPosts = async () => {
   const response = await instance.get("/post/");
+  console.log(response.data);
   return response.data;
 };
 
@@ -135,9 +136,35 @@ export const deleteComment = async (id) => {
 export const getUser = async () => {
   const response = await instanceWithToken.get(`/account/info/`);
   if (response.status === 200) {
-    console.log("USER GET SUCCESS");
+    // console.log("USER GET SUCCESS");
+    // // console.log(response.data);
   } else {
     console.log("[ERROR] error while getting user");
   }
   return response.data;
+};
+
+export const getUserProfile = async (id) => {
+  const response = await instanceWithToken.get(`/account/info/profile/`);
+  if (response.status === 200) {
+    // console.log("USER GET SUCCESS");
+    // console.log(response.data);
+  } else {
+    console.log("[ERROR] error while getting user profile");
+  }
+  return response.data;
+};
+
+export const updateUserProfile = async (data) => {
+  const response = await instanceWithToken.patch(
+    `/account/info/profile/`,
+    data
+  );
+  console.log(response.data, "request로 날린 userProfileInfo");
+  if (response.status === 200) {
+    console.log("USER UPDATE SUCCESS");
+    // window.location.reload();
+  } else {
+    console.log("[ERROR] error while updating user");
+  }
 };

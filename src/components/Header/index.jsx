@@ -32,9 +32,14 @@ const Header = () => {
       </div>
       <div className="flex">
         {isLoggedIn ? (
-          <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
-            log out
-          </Link>
+          <>
+            <Link to="/mypage" className="mr-10 p-3 uppercase">
+              My Page
+            </Link>
+            <Link to="/" onClick={handleLogout} className="mr-10 p-3 uppercase">
+              log out
+            </Link>
+          </>
         ) : (
           <div>
             <Link to="/signin" className="mr-10 p-3 uppercase">
