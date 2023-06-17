@@ -138,3 +138,22 @@ export const deleteComment = async (id) => {
     console.log("[ERROR] error while updating comment");
   }
 };
+
+export const getUserInMyPage = async () => {
+  const response = await instanceWithToken.get("/account/mypage/");
+  if (response.status === 200) {
+    console.log("GET USER SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating comment");
+  }
+  return response.data;
+};
+
+export const updateUserInMyPage = async (data) => {
+  const response = await instanceWithToken.patch("/account/mypage/", data);
+  if (response.status === 200) {
+    console.log("USERINFO UPDATE SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating USERINFO");
+  }
+};
