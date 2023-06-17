@@ -127,3 +127,24 @@ export const deleteComment = async (id) => {
   const response = await instanceWithToken.delete(`/comment/${id}/`);
   return response.data;
 };
+
+export const getMyPage = async () => {
+  const response = await instanceWithToken.get("/account/mypage/");
+  if (response.status === 200) {
+    console.log("GET USER SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating comment");
+  }
+  return response.data;
+};
+
+export const MyInfo = async (data) => {
+  const response = await instanceWithToken.patch(`/account/mypage/`, data);
+  if (response.status === 200) {
+    console.log("MYINFO UPDATE SUCCESS");
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while updating myinfo");
+  }
+  return response.data;
+};

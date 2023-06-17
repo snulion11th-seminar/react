@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getUser, getMyPage, MyInfo } from "../../apis/api";
+import { getCookie } from "../../utils/cookie";
+
 export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
   const handleFormData = (e) => {
     const { id, value } = e.target;
@@ -257,5 +260,228 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
         Submit
       </button>
     </form>
+  );
+};
+
+export const MyInfoForm = ({ formData, setFormData }) => {
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleMyInfoSubmit = async (e) => {
+    // add api call for sign up here
+    e.preventDefault();
+    const userInfo = await MyInfo({
+      email: emailInput,
+      username: usernameInput,
+      college: collegeInput,
+      major: majorInput,
+    });
+    if (userInfo) {
+      setFormData(userInfo);
+    }
+  };
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [usernameSubmitted, setUsernameSubmitted] = useState(false);
+  const [majorSubmitted, setMajorSubmitted] = useState(false);
+  const [collegeSubmitted, setCollegeSubmitted] = useState(false);
+
+  const [user, setUser] = useState();
+  console.log(formData, "hihi");
+  useEffect(() => {
+    setCollegeInput(formData.college);
+    setEmailInput(formData.email);
+    setMajorInput(formData.major);
+    setUsernameInput(formData.username);
+  }, [formData]);
+  const [emailInput, setEmailInput] = useState(formData.email);
+  const [usernameInput, setUsernameInput] = useState(formData.username);
+  const [collegeInput, setCollegeInput] = useState(formData.college);
+  const [majorInput, setMajorInput] = useState(formData.major);
+  return (
+    <div className="form">
+      <label htmlFor="email" className="label">
+        *email:
+      </label>
+      <div className="w-3/4 flex flex-row justify-between">
+        {emailSubmitted ? (
+          <>
+            <input
+              required
+              type="email"
+              id="email"
+              className="input"
+              onChange={(e) => {
+                setEmailInput(e.target.value);
+              }}
+              value={emailInput}
+            />
+            <div className="flex flex-col">
+              <button className="mr-3 pl-5" onClick={handleMyInfoSubmit}>
+                Done
+              </button>
+
+              <button
+                className="mr-3 pl-5"
+                onClick={() => {
+                  setEmailSubmitted(!emailSubmitted);
+                  setEmailInput(formData.email);
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div> {emailInput} </div>
+            <button
+              className="mr-3 pl-5"
+              onClick={() => setEmailSubmitted(!emailSubmitted)}
+            >
+              Edit
+            </button>
+          </>
+        )}
+      </div>
+
+      <label required htmlFor="name" className="label">
+        *이름:
+      </label>
+
+      <div className="w-3/4 flex flex-row justify-between">
+        {usernameSubmitted ? (
+          <>
+            <input
+              required
+              type="text"
+              id="username"
+              className="input"
+              onChange={(e) => {
+                setUsernameInput(e.target.value);
+              }}
+              value={usernameInput}
+            />
+            <div className="flex flex-col">
+              <button className="mr-3 pl-5" onClick={handleMyInfoSubmit}>
+                Done
+              </button>
+
+              <button
+                className="mr-3 pl-5"
+                onClick={() => {
+                  setUsernameSubmitted(!usernameSubmitted);
+                  setUsernameInput(formData.username);
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div> {usernameInput} </div>
+            <button
+              className="mr-3 pl-5"
+              onClick={() => setUsernameSubmitted(!usernameSubmitted)}
+            >
+              Edit
+            </button>
+          </>
+        )}
+      </div>
+
+      <label htmlFor="college" className="label">
+        대학:{" "}
+      </label>
+
+      <div className="w-3/4 flex flex-row justify-between">
+        {collegeSubmitted ? (
+          <>
+            <input
+              type="text"
+              id="college"
+              className="input"
+              onChange={(e) => {
+                setCollegeInput(e.target.value);
+              }}
+              value={collegeInput}
+            />
+            <div className="flex flex-col">
+              <button className="mr-3 pl-5" onClick={handleMyInfoSubmit}>
+                Done
+              </button>
+
+              <button
+                className="mr-3 pl-5"
+                onClick={() => {
+                  setCollegeSubmitted(!collegeSubmitted);
+                  setCollegeInput(formData.college);
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div> {collegeInput} </div>
+            <button
+              className="mr-3 pl-5"
+              onClick={() => setCollegeSubmitted(!collegeSubmitted)}
+            >
+              Edit
+            </button>
+          </>
+        )}
+      </div>
+
+      <label htmlFor="major" className="label">
+        전공:{" "}
+      </label>
+
+      <div className="w-3/4 flex flex-row justify-between">
+        {majorSubmitted ? (
+          <>
+            <input
+              type="text"
+              id="major"
+              className="input"
+              onChange={(e) => {
+                setMajorInput(e.target.value);
+              }}
+              value={majorInput}
+            />
+            <div className="flex flex-col">
+              <button className="mr-3 pl-5" onClick={handleMyInfoSubmit}>
+                Done
+              </button>
+
+              <button
+                className="mr-3 pl-5"
+                onClick={() => {
+                  setMajorSubmitted(!majorSubmitted);
+                  setMajorInput(formData.major);
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div> {majorInput} </div>
+            <button
+              className="mr-3 pl-5"
+              onClick={() => setMajorSubmitted(!majorSubmitted)}
+            >
+              Edit
+            </button>
+          </>
+        )}
+      </div>
+      {/* 수정 👆🏻 */}
+    </div>
   );
 };
