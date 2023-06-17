@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SignUpForm } from "../components/Form";
+import { signUp } from "../apis/api";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -10,10 +11,11 @@ const SignUpPage = () => {
     college: "",
     major: "",
   });
-  const [email, setEmail] = useState("");
-	const handleSignUpSubmit = () => {
-    alert(`${email}로 회원가입 해 줘`);
+	const handleSignUpSubmit = (e) => {
+    e.preventDefault();
 		// add api call for sign up here
+    signUp(formData);
+    // alert(`${email}로 회원가입 해 줘`);
 
   };
 

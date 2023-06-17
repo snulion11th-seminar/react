@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { SignInForm } from "../components/Form";
+import { signIn } from "../apis/api";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const handleSignInSubmit = () => {
-    console.log(formData  );
-    alert("로그인 완 료!");
+  const handleSignInSubmit = (e) => {
 		// add api call for sign in here
+    e.preventDefault();
+    signIn(formData);
+    // console.log(formData  );
+    // alert("로그인 완 료!");
   };
 
   return (

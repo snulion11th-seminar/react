@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createComment } from "../../apis/api";
 
 //signup form component
 export const SignUpForm = ({formData, setFormData, handleSignUpSubmit})=> {
@@ -261,3 +262,31 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
       </form>
     );
   };
+
+export const CommentForm = ({postId}) => {
+  const [newContent, setNewContent] = useState("");
+  
+  const handleChange=(e)=>{
+    setNewContent(e.target.value);
+  }
+  const onClickSubmit = (e) => {
+    e.preventDefault();
+    createComment({ post: postId, content: newContent });
+    setNewContent("");
+ 		// postId, newContent만 하나의 객체로 만들어 보내줌
+  };
+
+  return (
+    <form className="flex w-full mt-3 gap-x-1 flew-nowrap" onSubmit={onClickSubmit}>
+      <input
+        type="text"
+        placeholder="댓글을 입력해주세요..."
+        id="comment"
+        className="input mt-7 mr-5 h-15"
+        value={newContent}
+        onChange={handleChange}
+      />
+      <button type="submit" className="button mt-7 h-15">Submit</button>
+    </form>
+  );
+};
