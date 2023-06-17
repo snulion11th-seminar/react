@@ -21,7 +21,31 @@ const MyPage = () => {
     college: "",
     major: "",
   });
+  const [editField, setEditField] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+
+  const handleEditClick = (field) => {
+    setEditField(field);
+    setIsEdit(true);
+  };
+
+  const handleCancelClick = () => {
+    setIsEdit(false);
+    setEditField("");
+    setFormData({
+      email: user.user.email,
+      username: user.user.username,
+      college: user.college,
+      major: user.major,
+    });
+  };
+
+  const handleConfirmClick = async (e, field) => {
+    e.preventDefault();
+    setIsEdit(false);
+    setEditField("");
+    handleSubmit(e, field);
+  };
 
   const toggleSearchTagId = (id) => {
     if (searchTagIdList.includes(id)) {
@@ -146,13 +170,31 @@ const MyPage = () => {
               className="input"
               value={formData.email}
               onChange={handleInputChange}
+              disabled={!isEdit || editField !== "email"}
             />
-            <button
-              className="button selection:mr-3"
-              onClick={(e) => handleSubmit(e, "email")}
-            >
-              🖋️
-            </button>
+            {isEdit && editField === "email" ? (
+              <>
+                <button
+                  className="button selection:mr-3"
+                  onClick={handleCancelClick}
+                >
+                  ❌
+                </button>
+                <button
+                  className="button selection:mr-3"
+                  onClick={(e) => handleConfirmClick(e, "email")}
+                >
+                  ✅
+                </button>
+              </>
+            ) : (
+              <button
+                className="button selection:mr-3"
+                onClick={() => handleEditClick("email")}
+              >
+                🖊️
+              </button>
+            )}
           </div>
 
           <label required htmlFor="username" className="label">
@@ -166,13 +208,31 @@ const MyPage = () => {
               className="input"
               value={formData.username}
               onChange={handleInputChange}
+              disabled={!isEdit || editField !== "username"}
             />
-            <button
-              className="button selection:mr-3"
-              onClick={(e) => handleSubmit(e, "username")}
-            >
-              🖋️
-            </button>
+            {isEdit && editField === "username" ? (
+              <>
+                <button
+                  className="button selection:mr-3"
+                  onClick={handleCancelClick}
+                >
+                  ❌
+                </button>
+                <button
+                  className="button selection:mr-3"
+                  onClick={(e) => handleConfirmClick(e, "username")}
+                >
+                  ✅
+                </button>
+              </>
+            ) : (
+              <button
+                className="button selection:mr-3"
+                onClick={() => handleEditClick("username")}
+              >
+                🖊️
+              </button>
+            )}
           </div>
 
           <label htmlFor="college" className="label">
@@ -185,14 +245,33 @@ const MyPage = () => {
               className="input"
               value={formData.college}
               onChange={handleInputChange}
+              disabled={!isEdit || editField !== "college"}
             />
-            <button
-              className="button selection:mr-3"
-              onClick={(e) => handleSubmit(e, "college")}
-            >
-              🖋️
-            </button>
+            {isEdit && editField === "college" ? (
+              <>
+                <button
+                  className="button selection:mr-3"
+                  onClick={handleCancelClick}
+                >
+                  ❌
+                </button>
+                <button
+                  className="button selection:mr-3"
+                  onClick={(e) => handleConfirmClick(e, "college")}
+                >
+                  ✅
+                </button>
+              </>
+            ) : (
+              <button
+                className="button selection:mr-3"
+                onClick={() => handleEditClick("college")}
+              >
+                🖊️
+              </button>
+            )}
           </div>
+
           <label htmlFor="major" className="label">
             전공:{" "}
           </label>
@@ -203,13 +282,31 @@ const MyPage = () => {
               className="input"
               value={formData.major}
               onChange={handleInputChange}
+              disabled={!isEdit || editField !== "major"}
             />
-            <button
-              className="button selection:mr-3"
-              onClick={(e) => handleSubmit(e, "major")}
-            >
-              🖋️
-            </button>
+            {isEdit && editField === "major" ? (
+              <>
+                <button
+                  className="button selection:mr-3"
+                  onClick={handleCancelClick}
+                >
+                  ❌
+                </button>
+                <button
+                  className="button selection:mr-3"
+                  onClick={(e) => handleConfirmClick(e, "major")}
+                >
+                  ✅
+                </button>
+              </>
+            ) : (
+              <button
+                className="button selection:mr-3"
+                onClick={() => handleEditClick("major")}
+              >
+                🖊️
+              </button>
+            )}
           </div>
         </form>
       </div>
@@ -219,7 +316,7 @@ const MyPage = () => {
       <div className="grid grid-cols-2 px-10 mt-10">
         {postList.map(
           (post) =>
-            user?.id === post.author.id && ( // Remove curly braces around the condition
+            user.user.username === post.author.username && ( // Remove curly braces around the condition
               <SmallPost
                 key={post.id}
                 post={post}
