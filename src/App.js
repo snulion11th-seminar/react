@@ -1,7 +1,6 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./routes/HomePage";
 import PostCreatePage from "./routes/PostCreatePage";
@@ -9,11 +8,11 @@ import PostEditPage from "./routes/PostEditPage";
 import SignUpPage from "./routes/SignUpPage";
 import PostDetailPage from "./routes/PostDetailPage";
 import SignInPage from "./routes/SignInPage";
+import InfoPage from "./routes/InfoPage";
 
 function App() {
   return (
-    <div className="App">
-      {/* 수정 👇🏻 */}
+    <div className="app">
       <BrowserRouter>
         <Header />
         <Routes>
@@ -27,12 +26,13 @@ function App() {
           <Route path="/:postId" element={<PostDetailPage />} />
           {/* sign up */}
           <Route path="/signup" element={<SignUpPage />} />
-          {/* sign up */}
+          {/* sign in */}
           <Route path="/signin" element={<SignInPage />} />
+          {/* my info */}
+          <Route path="/info" element={<InfoPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
-      {/* 수정 👆🏻 */}
     </div>
   );
 }

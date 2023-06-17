@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-export const SignUpForm = ({
-  formData,
-  handleFormData,
-  handleSignUpSubmit,
-}) => {
+export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
+  const handleFormData = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
   return (
     <form className="form" onSubmit={handleSignUpSubmit}>
       <label htmlFor="email" className="label">
@@ -76,7 +77,6 @@ export const SignUpForm = ({
         onChange={handleFormData}
         value={formData.major}
       />
-      {/* 수정 👆🏻 */}
       <button type="submit" className="button mt-7">
         Sign up !
       </button>
@@ -129,6 +129,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
   const [autoCompletes, setAutoCompletes] = useState([]);
 
   const handleChange = (e) => {
+    console.log(e.target.id);
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
@@ -180,6 +181,7 @@ export const PostForm = ({ onSubmit, tags, formData, setFormData }) => {
       tags: formData.tags.filter((t) => t !== tag),
     });
   };
+
   return (
     <form className="form" onSubmit={onSubmit}>
       <label htmlFor="title" className="label">
