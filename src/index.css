@@ -45,3 +45,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.underline-line {
+  border-bottom: 1px solid white;
+  width: 100%;
+}
+
+.custom-button {
+  height: 35px;
+}

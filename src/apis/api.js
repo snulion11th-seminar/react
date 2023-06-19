@@ -1,3 +1,4 @@
+import { removeCookie } from "../utils/cookie";
 import { instance, instanceWithToken } from "./axios";
 
 // Account 관련 API들
@@ -28,6 +29,26 @@ export const getUser = async () => {
     console.log("[ERROR] error while updating comment");
   }
   return response.data;
+};
+
+export const getUserInfo = async () => {
+  const response = await instanceWithToken.get("/account/profile/");
+  if (response.status === 200) {
+    console.log("GET USERINFO SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating userinfo");
+  }
+  return response.data;
+};
+
+export const updateUserInfo = async (data) => {
+  const response = await instanceWithToken.patch(`/account/profile/`, data);
+  if (response.status === 200) {
+    window.location.reload();
+    console.log("USER UPDATE SUCCESS");
+  } else {
+    console.log("[ERROR] error while updating USER");
+  }
 };
 
 // Post 관련 API들
@@ -130,3 +151,32 @@ export const deleteComment = async (id) => {
     console.log("[ERROR] error while deleting comment");
   }
 };
+
+export const refreshToken = async (token) => {
+  const response = await instance.post("/account/refresh/", { refresh: token });
+  if (response.status === 200) {
+    console.log("REFRESH TOKEN SUCCESS");
+  } else {
+    console.log("[ERROR] error while refreshing token");
+  }
+};
+
+// 추가!!
+
+export const logOut = async (token) => {
+  const response = await instanceWithToken.post("/account/logout/", {
+    refresh: token,
+  });
+  if (response.status === 204) {
+    console.log("REFRESH TOKEN SUCCESS");
+
+    removeCookie("refresh_token");
+    removeCookie("access_token");
+
+    window.location.reload();
+  } else {
+    console.log("[ERROR] error while refreshing token");
+  }
+};
+
+// 추가!!

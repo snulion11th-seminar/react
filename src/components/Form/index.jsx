@@ -33,7 +33,7 @@ export const SignUpForm = ({ formData, setFormData, handleSignUpSubmit }) => {
       />
 
       <label htmlFor="confirm_password" className="label">
-        *passoword 확인:{" "}
+        *password 확인:{" "}
       </label>
       <input
         required
