@@ -29,22 +29,20 @@ const MyPage = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      if (getCookie("access_token")) {
-        const currentUserInfo = await getUserInfo();
+      const currentUserInfo = await getUserInfo();
 
-        setUserInfo({
-          email: currentUserInfo.user.email,
-          username: currentUserInfo.user.username,
-          major: currentUserInfo.major,
-          college: currentUserInfo.college,
-        });
-        setDefaultInfo({
-          email: currentUserInfo.user.email,
-          username: currentUserInfo.user.username,
-          major: currentUserInfo.major,
-          college: currentUserInfo.college,
-        });
-      }
+      setUserInfo({
+        email: currentUserInfo.user.email,
+        username: currentUserInfo.user.username,
+        major: currentUserInfo.major,
+        college: currentUserInfo.college,
+      });
+      setDefaultInfo({
+        email: currentUserInfo.user.email,
+        username: currentUserInfo.user.username,
+        major: currentUserInfo.major,
+        college: currentUserInfo.college,
+      });
     };
     getUserData();
   }, []);
@@ -73,7 +71,6 @@ const MyPage = () => {
 
   const handleSave = (e) => {
     const { id } = e.target;
-    setIsEdit((prev) => ({ ...prev, [id]: false }));
     updateUserInfo(userInfo);
   };
 
@@ -280,7 +277,7 @@ const MyPage = () => {
       <div className="justify-center font-bold text-4xl mt-12">My Posts</div>
       <div className="items-center grid grid-cols-2 px-10 mt-10">
         {postList
-          .filter((post) => post.author.username === userInfo.username)
+          .filter((post) => post.author.username === defaultInfo.username)
           .map((post) => (
             <SmallPost key={post.id} post={post} />
           ))}
