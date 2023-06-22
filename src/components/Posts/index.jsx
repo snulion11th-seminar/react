@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { likePost } from "../../apis/api";
+import { instance, instanceWithToken } from "../../apis/axios";
 
 export const SmallPost = ({ post }) => {
   const onClickLike = async () => {
-    try {
-      await likePost(post.id);
+    const res = await instanceWithToken.post(`/post/${post.id}/like/`);
+    if (res.status === 200) {
       window.location.reload();
-    } catch (error) {
-      console.error("Failed to like the post:", error);
+    } else {
+      alert("error");
     }
   };
 

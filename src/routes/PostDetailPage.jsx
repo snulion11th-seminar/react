@@ -37,6 +37,7 @@ const PostDetailPage = () => {
       try {
         await deletePost(postId);
         console.log("delete");
+
         window.location.href = "/";
       } catch (error) {
         console.error("Failed to delete the post:", error);
