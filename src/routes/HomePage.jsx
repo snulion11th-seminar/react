@@ -27,8 +27,7 @@ const HomePage = () => {
     };
     getTagsAPI();
   }, []);
-
-  console.log(postList);
+  // console.log(postList);
 
   const handleChange = (e) => {
     const { value } = e.target;
